@@ -1,0 +1,431 @@
+[[refarch_details]]
+== Operational Management
+
+With the successful deployment of OpenShift, the following section demonstrates how to confirm proper functionality of the Red Hat OpenShift Container Platform.
+
+=== Running Diagnostics
+
+To run diagnostics, `ssh` into the bastion host and then from there `ssh` into master00. The contents of your .pem file will need to be available on the bastion host so that you can `ssh` into the master00 host. Once `ssh` connectivity to the master00 host is good, `sudo -i` to the root user.
+
+[subs=+quotes]
+----
+$ *ssh -i scollier-test.pem ec2-user@scollier-bastion.scollier-aws.sysdeseng.com*
+$ *sudo -i*
+# *ssh -i scollier-test.pem ec2-user@ip-10-30-1-251.ec2.internal*
+$ *sudo -i*
+----
+
+At this point connectivity to the master00 host as the root user should have been established. Run the diagnostics that are included as part of the install.
+
+[subs=+quotes]
+----
+# *oadm diagnostics*
+[Note] Determining if client configuration exists for client/cluster diagnostics
+Info:  Successfully read a client config file at '/root/.kube/config'
+Info:  Using context for cluster-admin access: 'validate12/scollier-openshift-master-scollier-aws-sysdeseng-com:8443/system:admin'
+[Note] Performing systemd discovery
+
+[Note] Running diagnostic: ConfigContexts[validate12/scollier-openshift-master-scollier-aws-sysdeseng-com:8443/system:admin]
+       Description: Validate client config context is complete and has connectivity
+       
+Info:  The current client config context is 'validate12/scollier-openshift-master-scollier-aws-sysdeseng-com:8443/system:admin':
+       The server URL is 'https://scollier-openshift-master.scollier-aws.sysdeseng.com:8443'
+       The user authentication is 'system:admin/scollier-openshift-master-scollier-aws-sysdeseng-com:8443'
+       The current project is 'validate12'
+       Successfully requested project list; has access to project(s):
+         [validate2 validate validate12 default management-infra openshift openshift-infra rcook]
+       
+[Note] Running diagnostic: DiagnosticPod
+       Description: Create a pod to run diagnostics from the application standpoint
+
+... output abbreviated ...
+
+[Note] Running diagnostic: NodeConfigCheck
+       Description: Check the node config file
+       
+Info:  Found a node config file: /etc/origin/node/node-config.yaml
+
+[Note] Running diagnostic: UnitStatus
+       Description: Check status for related systemd units
+       
+[Note] Summary of diagnostics execution (version v3.2.1.7):
+[Note] Warnings seen: 6
+[Note] Errors seen: 1
+----
+
+Based on the results of the diagnostics, actions can be taken to alleviate any issues.
+
+=== Checking the health of etcd
+
+This section focuses on the etcd cluster. It describes the different commands to ensure the cluster is healthy. The internal DNS names of the nodes running `etcd` must be used.
+
+Issue the `etcdctl` command to confirm that the cluster is healthy.
+
+[subs=+quotes]
+----
+# *etcdctl -C https://ip-10-30-1-251.ec2.internal:2379,https://ip-10-30-2-157.ec2.internal:2379,https://ip-10-30-3-74.ec2.internal:2379 --ca-file /etc/etcd/ca.crt --cert-file=/etc/origin/master/master.etcd-client.crt --key-file=/etc/origin/master/master.etcd-client.key cluster-health*
+member 82c895b7b0de4330 is healthy: got healthy result from https://10.30.1.251:2379
+member c8e7ac98bb93fe8c is healthy: got healthy result from https://10.30.3.74:2379
+member f7bbfc4285f239ba is healthy: got healthy result from https://10.30.2.157:2379
+----
+
+NOTE: In this configuration the `etcd` services are distributed among the OpenShift master nodes. An alternative configuration would be to distribute the `etcd` service amongst its own nodes. An example /etc/ansible/hosts file showing that configuration can be found in Appendix D. The etcd cluster requires three additional nodes. The only change in the file is the hostnames in the [etcd] stanza.
+
+=== Console Access
+
+This section will cover logging into the OpenShift Container Platform via the GUI and the CLI. After logging in via one of these methods applications can then be deployed and managed.
+
+==== Log into GUI console and deploy an application
+
+To log into the GUI console access the CNAME for the load balancer that was configured before. In this case, open a browser and access https://openshift-master.sysdeseng.com:8443/console
+
+To deploy an appliction, click on the `New Project` button. Provide a `Name` and click `Create`. Next, deploy the `jenkins-ephemeral` instant app by clicking that box. Accept the defaults and click `Create`. Instructions along with a URL will be provided for how to access the application on the next screen. Click `Continue to overview` and bring up the management page for the application. Click on the link provided and access the appliction to confirm functionality.
+
+==== Log into CLI and deploy an application
+
+Perform the following steps from your local workstation.
+
+Install the `oc client` which can be installed by visiting the public URL of the OpenShift deployment. For example https://openshift-master.sysdeseng.com:8443/console/command-line and click latest release. When directed to access.redhat.com login with the valid Red Hat credentials and download the client relevant to the current workstation. Follow the instructions here: https://access.redhat.com/documentation/en/openshift-enterprise/3.2/cli-reference/chapter-2-get-started-with-the-cli  ****** NEED PROPER LINK ******
+
+A token is required to login using Google OAuth and OpenShift. To receive this token perform the following.
+
+[subs=+quotes]
+----
+$ *oc login*
+Username: rcook@redhat.com
+Login failed (401 Unauthorized)
+You must obtain an API token by visiting https://openshift-master.sysdeseng.com:8443/oauth/token/request`
+---- 
+After visiting the URL use the command listed under "Log in with this token"
+
+[subs=+quotes]
+----
+$ *oc login --token=stucAk6fffPp-jsss-8dtIq7_f-8KffffN8DOwaq0aA8 --server=https://openshift-master.sysdeseng.com:8443*
+----
+
+After access has been granted, create a new project and deploy an application.
+
+[subs=+quotes]
+----
+$ *oc new-project test-app*
+
+$ *oc new-app https://github.com/openshift/cakephp-ex.git --name=php*
+--> Found image 2997627 (7 days old) in image stream "php" in project "openshift" under tag "5.6" for "php"
+
+    Apache 2.4 with PHP 5.6 
+    ----------------------- 
+    Platform for building and running PHP 5.6 applications
+
+    Tags: builder, php, php56, rh-php56
+
+    * The source repository appears to match: php
+    * A source build using source code from https://github.com/openshift/cakephp-ex.git will be created
+      * The resulting image will be pushed to image stream "php:latest"
+    * This image will be deployed in deployment config "php"
+    * Port 8080/tcp will be load balanced by service "php"
+      * Other containers can access this service through the hostname "php"
+
+--> Creating resources with label app=php ...
+    imagestream "php" created
+    buildconfig "php" created
+    deploymentconfig "php" created
+    service "php" created
+--> Success
+    Build scheduled, use 'oc logs -f bc/php' to track its progress.
+    Run 'oc status' to view your app.
+
+
+$ *oc expose service php*
+route "php" exposed
+----
+
+Get the status of the application.
+
+
+[subs=+quotes]
+----
+$ oc status
+In project test-app on server https://openshift-master.sysdeseng.com:8443
+
+http://test-app.apps.sysdeseng.com to pod port 8080-tcp (svc/php)
+  dc/php deploys istag/php:latest <- bc/php builds https://github.com/openshift/cakephp-ex.git with openshift/php:5.6 
+    deployment #1 deployed about a minute ago - 1 pod
+
+1 warning identified, use 'oc status -v' to see details.
+----
+
+Now access the application by accessing the URL provided by `oc status`.  The CakePHP application should be visible now.
+
+=== Commands
+
+If you try to run the following command, it should fail.
+
+[subs=+quotes]
+----
+# *oc get nodes --show-labels*
+Error from server: User "scollier@redhat.com" cannot list all nodes in the cluster
+----
+
+The reason it is failing is because the permissions for that user are incorrect. Get the username and configure the permissions.
+
+[subs=+quotes]
+----
+$ *oc whoami*
+----
+
+
+Now that the username has been established, log back into a master node and enable the appropriate permissions for your user. Perform the following step from master00.
+
+
+[subs=+quotes]
+----
+# *oadm policy add-cluster-role-to-user cluster-admin scollier@redhat.com*
+----
+
+Now try to list the nodes again and show the labels.
+
+[subs=+quotes]
+----
+# *oc get nodes --show-labels*
+NAME                          STATUS                     AGE
+ip-10-30-1-164.ec2.internal   Ready                      1d
+ip-10-30-1-231.ec2.internal   Ready                      1d
+ip-10-30-1-251.ec2.internal   Ready,SchedulingDisabled   1d
+ip-10-30-2-142.ec2.internal   Ready                      1d
+ip-10-30-2-157.ec2.internal   Ready,SchedulingDisabled   1d
+ip-10-30-2-97.ec2.internal    Ready                      1d
+ip-10-30-3-74.ec2.internal    Ready,SchedulingDisabled   1d
+----
+
+Change to the default project and list router and registry:
+
+[subs=+quotes]
+----
+# *oc project default*
+# *oc get all*
+# oc status
+In project default on server https://scollier-openshift-master.scollier-aws.sysdeseng.com:8443
+
+svc/docker-registry - 172.30.110.31:5000
+  dc/docker-registry deploys docker.io/openshift3/ose-docker-registry:v3.2.1.7 
+    deployment #2 deployed 41 hours ago - 2 pods
+    deployment #1 deployed 41 hours ago
+
+svc/kubernetes - 172.30.0.1 ports 443, 53->8053, 53->8053
+
+svc/router - 172.30.235.155 ports 80, 443, 1936
+  dc/router deploys docker.io/openshift3/ose-haproxy-router:v3.2.1.7 
+    deployment #1 deployed 41 hours ago - 2 pods
+
+View details with 'oc describe <resource>/<name>' or list everything with 'oc get all'.
+-
+----
+
+Exploring the docker registry. From your local workstation execute the following commands to see how the registry is configured.  Notice that the registry has two `endpoints` listed. Each of those endpoints represents a docker container.
+
+[subs=+quotes]
+----
+$ oc describe svc/docker-registry 
+Name:			docker-registry
+Namespace:		default
+Labels:			docker-registry=default
+Selector:		docker-registry=default
+Type:			ClusterIP
+IP:			172.30.110.31
+Port:			5000-tcp	5000/TCP
+Endpoints:		172.16.4.2:5000,172.16.4.3:5000
+Session Affinity:	ClientIP
+No events.
+----
+
+
+=== Testing Failure
+
+==== Generate a master outage
+
+Log into the AWS console.  On the dashboard, click on the EC2 web service. Locate your running master00 instance, select it, right click and change the state to `stopped`.
+
+Now ensure the console can still be accessed by opening a browser and accessing master-aws.sysdeseng.com.
+
+This should be working.
+
+Check etcd and one node reports as failed.
+
+[subs=+quotes]
+----
+# *etcdctl -C https://ip-10-30-3-74.ec2.internal:2379,https://ip-10-30-1-251.ec2.internal:2379,https://ip-10-30-2-157.ec2.internal:2379 --ca-file /etc/etcd/ca.crt --cert-file=/etc/origin/master/master.etcd-client.crt --key-file=/etc/origin/master/master.etcd-client.key cluster-health*
+failed to check the health of member 82c895b7b0de4330 on https://10.30.1.251:2379: Get https://10.30.1.251:2379/health: dial tcp 10.30.1.251:2379: i/o timeout
+member 82c895b7b0de4330 is unreachable: [https://10.30.1.251:2379] are all unreachable
+member c8e7ac98bb93fe8c is healthy: got healthy result from https://10.30.3.74:2379
+member f7bbfc4285f239ba is healthy: got healthy result from https://10.30.2.157:2379
+cluster is healthy
+----
+
+Restart master00.
+
+==== Generate an Infrastruture node outate
+
+Perform the following commands from the master00 host
+
+Before the outage.
+
+Confirm the simple application deployed from before is still functional. If it is not, deploy a new version. Access the application to confirm connectivity.
+
+Push to registry to make sure it works before outage.
+
+get your token, this will likely fail.
+
+[subs=+quotes]
+----
+# *oc whoami -t*
+----
+
+try to login, this will redirect. 
+
+[subs=+quotes]
+----
+# *oc login*
+Login failed (401 Unauthorized)
+You must obtain an API token by visiting https://scollier-openshift-master.scollier-aws.sysdeseng.com:8443/oauth/token/request
+----
+
+get new login command.
+
+try to login again.
+
+[subs=+quotes]
+----
+# *oc login --token=feAeAgL139uFFF_72bcJlboTv7gi_bo373kf1byaAT8 --server=https://scollier-openshift-master.scollier-aws.sysdeseng.com:8443*
+Logged into "https://scollier-openshift-master.scollier-aws.sysdeseng.com:8443" as "scollier@redhat.com" using the token provided.
+
+You have access to the following projects and can switch between them with 'oc project <projectname>':
+
+  * default (current)
+  * management-infra
+  * openshift
+  * openshift-infra
+
+Using project "default".
+----
+
+
+get your token.
+]
+[subs=+quotes]
+----
+# *oc whoami -t*
+feAeAgL139uFFF_72bcJlboTv7gi_bo373kf1byaAT8
+----
+
+pull a new docker image that you will use to test pushing. 
+
+[subs=+quotes]
+----
+# *docker pull fedora/apache*
+# *docker images*
+----
+
+
+Get the registry endpoint. Here the `svc/docker-registry` shows the endpoint.
+
+[subs=+quotes]
+----
+# *oc status*
+In project default on server https://scollier-openshift-master.scollier-aws.sysdeseng.com:8443
+
+svc/docker-registry - 172.30.237.147:5000
+  dc/docker-registry deploys docker.io/openshift3/ose-docker-registry:v3.2.1.9 
+    deployment #2 deployed 51 minutes ago - 2 pods
+    deployment #1 deployed 53 minutes ago
+
+svc/kubernetes - 172.30.0.1 ports 443, 53->8053, 53->8053
+
+svc/router - 172.30.144.227 ports 80, 443, 1936
+  dc/router deploys docker.io/openshift3/ose-haproxy-router:v3.2.1.9 
+    deployment #1 deployed 55 minutes ago - 2 pods
+
+View details with 'oc describe <resource>/<name>' or list everything with 'oc get all'.
+----
+
+
+tag the docker image
+
+[subs=+quotes]
+----
+# *docker tag docker.io/fedora/apache 172.30.110.31:5000/openshift/scollierapache*
+----
+
+
+check the images.
+
+[subs=+quotes]
+----
+# *docker images*
+----
+
+Now issue a docker login.
+
+[subs=+quotes]
+----
+# *docker login -u scollier@redhat.com -e scollier@redhat.com -p _7yJcnXfeRtAbJVEaQwPwXreEhlV56TkgDwZ6UEUDWw 172.30.110.31:5000*
+----
+
+
+
+[subs=+quotes]
+----
+# *oadm policy add-role-to-user admin scollier@redhat.com -n openshift*
+# *oadm policy add-role-to-user system:registry scollier@redhat.com*
+# *oadm policy add-role-to-user system:image-builder scollier@redhat.com*
+----
+
+
+
+Log into the AWS console.  On the dashboard, click on the EC2 web service. Locate your running infra00 instance, select it, right click and change the state to `stopped`.
+
+after the outage.
+
+Check the router and registry pod locations
+
+make sure you can still route to applications
+
+make sure you can still push to the registry.
+
+Confirm registry S3 bucket.
+
+go to infra node running the registry. Observe the `s3` stanza. The bucket name is there, now go to your AWS console, click on the `s3` Amazon Web Service and find the bucket. The bucket should show there and have some contents. Confirm the same bucket is mounted to the other registry.
+
+[subs=+quotes]
+----
+# *docker exec -it d40901ea1240 cat /etc/registryconfig/config.yml*
+version: 0.1
+log:
+  level: debug
+http:
+  addr: :5000
+storage:
+  cache:
+    layerinfo: inmemory
+  s3:
+    accesskey: "AKIAIP6SRGJHSX3AS2IQ"
+    secretkey: "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"
+    region: us-east-1
+    bucket: "1469667928-openshift-docker-registry"
+    encrypt: true
+    secure: true
+    v4auth: true
+    rootdirectory: /registry
+auth:
+  openshift:
+    realm: openshift
+middleware:
+  repository:
+    - name: openshift
+----
+
+
+that shows the 
+
+
+
+// vim: set syntax=asciidoc:

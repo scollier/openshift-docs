@@ -1,0 +1,13 @@
+[[refarch_details]]
+=== Bastion
+
+A `bastion` server provides a secure way to limit `ssh` access in the AWS environment.
+The master and node security groups only allow for `ssh` connectivity between
+nodes inside of the Security Group while the bastion allows `ssh` access
+from everywhere. When connecting to the OpenShift Container Platform infrastructure, the
+bastion forwards the request to the appropriate server. Connecting through the
+bastion server requires specific `ssh` configuration.
+
+image::images/Bastion-Server.png["Bastion Server",align="center"]
+
+// vim: set syntax=asciidoc:

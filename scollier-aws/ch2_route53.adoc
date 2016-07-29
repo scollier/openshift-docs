@@ -1,0 +1,50 @@
+[[refarch_details]]
+=== Route53
+
+Berkeley Internet Name Daemon (BIND) is a implementation of the Domain Name System
+(DNS) protocols. BIND enables a human or computer to look-up another computer on the
+basis of a name. BIND contains three parts:
+
+* DNS Server – answers queries that are sent to it.
+* DNS Resolver Library – library that can be added to other programs to provide the ability to resolve names ensuring DNS standards are being followed.
+* Tools for Testing Servers – Tools to test server environments, such as dig, nslookup and host.
+
+BIND is an integral part of a successful OpenShift Compute Platform deployment/environment. OpenShift Compute Platform requires a properly configured wildcard DNS zone that resolves to the IP address of the OpenShift router. For more information, please refer to the installation guide: ****FIXME******* https://access.redhat.com/documentation/en/openshift-enterprise/version-3.0/openshift-enterprise-30-administrator-guide/chapter-1-installing
+
+AWS has a DNS web service, per Amazon; "Amazon Route 53 is a highly available
+and scalable cloud Domain Name System (DNS) web service. It is designed to give
+developers and businesses an extremely reliable and cost effective way to route
+end users to Internet applications by translating names like www.example.com into
+the numeric IP addresses like 192.0.2.1 that computers use to connect to each
+other."
+
+Route53 will manage DNS records for the OpenShift environment.
+
+This reference implementation will use Amazon Route 53 to implement all requirements
+of the <<Domain Name System (DNS)>> component.
+
+For more information see https://aws.amazon.com/route53/
+
+==== Public Zone
+
+The Public Route53 zone requires a domain name either purchased through AWS or
+another external provider such as Google Domains or GoDaddy.  Once the zone in
+created in Route53, the name servers provided by Amazon will need to be added to
+the registrar.
+
+==== Hosted Zone Setup
+
+In this reference implementation guide a domain called `sysdeseng.com` domain was purchased through AWS and managed by `Route53`.  In order to get started here, a main hosted zone is created that subdomains are created off of.  Follow the below instructions to add the main hosted zone.
+
+* From the main AWS dashboard, in the Compute section click Route53
+** Click Hosted Zones
+*** Click Create Hosted Zone
+**** Input a Domain Name: sysdeseng.com
+**** Input a Comment: Public Zone for RH Reference Architecture
+**** Type: Public Hosted Zone
+***** Click Create
+
+Once the Pubic Zone is created select the radio button for the Domain and copy the Name Servers from the right and add those to the external registrar if applicable.
+
+
+// vim: set syntax=asciidoc:

@@ -1,0 +1,10 @@
+[[refarch_details]]
+
+=== NAT Gateway
+The Reference Architecture deployment utilizes the AWS NAT Gateway Service
+to ensure that instances in the private subnets have the ability to download
+packages, container images, and Github repositories. The NAT Gateway Service
+funnels all external traffic from private subnets to the outside world.  This
+allows for a smaller external footprint and does not use unneeded public IP
+and public DNS entries.
+// vim: set syntax=asciidoc:

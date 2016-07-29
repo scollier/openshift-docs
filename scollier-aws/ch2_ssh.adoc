@@ -1,0 +1,48 @@
+[[refarch_details]]
+
+===  SSH Key
+
+A new SSH key can be created as part of the deployment.
+
+==== SSH key with Bash
+If a SSH key is already uploaded to AWS it can be used if one does not exist
+ in AWS one can be created. The SSH key is created in two steps,
+ first, the key is generated and uploaded, then the private key is written out so it
+ can be used to connect to the instances later. The default behavior of the script is 
+to create an SSH key. Below instructions are defined if a key does not need to be created.
+
+*If the key already exists in AWS*
+
+Modify the vars file specifying the key currently uploaded to AWS and modify
+deploy-openshift and comment a line.
+
+[subs=+quotes]
+----
+$ vi awscli/vars
+# AWS Key
+KEY_NAME=OSE-key
+
+$ vi awscli/deploy-openshift
+#DEPLOY_SSH_KEY
+----
+
+==== SSH key with Ansible
+When running the ose-on-aws.py python script for deploying the OpenShift infrastructure
+with Ansible a trigger can be passed to create an SSH key or use an existing key.
+ If the create-key option is used the path to a private key must be specified using
+ the key-path trigger.  If a key already exists within the environment specify the key
+ name within the variable file. The default behavior is to use an existing key. The 
+python script will exit with a message if a key is not provided.
+
+*Creating a key*
+
+A private and public key must already exist on the system deploying the OpenShift 
+infrastucture.
+
+[subs=+quotes]
+----
+$ ./ose-on-aws.py --rhn-user=username --rhn-password=password --public-hosted-zone=sysdeseng.com --create-key=yes --keypair=/home/user/.ssh/id_rsa.pub --keypair=OSE-key
+----
+
+
+// vim: set syntax=asciidoc:

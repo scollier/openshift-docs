@@ -1,0 +1,6 @@
+[[refarch_details]]
+
+== Provisioning the Infrastructure
+
+This chapter will transition into how the infrastructure is provisioned.
+

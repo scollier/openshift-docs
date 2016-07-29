@@ -1,0 +1,23 @@
+[[refarch_details]]
+=== Registry
+
+OpenShift can build Docker images from your source code, deploy them, and
+manage their lifecycle. To enable this, OpenShift provides an internal,
+integrated Docker registry that can be deployed in your OpenShift environment
+to manage images.
+
+The registry stores Docker images and metadata. For production environment, you
+should use persistent storage for storage for the registry, otherwise any images
+anyone has built or pushed into the registry would disappear if the pod were to restart.
+
+Using the installation methods described in this document the registry is is
+deployed using a S3 bucket. The S3 bucket allows for multiple pods to be deployed
+at once for HA but also use the same persistent backend storage. S3 is object based 
+storage which does not get assigned to nodes in the same way that EBS volumes are attached
+and assigned to a node.  The bucket does not mount as block based storage to the 
+node so commands like fdisk or lsblk will not show information in regards to the S3 bucket. 
+The configuration for the S3 bucket and credentials to login to the bucket are stored as OpenShift 
+secrets and applied to the pod. The registry can be scaled to many pods and even have multiple instances
+of the registry running on the same host due to the use of s3.
+
+// vim: set syntax=asciidoc:

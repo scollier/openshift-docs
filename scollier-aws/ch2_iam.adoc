@@ -1,0 +1,16 @@
+[[refarch_details]]
+====  Identity and Access Management
+
+AWS provides IAM to securely control access to AWS services and resources for 
+users. IAM can allow or deny access to certain resources for user accounts and for roles within 
+the AWS environment. For this guide, an IAM account will need access to create roles, instances, Route53 entries, ELBs,
+and many more components. The predefined policy "AdministratorAccess" has been proven to provide all of the access
+required to create the environment defined in the this document..
+
+During the installation of OpenShift, one account will automatically be created to manage a S3 Bucket used for the Docker registry. 
+A role and policy are also created to allow for attaching and detaching of EBS volumes for Persisten storage within the 
+environment.
+
+For more information see https://aws.amazon.com/iam/
+
+// vim: set syntax=asciidoc:

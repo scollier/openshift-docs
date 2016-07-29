@@ -1,0 +1,39 @@
+[[refarch_details]]
+=== Nodes
+Nodes are AWS instances that serve a specific purpose for OpenShift.  All nodes
+can be vertically scaled before or after the OpenShift installation to increase or decrease
+the amount of ram or CPU per instance. All OpenShift specific nodes are assigned an IAM role 
+which allows for cloud specific tasks to occur against the environment such as adding Persistent 
+Volumes or removing a node from the OpenShift cluster automatically. There are three types of nodes as described below.
+
+==== Master nodes
+
+The master nodes contain the master components, including
+the API server, controller manager server and ETCD. The master maintains the
+clusters configuration, manages nodes in its OpenShift cluster. It also assigns
+pods to nodes and synchronizes pod information with service configuration.  The
+master is used to define routes, services, and volume claims for pods deployed within the
+OpenShift environment.
+
+==== Infrastructure nodes
+The infrastructure nodes are used for the router and registry pods. These
+nodes can also be used if the optional components Kibana and Hawkular metrics. The storage 
+for the docker-registry which is deployed on the infrastructure nodes is S3 which allows for multiple pods to use the same storage unlike EBS. 
+AWS S3 storage is used because it is synchronized between the availablity zones, providing data redundancy.
+For Kibana and Hawkular metrics a Persistent Volume Claim is used for persistent logs and container metrics.
+
+==== Application nodes
+The Application nodes are the instances where non-infrastructure based containers
+are ran. Depending on the application AWS specific storage can be applied such as a S3 bucket or Elastic Block Storage volume 
+which can be assigned using a Persistent Volume Claim for application data that needs to persist between
+releases. A configuration parameter is set on the master 
+which ensures that OpenShift user containers will be places on the application nodes
+by default.
+
+==== Node labels
+All OpenShift nodes are assigned a label.  Labels are used by OpenShift to OpenShift nodes and pods.  This allows certain pods to
+be deployed on specific nodes. For example, nodes labeled "infra" are Infrastucture nodes. These nodes run the router, registry,
+and metrics pods.  Nodes labeled "app" are where all end user Application pods are created on Application nodes.  The
+configuration parameter "'defaultNodeSelector: "role=app"' in /etc/origin/master/master-config.yaml ensures all projects
+automatically are deployed on Application nodes.
+// vim: set syntax=asciidoc:

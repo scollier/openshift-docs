@@ -1,0 +1,72 @@
+[[refarch_details]]
+
+=== Deploying with Bash
+The bash scripts provided within the git repository provision the infrastructure. The
+bash scripts are designed only for work in a greenfield AWS environment. Similar to the Ansible playbooks,
+all of the components that are required for a highly-available OpenShift environment are deployed. 
+The scripts create a VPC, multiple instances, three ELBs, roles, policies, and users required for cloud provider configuration
+ in OpenShift.  A variable file called vars which is included in the repository allow for customization of the AWS deployment. After the infrastructure has been provisioned via the bash scripts, it can be dynamically inventoried and then OpenShift Container Platform can be deployed on the provisioned infrastructure.
+
+==== Provisioning the Infrastructure
+Within the `openshift-ansible-contrib` git repository is a bash script called `deploy-openshift`.
+Certain variables must be set to allow for successful deployment of the AWS infrastructure. A new
+SSH key will be created for the newly deployed instances.
+
+The `deploy-openshift` script should be executed from your local host.
+
+===== Variables for the Bash Deployment
+Certain variables must be set in the variable script before beginning. Make the following
+changes to the vars file
+
+[subs=+quotes]
+----
+$ *cat /home/user/ose-on-aws/awscli/vars*
+UNIQ_VAR="prod"
+INFRA_DNSINFRA_DNS=sysdeseng.com
+KEY_NAME=OSE-key
+----
+
+`UNIQ_VAR` appends a unique string in-front of all resources deployed with the bash script.
+This is incredibly useful if the environment contains many resources or multiple OpenShift
+deployments. The variable `INFRA_DNSINFRA_DNS` variable should match the DNS zone that you have, in our case, registered with `route53`. The `KEY_NAME` variable should be a unique key name that you will use to access your virtual machines that are provisioned in AWS.
+
+===== Executing the Bash Deployment
+The bash script has checks in place that will ensure each step is completed before
+moving onto the next.
+
+[subs=+quotes]
+----
+$ *cd /home/user/ose-on-aws/awscli*
+$ *./deploy-openshift*
+----
+
+===== Deployment logs
+The bash script logs the creation of AWS resources to a directory and timestamps the output. The
+output will be located within the awscli directory under the subdirectory of `deployment-logs` below
+is an example path of a deployment log.
+
+[subs=+quotes]
+----
+$ *./deployment-logs/deploy-openshift-worklaptop-2016-04-25_00:20:03.log*
+----
+
+This is very useful if any errors are encountered during the deployment. As mentioned above, there are checks in place to make sure the resources are created before moving forward with the provisioning. There is a rare case when some of the instances are being created where they are not created in a timely fashion and therefor cannot be tagged with a name. If that happens the environment will need to be removed and started over.
+
+===== Post Bash Deployment
+Now that the `deploy-openshift` script has completed, log into the AWS console and check the resources. OpenShift Container Platform has not been deployed yet, only the infrastructure for it to run on. In the AWS console, check for the following resources:
+
+* 3 Master nodes
+* 2 Infrastructure nodes
+* 2 Application nodes
+* 1 Unique VPC with the required components
+* 7 Security groups
+* 1 Elastic IP
+* 1 Key pair
+* 3 Load balancers
+* 1 IAM role
+* 1 IAM Policy
+* 2 Zones in route53
+
+The next step will be to dynamically inventory the environment and start the installation of OpenShift Container Platform by following the steps in ch6_deploying-ose.
+
+// vim: set syntax=asciidoc:

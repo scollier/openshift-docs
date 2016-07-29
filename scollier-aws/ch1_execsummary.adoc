@@ -1,0 +1,18 @@
+:numbered:
+
+== Executive Summary
+
+Red Hat OpenShift Container Platform 3 is built around a core of application containers powered by
+Docker, with orchestration and management provided by Kubernetes, on a foundation
+ of Atomic host and Enterprise Linux. OpenShift Origin is the upstream community
+project that brings it all together along with extensions, to accelerate
+application development and deployment.
+
+This reference environment provides a comprehensive example demonstrating how
+OpenShift Container Platform 3 can be set up to take advantage of the native high availability
+capabilities of Kubernetes and Amazon Web Services in order to create a highly
+available OpenShift Container Platform 3 environment. The configuration consists of three OpenShift Container Platform
+ masters, two OpenShift Container Platform infrastructure nodes, two OpenShift Container Platform application nodes,
+and native Amazon Web Services integration. In addition to the configuration, operational management tasks are shown to demonstrate functionality.
+
+// vim: set syntax=asciidoc:
