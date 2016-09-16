@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html class="ie8"> <![endif]-->
+<!--[if IE 9]> <html class="ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html>
+<!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>OpenShift Enterprise Branch Build | Installation and Configuration | Enabling Cluster Metrics</title>
+  <link href="https://assets.openshift.net/content/subdomain.css" rel="stylesheet" type="text/css">
+  <link href="../../scollier-test/_stylesheets/docs.css" rel="stylesheet" />
+  <link href="https://assets.openshift.net/content/subdomain/touch-icon-precomposed.png" rel="apple-touch-icon-precomposed" type="image/png">
+  <link href="https://assets.openshift.net/content/subdomain/favicon32x32.png" rel="shortcut icon" type="text/css">
+  <!--[if IE]><link rel="shortcut icon" href="https://assets.openshift.net/content/subdomain/favicon.ico"><![endif]-->
+  <!-- or, set /favicon.ico for IE10 win -->
+  <meta content="OpenShift" name="application-name">
+  <meta content="#000000" name="msapplication-TileColor">
+  <meta content="https://assets.openshift.net/content/subdomain/touch-icon-precomposed.png" name="msapplication-TileImage">
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://assets.openshift.net/content/html5shiv.js" type="text/javascript"></script>
+    <script src="https://assets.openshift.net/content/respond.js" type="text/javascript"></script>
+    <link href="https://assets.openshift.net/content/vendor/respond-js/respond-proxy.html" id="respond-proxy" rel="respond-proxy">
+    <link href="../../scollier-test/_images/respond.proxy.gif" id="respond-redirect" rel="respond-redirect">
+    <script src="../../scollier-test/_javascripts/respond.proxy.js" type="text/javascript"></script>
+  <![endif]-->
+  <script src="https://assets.openshift.net/content/modernizr.js" type="text/javascript"></script>
+  <script src="https://assets.openshift.net/content/subdomain.js" type="text/javascript"></script>
+  <script src="../../scollier-test/_javascripts/bootstrap-offcanvas.js" type="text/javascript"></script>
+  <script type="text/javascript" src="https://assets.openshift.net/app/assets/site/tracking.js"></script>
+</head>
+<body>
+  <div class="navbar navbar-default navbar-openshift" role="navigation">
+  <div class="navbar-header">
+    <div class="dropdown">
+      <a href="#" class="dropdown-toggle navbar-menu-toggle" data-toggle="dropdown">
+        <span class="navbar-menu-title">MENU</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <ul class="dropdown-menu navbar-menu" role="menu">
+        <li class="submenu">
+          <a href="#">Overview</a>
+          <ul id="submenu-overview" class="dropdown-submenu">
+            <li class="submenu-heading">Introduction to OpenShift</li>
+            <li>
+              <a href="https://www.openshift.com/about/index.html">
+                What is OpenShift?
+                <span class="submenu-item-desc">Learn about Red Hat's next-generation cloud application platform.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/customers">
+                Our Customers
+                <span class="submenu-item-desc">Discover what companies are using OpenShift to deliver a flexible, scalable cloud applicaiton environtment.</span>
+              </a>
+            </li>
+            <li class="submenu-heading">News</li>
+            <li>
+              <a href="https://www.openshift.com/about/awards.html">
+                Awards
+                <span class="submenu-item-desc">Industry recognition and awards.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://blog.openshift.com/">
+                OpenShift Blog
+                <span class="submenu-item-desc">Keep your finger on the pulse of all things OpenShift.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://blog.openshift.com/category/events/">
+                Events
+                <span class="submenu-item-desc">OpenShift sponsors and attends a variety of in-person events around the globe.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/about/press.html">
+                In the Press
+                <span class="submenu-item-desc">The latest OpenShift news and press releases.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="http://jobs.redhat.com/job-search-results/?keywords=openshift">
+                Careers <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/about/logos.html">
+                Logos &amp; Media
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Features</a>
+          <ul id="submenu-features" class="dropdown-submenu">
+            <li class="submenu-heading">OpenShift Online</li>
+            <li>
+              <a href="https://www.openshift.com/features/index.html">
+                Overview
+                <span class="submenu-item-desc">Quickly develop, host, and scale applications in the public cloud with on-demand access.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/pricing/index.html">
+                Plans &amp; Pricing
+                <span class="submenu-item-desc">Host up to 3 apps for free. Upgrade and add production gears, extra storage, and more.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/app/account/new">
+                Sign up for Free
+              </a>
+            </li>
+            <li class="submenu-heading">OpenShift Dedicated</li>
+            <li>
+              <a href="https://www.openshift.com/dedicated/index.html">
+                Overview
+                <span class="submenu-item-desc">Your own private OpenShift cluster, operated by Red Hat.</span>
+              </a>
+            </li>
+            <li class="submenu-heading">OpenShift Enterprise</li>
+            <li>
+              <a href="https://enterprise.openshift.com/">
+                Overview
+                <span class="submenu-item-desc">Accelerate application delivery with the speed and consistency that business demands.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/resources/index.html">
+                Resources
+                <span class="submenu-item-desc">Webinars, datasheets, reference architectures, demo videos and more.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/trial.html">
+                Try it for Free
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="https://www.openshift.com/showcase/index.html">
+                Application Gallery
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Developers</a>
+          <ul id="submenu-developers" class="dropdown-submenu">
+            <li>
+              <a href="https://developers.openshift.com/en/getting-started-overview.html">
+                Getting Started
+                <span class="submenu-item-desc">New to OpenShift? Get your first application up and running and learn the basics.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://hub.openshift.com/">
+                Hub
+                <span class="submenu-item-desc">Find languages, frameworks, databases, and add-on services for OpenShift.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://developers.openshift.com/">
+                Developer Portal
+                <span class="submenu-item-desc">Learn about building, deploying, and managing your applications.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://docs.openshift.com/">
+                Documentation
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="http://stackoverflow.com/questions/tagged/openshift">
+                Stack Overflow
+                <span class="submenu-item-desc">A Q&amp;A site for everything development related. Post a question or browse answers on the 'openshift' tag.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/resources/index.html#training">
+                Training &amp; Certification
+                <span class="submenu-item-desc">Red Hat Training's hands-on, task-focused courses and certifications for IT professionals and developers.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="https://www.openshift.com/showcase/index.html">
+                Application Gallery
+                <span class="submenu-item-desc">Our showcase of applications running on OpenShift Online.</span>
+              </a>
+            </li>
+            <li>
+              <a href="http://www.openshift.org/#contribute">
+                Contribute to OpenShift <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Get in touch with our product team, or become a part of the OpenShift Origin open source project.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://openshift.uservoice.com/">
+                Vote on Features
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Partners</a>
+          <ul id="submenu-partners" class="dropdown-submenu">
+            <li>
+              <a href="https://www.openshift.com/partners/index.html">
+                Become a Partner
+                <span class="submenu-item-desc">Build on the strength of the world's leading open source company.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/partners/index.html">
+                Find OpenShift Partners
+                <span class="submenu-item-desc">Find qualified partners to help you with your OpenShift projects.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="http://commons.openshift.org/">
+                OpenShift Commons <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Where users, partners, customers, and contributors come together to collaborate on OpenShift.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="https://www.openshift.com/grants/index.html">
+                Resource Grants
+                <span class="submenu-item-desc">For non-profits, educational institutions, and open source initiatives.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/startups/index.html">
+                Startup Program
+                <span class="submenu-item-desc">Designed to help startups build and scale.</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Support</a>
+          <ul id="submenu-support" class="dropdown-submenu">
+            <li>
+              <a href="https://access.redhat.com/">
+                Red Hat Customer Portal <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Manage support cases, browse Knowledgebase articles, and more.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://docs.openshift.com/">
+                Documentation
+                <span class="submenu-item-desc">Official product documentation from Red Hat.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://help.openshift.com/">
+                Help Center
+                <span class="submenu-item-desc">The fastest way to find your available support options.</span>
+              </a>
+            </li>
+            <li>
+              <a href="http://stackoverflow.com/questions/tagged/openshift">
+                Stack Overflow <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">A Q&amp;A site for everything development related. Post a question or browse answers on the 'openshift' tag.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://openshift.redhat.com/app/status">
+                System Status <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/about/contact.html">
+                Contact Us
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Connect</a>
+          <ul id="submenu-connect" class="dropdown-submenu">
+            <li>
+              <a href="https://blog.openshift.com/">
+                Blog
+              </a>
+            </li>
+            <li>
+              <a href="https://blog.openshift.com/category/events/">
+                Events &amp; Conferences
+              </a>
+            </li>
+            <li>
+              <a href="http://commons.openshift.org/">
+                OpenShift Commons <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Where users, partners, customers, and contributors come together to collaborate on OpenShift.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://twitter.com/openshift">
+                Twitter <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.facebook.com/openshift">
+                Facebook <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/grp/home?gid=4185734">
+                LinkedIn <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/openshift/">
+                GitHub <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://plus.google.com/+OpenShift">
+                Google+ <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.youtube.com/user/rhopenshift">
+                YouTube <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openshift.com/about/contact.html">
+            Contact Us
+          </a>
+        </li>
+        <li>
+          <form action="https://help.openshift.com/hc/en-us/search" method="get" id="cse-search-form">
+            <input name="query" id="cse-search-input" class="navbar-search-query form-control" type="text" placeholder="Search" tabindex="1" autocomplete="off" autofocus>
+            <button type="submit" class="btn btn-default fa fa-search" value="Search"></button>
+          </form>
+        </li>
+      </ul>
+    </div>
+    <a class="navbar-brand" href="/"></a>
+  </div>
+  <div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="hidden-xs dropdown"> <a href="#" class="dropdown-toggle nav-log-in" data-toggle="dropdown"> My Account<span class="caret"></span> </a>
+        <ul class="dropdown-menu">
+          <li><a href="https://openshift.redhat.com/app/console">OpenShift Web Console</a></li>
+          <li><a href="https://console.preview.openshift.com/">(Next Gen) Web Console</a></li>
+          <li><a href="https://hub.openshift.com/users/auth/github">OpenShift Hub</a></li>
+        </ul>
+      </li>
+      <li class="hidden-xs hidden-sm"><a class="nav-sign-up" href="https://www.openshift.com/app/account/new">Sign up for Free</a></li>
+    </ul>
+  </div>
+</div>
+  <div class="container">
+    <p class="toggle-nav visible-xs pull-left">
+      <button class="btn btn-default btn-sm" type="button" data-toggle="offcanvas">Toggle nav</button>
+    </p>
+    <ol class="breadcrumb">
+      <li class="sitename">
+        <a href="../../index.html">Documentation</a>
+      </li>
+      <li class="hidden-xs active">
+        <a href="../welcome/index.html">OpenShift Enterprise Branch Build</a>
+      </li>
+      <li class="hidden-xs active">
+        <a href="../install_config/index.html">Installation and Configuration</a>
+      </li>
+      
+      <li class="hidden-xs active">
+        Enabling Cluster Metrics
+      </li>
+    </ol>
+    <div class="row row-offcanvas row-offcanvas-left">
+      <div class="col-xs-8 col-sm-3 col-md-3 sidebar sidebar-offcanvas">
+        <div class="row-fluid">
+          <script>
+  (function() {
+    var cx = '013769182564158614814:e-dp46b51vk';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search defaultToRefinement="Enterprise Branch Build"></gcse:search>
+        </div>
+        <ul class="nav nav-sidebar">
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup0">
+        <span id="tgSpan0" class="fa fa-angle-right"></span>About
+      </a>
+      <ul id="topicGroup0" class="collapse  list-unstyled">
+            <li><a class="" href="../welcome/index.html">Welcome</a></li>
+            <li><a class="" href="../welcome/revhistory_all.html">All Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup1">
+        <span id="tgSpan1" class="fa fa-angle-right"></span>Release Notes
+      </a>
+      <ul id="topicGroup1" class="collapse  list-unstyled">
+            <li><a class="" href="../release_notes/index.html">Overview</a></li>
+            <li><a class="" href="../release_notes/ose_3_2_release_notes.html">OpenShift Enterprise 3.2 Release Notes</a></li>
+            <li><a class="" href="../release_notes/xpaas_release_notes.html">xPaaS Release Notes</a></li>
+            <li><a class="" href="../release_notes/v2_vs_v3.html">Comparing OpenShift Enterprise 2 and OpenShift Enterprise 3</a></li>
+            <li><a class="" href="../release_notes/revhistory_release_notes.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup2">
+        <span id="tgSpan2" class="fa fa-angle-right"></span>Getting Started
+      </a>
+      <ul id="topicGroup2" class="collapse  list-unstyled">
+            <li><a class="" href="../getting_started/index.html">Overview</a></li>
+            <li><a class="" href="../getting_started/developers_console.html">Web Console Walkthrough</a></li>
+            <li><a class="" href="../getting_started/administrators.html">Setting Up a Cluster</a></li>
+            <li><a class="" href="../getting_started/revhistory_getting_started.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup3">
+        <span id="tgSpan3" class="fa fa-angle-right"></span>Architecture
+      </a>
+      <ul id="topicGroup3" class="collapse  list-unstyled">
+            <li><a class="" href="../architecture/index.html">Overview</a></li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-3-1">
+                <span id="sgSpan-3-1" class="fa fa-caret-right"></span>&nbsp;Infrastructure Components
+              </a>
+              <ul id="topicSubGroup-3-1" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../architecture/infrastructure_components/kubernetes_infrastructure.html">Kubernetes Infrastructure</a></li>
+                  <li><a class="" href="../architecture/infrastructure_components/image_registry.html">Image Registry</a></li>
+                  <li><a class="" href="../architecture/infrastructure_components/web_console.html">Web Console</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-3-2">
+                <span id="sgSpan-3-2" class="fa fa-caret-right"></span>&nbsp;Core Concepts
+              </a>
+              <ul id="topicSubGroup-3-2" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../architecture/core_concepts/index.html">Overview</a></li>
+                  <li><a class="" href="../architecture/core_concepts/containers_and_images.html">Containers and Images</a></li>
+                  <li><a class="" href="../architecture/core_concepts/pods_and_services.html">Pods and Services</a></li>
+                  <li><a class="" href="../architecture/core_concepts/projects_and_users.html">Projects and Users</a></li>
+                  <li><a class="" href="../architecture/core_concepts/builds_and_image_streams.html">Builds and Image Streams</a></li>
+                  <li><a class="" href="../architecture/core_concepts/deployments.html">Deployments</a></li>
+                  <li><a class="" href="../architecture/core_concepts/routes.html">Routes</a></li>
+                  <li><a class="" href="../architecture/core_concepts/templates.html">Templates</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-3-3">
+                <span id="sgSpan-3-3" class="fa fa-caret-right"></span>&nbsp;Additional Concepts
+              </a>
+              <ul id="topicSubGroup-3-3" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../architecture/additional_concepts/networking.html">Networking</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/sdn.html">OpenShift SDN</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/authentication.html">Authentication</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/authorization.html">Authorization</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/storage.html">Persistent Storage</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/remote_commands.html">Remote Commands</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/port_forwarding.html">Port Forwarding</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/throttling.html">Throttling</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/scm.html">Source Control Management</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/admission_controllers.html">Admission Controllers</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/other_api_objects.html">Other API Objects</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../architecture/revhistory_architecture.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup4">
+        <span id="tgSpan4" class="fa fa-angle-down"></span>Installation and Configuration
+      </a>
+      <ul id="topicGroup4" class="collapse in list-unstyled">
+            <li><a class="" href="../install_config/index.html">Overview</a></li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-4-1">
+                <span id="sgSpan-4-1" class="fa fa-caret-right"></span>&nbsp;Installing
+              </a>
+              <ul id="topicSubGroup-4-1" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../install_config/install/index.html">Overview</a></li>
+                  <li><a class="" href="../install_config/install/prerequisites.html">Prerequisites</a></li>
+                  <li><a class="" href="../install_config/install/rpm_vs_containerized.html">RPM vs Containerized</a></li>
+                  <li><a class="" href="../install_config/install/quick_install.html">Quick Installation</a></li>
+                  <li><a class="" href="../install_config/install/advanced_install.html">Advanced Installation</a></li>
+                  <li><a class="" href="../install_config/install/disconnected_install.html">Disconnected Installation</a></li>
+                  <li><a class="" href="../install_config/install/docker_registry.html">Deploying a Docker Registry</a></li>
+                  <li><a class="" href="../install_config/install/deploy_router.html">Deploying a Router</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-4-2">
+                <span id="sgSpan-4-2" class="fa fa-caret-right"></span>&nbsp;Upgrading
+              </a>
+              <ul id="topicSubGroup-4-2" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../install_config/upgrading/index.html">Overview</a></li>
+                  <li><a class="" href="../install_config/upgrading/automated_upgrades.html">Automated Upgrades</a></li>
+                  <li><a class="" href="../install_config/upgrading/manual_upgrades.html">Manual Upgrades</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../install_config/downgrade.html">Downgrading</a></li>
+            <li><a class="" href="../install_config/master_node_configuration.html">Master and Node Configuration</a></li>
+            <li><a class="" href="../install_config/imagestreams_templates.html">Loading the Default Image Streams and Templates</a></li>
+            <li><a class="" href="../install_config/certificate_customization.html">Configuring Custom Certificates</a></li>
+            <li><a class="" href="../install_config/configuring_authentication.html">Configuring Authentication and User Agent</a></li>
+            <li><a class="" href="../install_config/syncing_groups_with_ldap.html">Syncing Groups With LDAP</a></li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-4-9">
+                <span id="sgSpan-4-9" class="fa fa-caret-right"></span>&nbsp;Advanced LDAP Configuration
+              </a>
+              <ul id="topicSubGroup-4-9" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../install_config/advanced_ldap_configuration/index.html">Overview</a></li>
+                  <li><a class="" href="../install_config/advanced_ldap_configuration/sssd_for_ldap_failover.html">Setting up SSSD for LDAP Failover</a></li>
+                  <li><a class="" href="../install_config/advanced_ldap_configuration/configuring_form_based_authentication.html">Configuring Form-Based Authentication</a></li>
+                  <li><a class="" href="../install_config/advanced_ldap_configuration/configuring_extended_ldap_attributes.html">Configuring Extended LDAP Attributes</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../install_config/configuring_sdn.html">Configuring the SDN</a></li>
+            <li><a class="" href="../install_config/configuring_aws.html">Configuring for AWS</a></li>
+            <li><a class="" href="../install_config/configuring_openstack.html">Configuring for OpenStack</a></li>
+            <li><a class="" href="../install_config/configuring_gce.html">Configuring for GCE</a></li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-4-14">
+                <span id="sgSpan-4-14" class="fa fa-caret-right"></span>&nbsp;Configuring Persistent Storage
+              </a>
+              <ul id="topicSubGroup-4-14" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../install_config/persistent_storage/index.html">Overview</a></li>
+                  <li><a class="" href="../install_config/persistent_storage/persistent_storage_nfs.html">Using NFS</a></li>
+                  <li><a class="" href="../install_config/persistent_storage/persistent_storage_glusterfs.html">Using GlusterFS</a></li>
+                  <li><a class="" href="../install_config/persistent_storage/persistent_storage_cinder.html">Using OpenStack Cinder</a></li>
+                  <li><a class="" href="../install_config/persistent_storage/persistent_storage_ceph_rbd.html">Using Ceph RBD</a></li>
+                  <li><a class="" href="../install_config/persistent_storage/persistent_storage_aws.html">Using AWS Elastic Block Store</a></li>
+                  <li><a class="" href="../install_config/persistent_storage/persistent_storage_gce.html">Using GCE Persistent Disk</a></li>
+                  <li><a class="" href="../install_config/persistent_storage/persistent_storage_iscsi.html">Using iSCSI</a></li>
+                  <li><a class="" href="../install_config/persistent_storage/persistent_storage_fibre_channel.html">Using Fibre Channel</a></li>
+                  <li><a class="" href="../install_config/persistent_storage/dynamically_provisioning_pvs.html">Dynamic Provisioning</a></li>
+                  <li><a class="" href="../install_config/persistent_storage/pod_security_context.html">Volume Security</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-4-15">
+                <span id="sgSpan-4-15" class="fa fa-caret-right"></span>&nbsp;Persistent Storage Examples
+              </a>
+              <ul id="topicSubGroup-4-15" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../install_config/storage_examples/index.html">Overview</a></li>
+                  <li><a class="" href="../install_config/storage_examples/shared_storage.html">Sharing an NFS PV Across Two Pods</a></li>
+                  <li><a class="" href="../install_config/storage_examples/ceph_example.html">Complete Example Using Ceph RBD</a></li>
+                  <li><a class="" href="../install_config/storage_examples/gluster_example.html">Complete Example Using GlusterFS</a></li>
+                  <li><a class="" href="../install_config/storage_examples/privileged_pod_storage.html">Mounting Volumes To Privileged Pods</a></li>
+                  <li><a class="" href="../install_config/storage_examples/gluster_backed_registry.html">Backing Docker Registry with GlusterFS Storage</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../install_config/http_proxies.html">Working with HTTP Proxies</a></li>
+            <li><a class="" href="../install_config/build_defaults_overrides.html">Configuring Global Build Defaults and Overrides</a></li>
+            <li><a class="" href="../install_config/configuring_pipeline_execution.html">Configuring Build Pipeline Execution</a></li>
+            <li><a class="" href="../install_config/native_container_routing.html">Native Container Routing</a></li>
+            <li><a class="" href="../install_config/routing_from_edge_lb.html">Routing from Edge Load Balancers</a></li>
+            <li><a class="" href="../install_config/aggregate_logging.html">Aggregating Container Logs</a></li>
+            <li><a class=" active" href="../install_config/cluster_metrics.html">Enabling Cluster Metrics</a></li>
+            <li><a class="" href="../install_config/web_console_customization.html">Customizing the Web Console</a></li>
+            <li><a class="" href="../install_config/revhistory_install_config.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup5">
+        <span id="tgSpan5" class="fa fa-angle-right"></span>Administrator Solutions
+      </a>
+      <ul id="topicGroup5" class="collapse  list-unstyled">
+            <li><a class="" href="../admin_solutions/index.html">Overview</a></li>
+            <li><a class="" href="../admin_solutions/master_node_config.html">Master and Node Configuration</a></li>
+            <li><a class="" href="../admin_solutions/user_role_mgmt.html">User and Role Management</a></li>
+            <li><a class="" href="../admin_solutions/authentication.html">Authentication</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup6">
+        <span id="tgSpan6" class="fa fa-angle-right"></span>Cluster Administration
+      </a>
+      <ul id="topicGroup6" class="collapse  list-unstyled">
+            <li><a class="" href="../admin_guide/index.html">Overview</a></li>
+            <li><a class="" href="../admin_guide/manage_nodes.html">Managing Nodes</a></li>
+            <li><a class="" href="../admin_guide/manage_users.html">Managing Users</a></li>
+            <li><a class="" href="../admin_guide/managing_projects.html">Managing Projects</a></li>
+            <li><a class="" href="../admin_guide/service_accounts.html">Configuring Service Accounts</a></li>
+            <li><a class="" href="../admin_guide/manage_authorization_policy.html">Managing Authorization Policies</a></li>
+            <li><a class="" href="../admin_guide/manage_scc.html">Managing Security Context Constraints</a></li>
+            <li><a class="" href="../admin_guide/quota.html">Setting Quotas</a></li>
+            <li><a class="" href="../admin_guide/limits.html">Setting Limit Ranges</a></li>
+            <li><a class="" href="../admin_guide/pruning_resources.html">Pruning Objects</a></li>
+            <li><a class="" href="../admin_guide/garbage_collection.html">Garbage Collection</a></li>
+            <li><a class="" href="../admin_guide/scheduler.html">Scheduler</a></li>
+            <li><a class="" href="../admin_guide/allocating_node_resources.html">Allocating Node Resources</a></li>
+            <li><a class="" href="../admin_guide/overcommit.html">Overcommitting</a></li>
+            <li><a class="" href="../admin_guide/limit_runonce_pod_duration.html">Limit Run-once Pod Duration</a></li>
+            <li><a class="" href="../admin_guide/router.html">Monitoring Routers</a></li>
+            <li><a class="" href="../admin_guide/high_availability.html">High Availability</a></li>
+            <li><a class="" href="../admin_guide/pod_network.html">Managing Pod Networks</a></li>
+            <li><a class="" href="../admin_guide/iptables.html">IPtables</a></li>
+            <li><a class="" href="../admin_guide/securing_builds.html">Securing Builds by Strategy</a></li>
+            <li><a class="" href="../admin_guide/building_dependency_trees.html">Building Dependency Trees</a></li>
+            <li><a class="" href="../admin_guide/sdn_troubleshooting.html">Troubleshooting Networking</a></li>
+            <li><a class="" href="../admin_guide/revhistory_admin_guide.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup7">
+        <span id="tgSpan7" class="fa fa-angle-right"></span>CLI Reference
+      </a>
+      <ul id="topicGroup7" class="collapse  list-unstyled">
+            <li><a class="" href="../cli_reference/index.html">Overview</a></li>
+            <li><a class="" href="../cli_reference/get_started_cli.html">Get Started with the CLI</a></li>
+            <li><a class="" href="../cli_reference/manage_cli_profiles.html">Managing CLI Profiles</a></li>
+            <li><a class="" href="../cli_reference/basic_cli_operations.html">Developer CLI Operations</a></li>
+            <li><a class="" href="../cli_reference/admin_cli_operations.html">Administrator CLI Operations</a></li>
+            <li><a class="" href="../cli_reference/revhistory_cli_reference.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup8">
+        <span id="tgSpan8" class="fa fa-angle-right"></span>Developer Guide
+      </a>
+      <ul id="topicGroup8" class="collapse  list-unstyled">
+            <li><a class="" href="../dev_guide/index.html">Overview</a></li>
+            <li><a class="" href="../dev_guide/application_lifecycle.html">Application Life Cycle Examples</a></li>
+            <li><a class="" href="../dev_guide/authentication.html">Authentication</a></li>
+            <li><a class="" href="../dev_guide/projects.html">Projects</a></li>
+            <li><a class="" href="../dev_guide/new_app.html">Creating New Applications</a></li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-8-5">
+                <span id="sgSpan-8-5" class="fa fa-caret-right"></span>&nbsp;Application Tutorials
+              </a>
+              <ul id="topicSubGroup-8-5" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../dev_guide/app_tutorials/index.html">Overview</a></li>
+                  <li><a class="" href="../dev_guide/app_tutorials/quickstarts.html">Quickstart Templates</a></li>
+                  <li><a class="" href="../dev_guide/app_tutorials/ruby_on_rails.html">Ruby on Rails</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../dev_guide/ssh_environment.html">Opening a Remote Shell to Containers</a></li>
+            <li><a class="" href="../dev_guide/templates.html">Templates</a></li>
+            <li><a class="" href="../dev_guide/service_accounts.html">Service Accounts</a></li>
+            <li><a class="" href="../dev_guide/builds.html">Builds</a></li>
+            <li><a class="" href="../dev_guide/managing_images.html">Managing Images</a></li>
+            <li><a class="" href="../dev_guide/compute_resources.html">Quotas and Limit Ranges</a></li>
+            <li><a class="" href="../dev_guide/deployments.html">Deployments</a></li>
+            <li><a class="" href="../dev_guide/routes.html">Routes</a></li>
+            <li><a class="" href="../dev_guide/integrating_external_services.html">Integrating External Services</a></li>
+            <li><a class="" href="../dev_guide/secrets.html">Secrets</a></li>
+            <li><a class="" href="../dev_guide/configmaps.html">ConfigMaps</a></li>
+            <li><a class="" href="../dev_guide/pod_autoscaling.html">Pod Autoscaling</a></li>
+            <li><a class="" href="../dev_guide/volumes.html">Managing Volumes</a></li>
+            <li><a class="" href="../dev_guide/persistent_volumes.html">Using Persistent Volumes</a></li>
+            <li><a class="" href="../dev_guide/executing_remote_commands.html">Executing Remote Commands</a></li>
+            <li><a class="" href="../dev_guide/copy_files_to_container.html">Copying Files</a></li>
+            <li><a class="" href="../dev_guide/port_forwarding.html">Port Forwarding</a></li>
+            <li><a class="" href="../dev_guide/shared_memory.html">Shared Memory</a></li>
+            <li><a class="" href="../dev_guide/application_health.html">Application Health</a></li>
+            <li><a class="" href="../dev_guide/events.html">Events</a></li>
+            <li><a class="" href="../dev_guide/downward_api.html">Downward API</a></li>
+            <li><a class="" href="../dev_guide/environment_variables.html">Managing Environment Variables</a></li>
+            <li><a class="" href="../dev_guide/jobs.html">Jobs</a></li>
+            <li><a class="" href="../dev_guide/revhistory_dev_guide.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup9">
+        <span id="tgSpan9" class="fa fa-angle-right"></span>Creating Images
+      </a>
+      <ul id="topicGroup9" class="collapse  list-unstyled">
+            <li><a class="" href="../creating_images/index.html">Overview</a></li>
+            <li><a class="" href="../creating_images/guidelines.html">Guidelines</a></li>
+            <li><a class="" href="../creating_images/metadata.html">Image Metadata</a></li>
+            <li><a class="" href="../creating_images/s2i.html">S2I Requirements</a></li>
+            <li><a class="" href="../creating_images/s2i_testing.html">Testing S2I Images</a></li>
+            <li><a class="" href="../creating_images/custom.html">Custom Builder</a></li>
+            <li><a class="" href="../creating_images/revhistory_creating_images.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup10">
+        <span id="tgSpan10" class="fa fa-angle-right"></span>Using Images
+      </a>
+      <ul id="topicGroup10" class="collapse  list-unstyled">
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-10-0">
+                <span id="sgSpan-10-0" class="fa fa-caret-right"></span>&nbsp;Source-to-Image (S2I)
+              </a>
+              <ul id="topicSubGroup-10-0" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/s2i_images/index.html">Overview</a></li>
+                  <li><a class="" href="../using_images/s2i_images/nodejs.html">Node.js</a></li>
+                  <li><a class="" href="../using_images/s2i_images/ruby.html">Ruby</a></li>
+                  <li><a class="" href="../using_images/s2i_images/perl.html">Perl</a></li>
+                  <li><a class="" href="../using_images/s2i_images/php.html">PHP</a></li>
+                  <li><a class="" href="../using_images/s2i_images/python.html">Python</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-10-1">
+                <span id="sgSpan-10-1" class="fa fa-caret-right"></span>&nbsp;Database Images
+              </a>
+              <ul id="topicSubGroup-10-1" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/db_images/index.html">Overview</a></li>
+                  <li><a class="" href="../using_images/db_images/mysql.html">MySQL</a></li>
+                  <li><a class="" href="../using_images/db_images/postgresql.html">PostgreSQL</a></li>
+                  <li><a class="" href="../using_images/db_images/mongodb.html">MongoDB</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-10-2">
+                <span id="sgSpan-10-2" class="fa fa-caret-right"></span>&nbsp;Docker Images
+              </a>
+              <ul id="topicSubGroup-10-2" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/docker_images/index.html">Overview</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-10-3">
+                <span id="sgSpan-10-3" class="fa fa-caret-right"></span>&nbsp;Other Images
+              </a>
+              <ul id="topicSubGroup-10-3" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/other_images/index.html">Overview</a></li>
+                  <li><a class="" href="../using_images/other_images/jenkins.html">Jenkins</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-10-4">
+                <span id="sgSpan-10-4" class="fa fa-caret-right"></span>&nbsp;xPaaS Middleware Images
+              </a>
+              <ul id="topicSubGroup-10-4" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/xpaas_images/index.html">Overview</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../using_images/revhistory_using_images.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup11">
+        <span id="tgSpan11" class="fa fa-angle-right"></span>REST API Reference
+      </a>
+      <ul id="topicGroup11" class="collapse  list-unstyled">
+            <li><a class="" href="../rest_api/index.html">Overview</a></li>
+            <li><a class="" href="../rest_api/openshift_v1.html">OpenShift v1</a></li>
+            <li><a class="" href="../rest_api/kubernetes_v1.html">Kubernetes v1</a></li>
+            <li><a class="" href="../rest_api/revhistory_rest_api.html">Revision History</a></li>
+      </ul>
+    </li>
+</ul>
+      </div>
+      <div class="col-xs-12 col-sm-9 col-md-9 main">
+        <div class="page-header">
+          <h2>Enabling Cluster Metrics</h2>
+        </div>
+        <div id="preamble">
+<div class="sectionbody">
+<div id="toc" class="toc">
+<div id="toctitle" class="title"></div>
+<ul class="sectlevel1">
+<li><a href="#overview">Overview</a></li>
+<li><a href="#cluster-metrics-before-you-begin">Before You Begin</a></li>
+<li><a href="#metrics-service-accounts">Service Accounts</a>
+<ul class="sectlevel2">
+<li><a href="#metrics-deployer-service-account">Metrics Deployer Service Account</a></li>
+<li><a href="#heapster-service-account">Heapster Service Account</a></li>
+</ul>
+</li>
+<li><a href="#metrics-data-storage">Metrics Data Storage</a>
+<ul class="sectlevel2">
+<li><a href="#metrics-persistent-storage">Persistent Storage</a></li>
+<li><a href="#metrics-non-persistent-storage">Non-Persistent Storage</a></li>
+</ul>
+</li>
+<li><a href="#metrics-deployer">Metrics Deployer</a>
+<ul class="sectlevel2">
+<li><a href="#metrics-deployer-using-secrets">Using Secrets</a></li>
+<li><a href="#modifying-the-deployer-template">Modifying the Deployer Template</a></li>
+</ul>
+</li>
+<li><a href="#deploying-the-metrics-components">Deploying the Metric Components</a></li>
+<li><a href="#metrics-reencrypting-route">Using a Re-encrypting Route</a></li>
+<li><a href="#configuring-openshift-metrics">Configuring OpenShift Enterprise</a></li>
+<li><a href="#metrics-cleanup">Cleanup</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="overview"><a class="anchor" href="#overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The
+<a href="../architecture/infrastructure_components/kubernetes_infrastructure.html#kubelet">kubelet</a>
+exposes metrics that can be collected and stored in back-ends by
+<a href="https://github.com/GoogleCloudPlatform/heapster">Heapster</a>.</p>
+</div>
+<div class="paragraph">
+<p>As an OpenShift Enterprise administrator, you can view a cluster&#8217;s metrics from all
+containers and components in one user interface.  These metrics are also
+used by <a href="../dev_guide/pod_autoscaling.html#dev-guide-pod-autoscaling">horizontal pod autoscalers</a>
+in order to determine when and how to scale.</p>
+</div>
+<div class="paragraph">
+<p>This topic describes using
+<a href="https://github.com/hawkular/hawkular-metrics">Hawkular Metrics</a> as a metrics
+engine which stores the data persistently in a
+<a href="http://cassandra.apache.org/">Cassandra</a> database. When this is configured,
+CPU and memory-based metrics are viewable from the OpenShift Enterprise web console
+and are available for use by <a href="../dev_guide/pod_autoscaling.html#dev-guide-pod-autoscaling">horizontal
+pod autoscalers</a>.</p>
+</div>
+<div class="paragraph">
+<p>Heapster retrieves a list of all nodes from the master server, then contacts
+each node individually through the <code>/stats</code> endpoint. From there, Heapster
+scrapes the metrics for CPU and memory usage, then exports them into Hawkular
+Metrics.</p>
+</div>
+<div class="paragraph">
+<p>Browsing individual pods in the web console displays separate sparkline charts
+for memory and CPU. The time range displayed is selectable, and these charts
+automatically update every 30 seconds. If there are multiple containers on the
+pod, then you can select a specific container to display its metrics.</p>
+</div>
+<div class="paragraph">
+<p>If <a href="../admin_guide/limits.html#admin-guide-limits">resource limits</a> are defined for your
+project, then you can also see a donut chart for each pod. The donut chart
+displays usage against the resource limit. For example: <code>145 Available of 200
+MiB</code>, with the donut chart showing <code>55 MiB Used</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="cluster-metrics-before-you-begin"><a class="anchor" href="#cluster-metrics-before-you-begin"></a>Before You Begin</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The components for cluster metrics must be deployed to the <strong>openshift-infra</strong>
+project. This allows <a href="../dev_guide/pod_autoscaling.html#dev-guide-pod-autoscaling">horizontal pod
+autoscalers</a> to discover the Heapster service and use it to retrieve metrics
+that can be used for autoscaling.</p>
+</div>
+<div class="paragraph">
+<p>All of the following commands in this topic must be executed under the
+<strong>openshift-infra</strong> project. To switch to the <strong>openshift-infra</strong> project:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">$ oc project openshift-infra</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To enable cluster metrics, you must next configure the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../install_config/cluster_metrics.html#metrics-service-accounts">Service Accounts</a></p>
+</li>
+<li>
+<p><a href="../install_config/cluster_metrics.html#metrics-data-storage">Metrics Data Storage</a></p>
+</li>
+<li>
+<p><a href="../install_config/cluster_metrics.html#metrics-deployer">Metrics Deployer</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="metrics-service-accounts"><a class="anchor" href="#metrics-service-accounts"></a>Service Accounts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You must configure <a href="../admin_guide/service_accounts.html#admin-guide-service-accounts">service accounts</a>
+for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../install_config/cluster_metrics.html#metrics-deployer-service-account">Metrics Deployer</a></p>
+</li>
+<li>
+<p><a href="../install_config/cluster_metrics.html#heapster-service-account">Heapster</a></p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="metrics-deployer-service-account"><a class="anchor" href="#metrics-deployer-service-account"></a>Metrics Deployer Service Account</h3>
+<div class="paragraph">
+<p>The <a href="#metrics-deployer">Metrics Deployer</a> will be discussed in a later step,
+but you must first set up a service account for it:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a <strong>metrics-deployer</strong> service account:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">$ oc create -f - &lt;&lt;API
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: metrics-deployer
+secrets:
+- name: metrics-deployer
+API</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Before it can deploy components, the <strong>metrics-deployer</strong> service account must
+also be granted the <code>edit</code> permission for the <strong>openshift-infra</strong> project:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">$ oadm policy add-role-to-user \
+    edit system:serviceaccount:openshift-infra:metrics-deployer</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="heapster-service-account"><a class="anchor" href="#heapster-service-account"></a>Heapster Service Account</h3>
+<div class="paragraph">
+<p>The Heapster component requires access to the master server to list all
+available nodes and access the <code>/stats</code> endpoint for each node. Before it can do
+this, the Heapster service account requires the <code>cluster-reader</code> permission:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">$ oadm policy add-cluster-role-to-user \
+    cluster-reader system:serviceaccount:openshift-infra:heapster</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The Heapster service account is created automatically during the
+<a href="../install_config/cluster_metrics.html#deploying-the-metrics-components">Deploying
+the Metrics Components</a> step.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="metrics-data-storage"><a class="anchor" href="#metrics-data-storage"></a>Metrics Data Storage</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can store the metrics data to either
+<a href="../architecture/additional_concepts/storage.html#architecture-additional-concepts-storage">persistent storage</a> or to
+a temporary <a href="../dev_guide/volumes.html#dev-guide-volumes">pod volume</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="metrics-persistent-storage"><a class="anchor" href="#metrics-persistent-storage"></a>Persistent Storage</h3>
+<div class="paragraph">
+<p>Running OpenShift Enterprise cluster metrics with persistent storage means that
+your metrics will be stored to a
+<a href="../architecture/additional_concepts/storage.html#persistent-volumes">persistent
+volume</a> and be able to survive a pod being restarted or recreated. This is
+ideal if you require your metrics data to be guarded from data loss.</p>
+</div>
+<div class="paragraph">
+<p>The size of the persisted volume can be specified with the <code>CASSANDRA_PV_SIZE</code>
+<a href="../install_config/cluster_metrics.html#deployer-template-parameters">template
+parameter</a>. By default it is set to 10 GB, which may or may not be sufficient
+for the size of the cluster you are using. If you require more space, for
+instance 100 GB, you could specify it with something like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">$ oc process -f metrics-deployer.yaml -v \
+    HAWKULAR_METRICS_HOSTNAME=hawkular-metrics.example.com,CASSANDRA_PV_SIZE=100Gi \
+    | oc create -f -</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The size requirement of the Cassandra storage is dependent on the cluster size.
+It is the administrator&#8217;s responsibility to ensure that the size requirements
+are sufficient for their setup and to monitor usage to ensure that the disk does
+not become full.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Data loss will result if the Cassandra persisted volume runs out of sufficient space.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For cluster metrics to work with persistent storage, ensure that the persistent
+volume has the <strong>ReadWriteOnce</strong> access mode. If not, the persistent volume claim
+will not be able to find the persistent volume, and Cassandra will fail to
+start.</p>
+</div>
+<div class="paragraph">
+<p>To use persistent storage with the metric components, ensure that a
+<a href="../architecture/additional_concepts/storage.html#persistent-volumes">persistent
+volume</a> of sufficient size is available. The creation of
+<a href="../architecture/additional_concepts/storage.html#persistent-volume-claims">persistent
+volume claims</a> is handled by the
+<a href="../install_config/cluster_metrics.html#metrics-deployer">Metrics Deployer</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="metrics-non-persistent-storage"><a class="anchor" href="#metrics-non-persistent-storage"></a>Non-Persistent Storage</h3>
+<div class="paragraph">
+<p>Running OpenShift Enterprise cluster metrics with non-persistent storage means that
+any stored metrics will be deleted when the pod is deleted. While it is much
+easier to run cluster metrics with non-persistent data, running with
+non-persistent data does come with the risk of permanent data loss. However,
+metrics can still survive a container being restarted.</p>
+</div>
+<div class="paragraph">
+<p>In order to use non-persistent storage, you must set the
+<code><strong>USE_PERSISTENT_STORAGE</strong></code>
+<a href="../install_config/cluster_metrics.html#modifying-the-deployer-template">template
+option</a> to <code>false</code> for the Metrics Deployer.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="metrics-deployer"><a class="anchor" href="#metrics-deployer"></a>Metrics Deployer</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Metrics Deployer deploys and configures all of the metrics components. You
+can configure it by passing in information from
+<a href="../dev_guide/secrets.html#dev-guide-secrets">secrets</a> and by passing parameters to the Metrics
+Deployer&#8217;s <a href="../architecture/core_concepts/templates.html#architecture-core-concepts-templates">template</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="metrics-deployer-using-secrets"><a class="anchor" href="#metrics-deployer-using-secrets"></a>Using Secrets</h3>
+<div class="paragraph">
+<p>By default, the Metrics Deployer auto-generates self-signed certificates for use
+between components. Because these are self-signed certificates, they are not
+automatically trusted by a web browser. Therefore, it is recommended to use your
+own certificates for anything being accessed outside of the OpenShift Enterprise
+cluster. This is especially important for the Hawkular Metrics server as it must
+be accessible in a browser for the web console to function.</p>
+</div>
+<div class="paragraph">
+<p>The Metrics Deployer requires that you manually create a <strong>metrics-deployer</strong>
+secret whether you are <a href="#metrics-using-secrets-byo-certs">providing your own
+certificates</a> or <a href="#metrics-using-secrets-autogenerated">using generated
+self-signed certificates</a>.</p>
+</div>
+<div class="sect3">
+<h4 id="metrics-using-secrets-byo-certs"><a class="anchor" href="#metrics-using-secrets-byo-certs"></a>Providing Your Own Certificates</h4>
+<div class="paragraph">
+<p>To provide your own certificates and replace the internally used ones, you
+can pass these values as <a href="../dev_guide/secrets.html#dev-guide-secrets">secrets</a> to the
+Metrics Deployer.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Alternatively, you can use a
+<a href="../install_config/cluster_metrics.html#metrics-reencrypting-route">re-encrypting
+route</a> which allow the self-signed certificates to remain in use internally
+while allowing your own certificates to be used for externally access. To use a
+re-encrypting route, do not set the certificates as a secret, but a secret named
+<strong>metrics-deployer</strong> must still exist before the Metrics Deployer can complete.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Optionally, provide your own certificate that is configured to be trusted by
+your browser by pointing your secret to the certificate&#8217;s <strong><em>.pem</em></strong> and
+certificate authority certificate files:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">$ oc secrets new metrics-deployer \
+    hawkular-metrics.pem=/home/openshift/metrics/hm.pem \
+    hawkular-metrics-ca.cert=/home/openshift/metrics/hm-ca.cert</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Setting the value using secrets will replace the internally used certificates.
+Therefore, these certificates must be valid for both the externally used host
+names as well as the external host name. For <code>hawkular-metrics</code>, this means the
+certificate must have a value of the literal string <code>hawkular-metrics</code> as well
+as the value specified in <code><strong>HAWKULAR_METRICS_HOSTNAME</strong></code>.</p>
+</div>
+<div class="paragraph">
+<p>If you are unable to add the internal host name to your certificate, then you
+can use the
+<a href="../install_config/cluster_metrics.html#metrics-reencrypting-route">re-encrypting
+route</a> method.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following table contains more advanced configuration options, detailing all
+the secrets which can be used by the deployer:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Secret Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>hawkular-metrics.pem</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong><em>pem</em></strong> file to use for the Hawkular Metrics certificate. This certificate
+must contain the literal string <code>hawkular-metrics</code> as a host name as well as the
+publicly available host name used by the route. This file is auto-generated if
+unspecified.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>hawkular-metrics-ca.cert</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The certificate for the CA used to sign the <strong><em>hawkular-metrics.pem</em></strong>. This
+option is ignored if the <strong><em>hawkular-metrics.pem</em></strong> option is not specified.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>hawkular-cassandra.pem</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong><em>.pem</em></strong> file to use for the Cassandra certificate. This certificate must
+contain the <strong>hawkular-cassandra</strong> host name. This file is auto-generated if
+unspecified.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>hawkular-cassandra-ca.cert</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The certificate for the CA used to sign the <strong><em>hawkular-cassandra.pem</em></strong>. This
+option is ignored if the <strong><em>hawkular-cassandra.pem</em></strong> option is not specified.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>heapster.cert</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The certificate for Heapster to use. This is auto-generated if unspecified.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>heapster.key</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The key to use with the Heapster certificate. This is ignored if
+<strong><em>heapster.cert</em></strong> is not specified</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>heapster_client_ca.cert</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The certificate that generates <strong><em>heapster.cert</em></strong>. This is required if
+<strong><em>heapster.cert</em></strong> is specified.  Otherwise, the main CA for the OpenShift Enterprise
+installation is used. In order for
+<a href="../dev_guide/pod_autoscaling.html#dev-guide-pod-autoscaling">horizontal pod autoscaling</a> to function
+properly, this should not be overridden.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>heapster_allowed_users</em></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A file containing a comma-separated list of CN to accept from certificates
+signed with the specified CA. By default, this is set to allow the
+OpenShift Enterprise service proxy to connect.  If you override this, make sure to
+add <code>system:master-proxy</code> to the list in order to allow
+<a href="../dev_guide/pod_autoscaling.html#dev-guide-pod-autoscaling">horizontal pod autoscaling</a> to function
+properly.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="metrics-using-secrets-autogenerated"><a class="anchor" href="#metrics-using-secrets-autogenerated"></a>Using Generated Self-Signed Certificates</h4>
+<div class="paragraph">
+<p>The Metrics Deployer can accept multiple certificates using secrets. If a
+certificate is not passed as a secret, then the deployer generates a self-signed
+certificate instead, forcing users to accept the certificate as a security
+exception.</p>
+</div>
+<div class="paragraph">
+<p>In order to use official certificates for the web console, you must use a
+<a href="../install_config/cluster_metrics.html#metrics-reencrypting-route">re-encrypting route</a>.
+This allows the self-signed certificates to remain in use internally,
+while allowing your own certificates to be used for external access. When
+using a re-encrypting route, do not set the certificates as a secret. A
+"dummy" secret named <strong>metrics-deployer</strong> must still exist for the Metrics
+Deployer to generate certificates.</p>
+</div>
+<div class="paragraph">
+<p>To create a "dummy" secret that does not specify a certificate value:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">$ oc secrets new metrics-deployer nothing=/dev/null</pre>
+</div>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you do not use a re-encrypting route when using generated self-signed certificates you will encounter errors.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="modifying-the-deployer-template"><a class="anchor" href="#modifying-the-deployer-template"></a>Modifying the Deployer Template</h3>
+<div class="paragraph">
+<p>The OpenShift Enterprise  installer uses a
+<a href="../architecture/core_concepts/templates.html#architecture-core-concepts-templates">template</a> to deploy the
+metrics components. The default template can be found at the following path:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">/usr/share/openshift/examples/infrastructure-templates/enterprise/metrics-deployer.yaml</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>In case you need to make any changes to this file, copy it to another directory
+with the file name <strong><em>metrics-deployer.yaml</em></strong> and refer to the new location when
+using it in the following sections.</p>
+</div>
+<div class="sect3">
+<h4 id="deployer-template-parameters"><a class="anchor" href="#deployer-template-parameters"></a>Deployer Template Parameters</h4>
+<div class="paragraph">
+<p>The deployer template parameter options and their defaults are listed in the
+default <strong><em>metrics-deployer.yaml</em></strong> file. If required, you can override these
+values when creating the Metrics Deployer.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Template Parameters</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong>METRIC_DURATION</strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of days metrics should be stored.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong>CASSANDRA_PV_SIZE</strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent volume size for each of the Cassandra nodes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong>USE_PERSISTENT_STORAGE</strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set to <strong>true</strong> for persistent storage; set to <strong>false</strong> to use non-persistent storage.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong>REDEPLOY</strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to <strong>true</strong>, the deployer will try to delete all the existing components before trying to redeploy.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong>HAWKULAR_METRICS_HOSTNAME</strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">External host name where clients can reach Hawkular Metrics.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong>MASTER_URL</strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Internal URL for the master, for authentication retrieval.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong>IMAGE_VERSION</strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify version for metrics components. For example, for <strong>openshift/origin-metrics-deployer:latest</strong>, set version to <strong>latest</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong>IMAGE_PREFIX</strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify prefix for metrics components. For example, for <strong>openshift/origin-metrics-deployer:latest</strong>, set prefix to <strong>openshift/origin-</strong>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The only required parameter is <code><strong>HAWKULAR_METRICS_HOSTNAME</strong></code>. This value is
+required when creating the deployer because it specifies the hostname for the
+Hawkular Metrics <a href="../architecture/core_concepts/routes.html#architecture-core-concepts-routes">route</a>. This
+value should correspond to a fully qualified domain name. You will need to know
+the value of <code><strong>HAWKULAR_METRICS_HOSTNAME</strong></code> when
+<a href="../install_config/cluster_metrics.html#configuring-openshift-metrics">configuring
+the console</a> for metrics access.</p>
+</div>
+<div class="paragraph">
+<p>If you are using
+<a href="../install_config/cluster_metrics.html#metrics-persistent-storage">persistent
+storage</a> with Cassandra, it is the administrator&#8217;s responsibility to set a
+sufficient disk size for the cluster using the <code><strong>CASSANDRA_PV_SIZE</strong></code> parameter.
+It is also the administrator&#8217;s responsibility to monitor disk usage to make sure
+that it does not become full.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Data loss will result if the Cassandra persisted volume runs out of sufficient space.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>All of the other parameters are optional and allow for greater customization.
+For instance, if you have a custom install in which the Kubernetes master is not
+available under <strong><em><a href="https://kubernetes.default.svc:443" class="bare">https://kubernetes.default.svc:443</a></em></strong> you can specify the value
+to use instead with the <code><strong>MASTER_URL</strong></code> parameter. To deploy a specific version
+of the metrics components, use the <code><strong>IMAGE_VERSION</strong></code> parameter.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="deploying-the-metrics-components"><a class="anchor" href="#deploying-the-metrics-components"></a>Deploying the Metric Components</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Because deploying and configuring all the metric components is handled by the
+Metrics Deployer, you can simply deploy everything in one step.</p>
+</div>
+<div class="paragraph">
+<p>The following examples show you how to deploy metrics with and without
+persistent storage using the default template parameters. Optionally, you can
+specify any of the
+<a href="../install_config/cluster_metrics.html#deployer-template-parameters">template
+parameters</a> when calling these commands.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. Deploying with Persistent Storage</div>
+<div class="content">
+<div class="paragraph">
+<p>The following command sets the Hawkular Metrics route to use
+<strong>hawkular-metrics.example.com</strong> and is deployed using persistent storage.</p>
+</div>
+<div class="paragraph">
+<p>You must have a persistent volume of sufficient size available.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">$ oc new-app -f metrics-deployer.yaml \
+    -p HAWKULAR_METRICS_HOSTNAME=hawkular-metrics.example.com</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 2. Deploying without Persistent Storage</div>
+<div class="content">
+<div class="paragraph">
+<p>The following command sets the Hawkular Metrics route to use
+<strong>hawkular-metrics.example.com</strong> and deploy without persistent storage.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">$ oc new-app -f metrics-deployer.yaml \
+    -p HAWKULAR_METRICS_HOSTNAME=hawkular-metrics.example.com \
+    -p USE_PERSISTENT_STORAGE=false</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Because this is being deployed without persistent storage, metric data loss
+can occur.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="metrics-reencrypting-route"><a class="anchor" href="#metrics-reencrypting-route"></a>Using a Re-encrypting Route</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The following section is not required if the <strong>hawkular-metrics.pem</strong> secret was
+specified as a
+<a href="../install_config/cluster_metrics.html#metrics-deployer-using-secrets">deployer
+secret</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>By default, the Hawkular Metrics server uses an internally signed certificate,
+which is not trusted by browsers or other external services. To provide your own
+trusted certificate to be used for external access, use a route with
+<a href="../architecture/core_concepts/routes.html#secured-routes">re-encryption
+termination</a>.</p>
+</div>
+<div class="paragraph">
+<p>Creating this new route requires deleting the default route that just passes
+through to an internally signed certificate:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>First, delete the default route that uses the self-signed certificates:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">$ oc delete route hawkular-metrics</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create a new route with
+<a href="../architecture/core_concepts/routes.html#secured-routes">re-encryption
+termination</a></p>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">$ oc create route reencrypt hawkular-metrics-reencrypt \
+            --hostname hawkular-metrics.example.com \ <i class="conum" data-value="1"></i><b>(1)</b>
+            --key /path/to/key \ <i class="conum" data-value="2"></i><b>(2)</b>
+            --cert /path/to/cert \ <i class="conum" data-value="2"></i><b>(2)</b>
+            --ca-cert /path/to/ca.crt \ <i class="conum" data-value="2"></i><b>(2)</b>
+            --service hawkular-metrics --port 8444 \
+            --dest-ca-cert /path/to/internal-ca.crt <i class="conum" data-value="3"></i><b>(3)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The value specified in the <code><strong>HAWKULAR_METRICS_HOSTNAME</strong></code> template parameter.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>These need to define the custom certificate you want to provide.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>This needs to correspond to the CA used to sign the internal Hawkular Metrics certificate.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The CA used to sign the internal Hawkular Metrics certificate can be found from
+the <strong>hawkular-metrics-certificate</strong> secret:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">$ base64 -d &lt;&lt;&lt; \
+    `oc get -o yaml secrets hawkular-metrics-certificate \
+    | grep -i hawkular-metrics-ca.certificate | awk '{print $2}'` \
+    &gt; /path/to/internal-ca.crt</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuring-openshift-metrics"><a class="anchor" href="#configuring-openshift-metrics"></a>Configuring OpenShift Enterprise</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The OpenShift Enterprise web console uses the data coming from the Hawkular Metrics
+service to display its graphs. The URL for accessing the Hawkular Metrics
+service must be configured via the <code><strong>metricsPublicURL</strong></code> option in the
+<a href="../install_config/master_node_configuration.html#master-configuration-files">master
+configuration file</a> (<strong><em>/etc/origin/master/master-config.yaml</em></strong>). This URL
+corresponds to the route created with the <code><strong>HAWKULAR_METRICS_HOSTNAME</strong></code> template
+parameter during the
+<a href="../install_config/cluster_metrics.html#deploying-the-metrics-components">deployment</a>
+of the metrics components.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You must be able to resolve the <code><strong>HAWKULAR_METRICS_HOSTNAME</strong></code> from the browser
+accessing the console.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For example, if your <code><strong>HAWKULAR_METRICS_HOSTNAME</strong></code> corresponds to
+<code>hawkular-metrics.example.com</code>, then you must make the following change in the
+<strong><em>master-config.yaml</em></strong> file:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code data-lang="yaml">  <span style="color:#606">assetConfig</span>:
+    <span style="color:#F00;background-color:#FAA">...</span>
+    <span style="color:#606">metricsPublicURL</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">https://hawkular-metrics.example.com/hawkular/metrics</span><span style="color:#710">&quot;</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Once you have updated and saved the <strong><em>master-config.yaml</em></strong> file, you must
+restart your OpenShift Enterprise instance.</p>
+</div>
+<div class="paragraph">
+<p>When your OpenShift Enterprise server is back up and running, metrics will be
+displayed on the pod overview pages.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you are using self-signed certificates, remember that the Hawkular Metrics
+service is hosted under a different host name and uses different certificates
+than the console. You may need to explicitly open a browser tab to the value
+specified in <code><strong>metricsPublicURL</strong></code> and accept that certificate.</p>
+</div>
+<div class="paragraph">
+<p>To avoid this issue, use certificates which are configured to be acceptable by
+your browser.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="metrics-cleanup"><a class="anchor" href="#metrics-cleanup"></a>Cleanup</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can remove everything deloyed by the metrics deployer by performing the
+following steps:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">$ oc delete all --selector="metrics-infra"
+$ oc delete sa --selector="metrics-infra"
+$ oc delete templates --selector="metrics-infra"
+$ oc delete secrets --selector="metrics-infra"
+$ oc delete pvc --selector="metrics-infra"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To remove the deployer components, perform the following steps:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">$ oc delete sa metrics-deployer
+$ oc delete secret metrics-deployer</pre>
+</div>
+</div>
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+      $("[id^='topicGroup']").on('show.bs.collapse', function (event) {
+        if (!($(event.target).attr('id').match(/^topicSubGroup/))) {
+          $(this).parent().find("[id^='tgSpan']").toggleClass("fa-angle-right fa-angle-down");
+        }
+      });
+      $("[id^='topicGroup']").on('hide.bs.collapse', function (event) {
+        if (!($(event.target).attr('id').match(/^topicSubGroup/))) {
+          $(this).parent().find("[id^='tgSpan']").toggleClass("fa-angle-right fa-angle-down");
+        }
+      });
+      $("[id^='topicSubGroup']").on('show.bs.collapse', function () {
+        $(this).parent().find("[id^='sgSpan']").toggleClass("fa-caret-right fa-caret-down");
+      });
+      $("[id^='topicSubGroup']").on('hide.bs.collapse', function () {
+        $(this).parent().find("[id^='sgSpan']").toggleClass("fa-caret-right fa-caret-down");
+      });
+    });
+    /*]]>*/
+  </script>
+    <footer class="footer-openshift">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-4 col-md-3 logo">
+        <a href="https://www.redhat.com/"></a>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-6 text-center">
+        <div class="row">
+          <div class="col-xs-12 col-md-4">
+            <a href="https://www.openshift.com/legal/privacy.html">
+              Privacy Policy
+            </a>
+          </div>
+          <div class="col-xs-12 col-md-4">
+          <a href="https://www.openshift.com/legal/terms.html">
+            Terms and Conditions
+          </a>
+          </div>
+          <div class="col-xs-12 col-md-4">
+          <a href="http://www.openshift.org/">
+            Open Source
+          </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-3 text-right">
+        <a id="built_with_asciibinder" href="http://asciibinder.org/">
+          <img src="../../scollier-test/_images/asciibinder_web_logo.svg" alt="AsciiBinder" />
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

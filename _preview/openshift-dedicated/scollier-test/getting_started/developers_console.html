@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html class="ie8"> <![endif]-->
+<!--[if IE 9]> <html class="ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html>
+<!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>OpenShift Dedicated Branch Build | Getting Started | Web Console Walkthrough</title>
+  <link href="https://assets.openshift.net/content/subdomain.css" rel="stylesheet" type="text/css">
+  <link href="../../scollier-test/_stylesheets/docs.css" rel="stylesheet" />
+  <link href="https://assets.openshift.net/content/subdomain/touch-icon-precomposed.png" rel="apple-touch-icon-precomposed" type="image/png">
+  <link href="https://assets.openshift.net/content/subdomain/favicon32x32.png" rel="shortcut icon" type="text/css">
+  <!--[if IE]><link rel="shortcut icon" href="https://assets.openshift.net/content/subdomain/favicon.ico"><![endif]-->
+  <!-- or, set /favicon.ico for IE10 win -->
+  <meta content="OpenShift" name="application-name">
+  <meta content="#000000" name="msapplication-TileColor">
+  <meta content="https://assets.openshift.net/content/subdomain/touch-icon-precomposed.png" name="msapplication-TileImage">
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://assets.openshift.net/content/html5shiv.js" type="text/javascript"></script>
+    <script src="https://assets.openshift.net/content/respond.js" type="text/javascript"></script>
+    <link href="https://assets.openshift.net/content/vendor/respond-js/respond-proxy.html" id="respond-proxy" rel="respond-proxy">
+    <link href="../../scollier-test/_images/respond.proxy.gif" id="respond-redirect" rel="respond-redirect">
+    <script src="../../scollier-test/_javascripts/respond.proxy.js" type="text/javascript"></script>
+  <![endif]-->
+  <script src="https://assets.openshift.net/content/modernizr.js" type="text/javascript"></script>
+  <script src="https://assets.openshift.net/content/subdomain.js" type="text/javascript"></script>
+  <script src="../../scollier-test/_javascripts/bootstrap-offcanvas.js" type="text/javascript"></script>
+  <script type="text/javascript" src="https://assets.openshift.net/app/assets/site/tracking.js"></script>
+</head>
+<body>
+  <div class="navbar navbar-default navbar-openshift" role="navigation">
+  <div class="navbar-header">
+    <div class="dropdown">
+      <a href="#" class="dropdown-toggle navbar-menu-toggle" data-toggle="dropdown">
+        <span class="navbar-menu-title">MENU</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <ul class="dropdown-menu navbar-menu" role="menu">
+        <li class="submenu">
+          <a href="#">Overview</a>
+          <ul id="submenu-overview" class="dropdown-submenu">
+            <li class="submenu-heading">Introduction to OpenShift</li>
+            <li>
+              <a href="https://www.openshift.com/about/index.html">
+                What is OpenShift?
+                <span class="submenu-item-desc">Learn about Red Hat's next-generation cloud application platform.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/customers">
+                Our Customers
+                <span class="submenu-item-desc">Discover what companies are using OpenShift to deliver a flexible, scalable cloud applicaiton environtment.</span>
+              </a>
+            </li>
+            <li class="submenu-heading">News</li>
+            <li>
+              <a href="https://www.openshift.com/about/awards.html">
+                Awards
+                <span class="submenu-item-desc">Industry recognition and awards.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://blog.openshift.com/">
+                OpenShift Blog
+                <span class="submenu-item-desc">Keep your finger on the pulse of all things OpenShift.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://blog.openshift.com/category/events/">
+                Events
+                <span class="submenu-item-desc">OpenShift sponsors and attends a variety of in-person events around the globe.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/about/press.html">
+                In the Press
+                <span class="submenu-item-desc">The latest OpenShift news and press releases.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="http://jobs.redhat.com/job-search-results/?keywords=openshift">
+                Careers <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/about/logos.html">
+                Logos &amp; Media
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Features</a>
+          <ul id="submenu-features" class="dropdown-submenu">
+            <li class="submenu-heading">OpenShift Online</li>
+            <li>
+              <a href="https://www.openshift.com/features/index.html">
+                Overview
+                <span class="submenu-item-desc">Quickly develop, host, and scale applications in the public cloud with on-demand access.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/pricing/index.html">
+                Plans &amp; Pricing
+                <span class="submenu-item-desc">Host up to 3 apps for free. Upgrade and add production gears, extra storage, and more.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/app/account/new">
+                Sign up for Free
+              </a>
+            </li>
+            <li class="submenu-heading">OpenShift Dedicated</li>
+            <li>
+              <a href="https://www.openshift.com/dedicated/index.html">
+                Overview
+                <span class="submenu-item-desc">Your own private OpenShift cluster, operated by Red Hat.</span>
+              </a>
+            </li>
+            <li class="submenu-heading">OpenShift Enterprise</li>
+            <li>
+              <a href="https://enterprise.openshift.com/">
+                Overview
+                <span class="submenu-item-desc">Accelerate application delivery with the speed and consistency that business demands.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/resources/index.html">
+                Resources
+                <span class="submenu-item-desc">Webinars, datasheets, reference architectures, demo videos and more.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/trial.html">
+                Try it for Free
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="https://www.openshift.com/showcase/index.html">
+                Application Gallery
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Developers</a>
+          <ul id="submenu-developers" class="dropdown-submenu">
+            <li>
+              <a href="https://developers.openshift.com/en/getting-started-overview.html">
+                Getting Started
+                <span class="submenu-item-desc">New to OpenShift? Get your first application up and running and learn the basics.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://hub.openshift.com/">
+                Hub
+                <span class="submenu-item-desc">Find languages, frameworks, databases, and add-on services for OpenShift.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://developers.openshift.com/">
+                Developer Portal
+                <span class="submenu-item-desc">Learn about building, deploying, and managing your applications.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://docs.openshift.com/">
+                Documentation
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="http://stackoverflow.com/questions/tagged/openshift">
+                Stack Overflow
+                <span class="submenu-item-desc">A Q&amp;A site for everything development related. Post a question or browse answers on the 'openshift' tag.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/resources/index.html#training">
+                Training &amp; Certification
+                <span class="submenu-item-desc">Red Hat Training's hands-on, task-focused courses and certifications for IT professionals and developers.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="https://www.openshift.com/showcase/index.html">
+                Application Gallery
+                <span class="submenu-item-desc">Our showcase of applications running on OpenShift Online.</span>
+              </a>
+            </li>
+            <li>
+              <a href="http://www.openshift.org/#contribute">
+                Contribute to OpenShift <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Get in touch with our product team, or become a part of the OpenShift Origin open source project.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://openshift.uservoice.com/">
+                Vote on Features
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Partners</a>
+          <ul id="submenu-partners" class="dropdown-submenu">
+            <li>
+              <a href="https://www.openshift.com/partners/index.html">
+                Become a Partner
+                <span class="submenu-item-desc">Build on the strength of the world's leading open source company.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/partners/index.html">
+                Find OpenShift Partners
+                <span class="submenu-item-desc">Find qualified partners to help you with your OpenShift projects.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="http://commons.openshift.org/">
+                OpenShift Commons <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Where users, partners, customers, and contributors come together to collaborate on OpenShift.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="https://www.openshift.com/grants/index.html">
+                Resource Grants
+                <span class="submenu-item-desc">For non-profits, educational institutions, and open source initiatives.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/startups/index.html">
+                Startup Program
+                <span class="submenu-item-desc">Designed to help startups build and scale.</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Support</a>
+          <ul id="submenu-support" class="dropdown-submenu">
+            <li>
+              <a href="https://access.redhat.com/">
+                Red Hat Customer Portal <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Manage support cases, browse Knowledgebase articles, and more.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://docs.openshift.com/">
+                Documentation
+                <span class="submenu-item-desc">Official product documentation from Red Hat.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://help.openshift.com/">
+                Help Center
+                <span class="submenu-item-desc">The fastest way to find your available support options.</span>
+              </a>
+            </li>
+            <li>
+              <a href="http://stackoverflow.com/questions/tagged/openshift">
+                Stack Overflow <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">A Q&amp;A site for everything development related. Post a question or browse answers on the 'openshift' tag.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://openshift.redhat.com/app/status">
+                System Status <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/about/contact.html">
+                Contact Us
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Connect</a>
+          <ul id="submenu-connect" class="dropdown-submenu">
+            <li>
+              <a href="https://blog.openshift.com/">
+                Blog
+              </a>
+            </li>
+            <li>
+              <a href="https://blog.openshift.com/category/events/">
+                Events &amp; Conferences
+              </a>
+            </li>
+            <li>
+              <a href="http://commons.openshift.org/">
+                OpenShift Commons <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Where users, partners, customers, and contributors come together to collaborate on OpenShift.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://twitter.com/openshift">
+                Twitter <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.facebook.com/openshift">
+                Facebook <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/grp/home?gid=4185734">
+                LinkedIn <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/openshift/">
+                GitHub <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://plus.google.com/+OpenShift">
+                Google+ <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.youtube.com/user/rhopenshift">
+                YouTube <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openshift.com/about/contact.html">
+            Contact Us
+          </a>
+        </li>
+        <li>
+          <form action="https://help.openshift.com/hc/en-us/search" method="get" id="cse-search-form">
+            <input name="query" id="cse-search-input" class="navbar-search-query form-control" type="text" placeholder="Search" tabindex="1" autocomplete="off" autofocus>
+            <button type="submit" class="btn btn-default fa fa-search" value="Search"></button>
+          </form>
+        </li>
+      </ul>
+    </div>
+    <a class="navbar-brand" href="/"></a>
+  </div>
+  <div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="hidden-xs dropdown"> <a href="#" class="dropdown-toggle nav-log-in" data-toggle="dropdown"> My Account<span class="caret"></span> </a>
+        <ul class="dropdown-menu">
+          <li><a href="https://openshift.redhat.com/app/console">OpenShift Web Console</a></li>
+          <li><a href="https://console.preview.openshift.com/">(Next Gen) Web Console</a></li>
+          <li><a href="https://hub.openshift.com/users/auth/github">OpenShift Hub</a></li>
+        </ul>
+      </li>
+      <li class="hidden-xs hidden-sm"><a class="nav-sign-up" href="https://www.openshift.com/app/account/new">Sign up for Free</a></li>
+    </ul>
+  </div>
+</div>
+  <div class="container">
+    <p class="toggle-nav visible-xs pull-left">
+      <button class="btn btn-default btn-sm" type="button" data-toggle="offcanvas">Toggle nav</button>
+    </p>
+    <ol class="breadcrumb">
+      <li class="sitename">
+        <a href="../../index.html">Documentation</a>
+      </li>
+      <li class="hidden-xs active">
+        <a href="../welcome/index.html">OpenShift Dedicated Branch Build</a>
+      </li>
+      <li class="hidden-xs active">
+        <a href="../getting_started/index.html">Getting Started</a>
+      </li>
+      
+      <li class="hidden-xs active">
+        Web Console Walkthrough
+      </li>
+    </ol>
+    <div class="row row-offcanvas row-offcanvas-left">
+      <div class="col-xs-8 col-sm-3 col-md-3 sidebar sidebar-offcanvas">
+        <div class="row-fluid">
+          <script>
+  (function() {
+    var cx = '013769182564158614814:ykypjfbua0a';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search defaultToRefinement="Dedicated Branch Build"></gcse:search>
+        </div>
+        <ul class="nav nav-sidebar">
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup0">
+        <span id="tgSpan0" class="fa fa-angle-right"></span>About
+      </a>
+      <ul id="topicGroup0" class="collapse  list-unstyled">
+            <li><a class="" href="../welcome/index.html">Welcome</a></li>
+            <li><a class="" href="../welcome/revhistory_all.html">All Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup1">
+        <span id="tgSpan1" class="fa fa-angle-right"></span>Release Notes
+      </a>
+      <ul id="topicGroup1" class="collapse  list-unstyled">
+            <li><a class="" href="../release_notes/index.html">Overview</a></li>
+            <li><a class="" href="../release_notes/osd_3_2_release_notes.html">OpenShift Dedicated 3.2 Release Notes</a></li>
+            <li><a class="" href="../release_notes/v2_vs_v3.html">Comparing OpenShift Enterprise 2 and OpenShift Enterprise 3</a></li>
+            <li><a class="" href="../release_notes/revhistory_release_notes.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup2">
+        <span id="tgSpan2" class="fa fa-angle-down"></span>Getting Started
+      </a>
+      <ul id="topicGroup2" class="collapse in list-unstyled">
+            <li><a class="" href="../getting_started/index.html">Overview</a></li>
+            <li><a class=" active" href="../getting_started/developers_console.html">Web Console Walkthrough</a></li>
+            <li><a class="" href="../getting_started/dedicated_administrators.html">Administering a Cluster</a></li>
+            <li><a class="" href="../getting_started/revhistory_getting_started.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup3">
+        <span id="tgSpan3" class="fa fa-angle-right"></span>Architecture
+      </a>
+      <ul id="topicGroup3" class="collapse  list-unstyled">
+            <li><a class="" href="../architecture/index.html">Overview</a></li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-3-1">
+                <span id="sgSpan-3-1" class="fa fa-caret-right"></span>&nbsp;Infrastructure Components
+              </a>
+              <ul id="topicSubGroup-3-1" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../architecture/infrastructure_components/kubernetes_infrastructure.html">Kubernetes Infrastructure</a></li>
+                  <li><a class="" href="../architecture/infrastructure_components/image_registry.html">Image Registry</a></li>
+                  <li><a class="" href="../architecture/infrastructure_components/web_console.html">Web Console</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-3-2">
+                <span id="sgSpan-3-2" class="fa fa-caret-right"></span>&nbsp;Core Concepts
+              </a>
+              <ul id="topicSubGroup-3-2" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../architecture/core_concepts/index.html">Overview</a></li>
+                  <li><a class="" href="../architecture/core_concepts/containers_and_images.html">Containers and Images</a></li>
+                  <li><a class="" href="../architecture/core_concepts/pods_and_services.html">Pods and Services</a></li>
+                  <li><a class="" href="../architecture/core_concepts/projects_and_users.html">Projects and Users</a></li>
+                  <li><a class="" href="../architecture/core_concepts/builds_and_image_streams.html">Builds and Image Streams</a></li>
+                  <li><a class="" href="../architecture/core_concepts/deployments.html">Deployments</a></li>
+                  <li><a class="" href="../architecture/core_concepts/routes.html">Routes</a></li>
+                  <li><a class="" href="../architecture/core_concepts/templates.html">Templates</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-3-3">
+                <span id="sgSpan-3-3" class="fa fa-caret-right"></span>&nbsp;Additional Concepts
+              </a>
+              <ul id="topicSubGroup-3-3" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../architecture/additional_concepts/networking.html">Networking</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/sdn.html">OpenShift SDN</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/authentication.html">Authentication</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/authorization.html">Authorization</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/storage.html">Persistent Storage</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/remote_commands.html">Remote Commands</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/port_forwarding.html">Port Forwarding</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/throttling.html">Throttling</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/scm.html">Source Control Management</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/admission_controllers.html">Admission Controllers</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/other_api_objects.html">Other API Objects</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../architecture/revhistory_architecture.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup4">
+        <span id="tgSpan4" class="fa fa-angle-right"></span>Cluster Administration
+      </a>
+      <ul id="topicGroup4" class="collapse  list-unstyled">
+            <li><a class="" href="../admin_guide/index.html">Overview</a></li>
+            <li><a class="" href="../admin_guide/managing_projects.html">Managing Projects</a></li>
+            <li><a class="" href="../admin_guide/service_accounts.html">Configuring Service Accounts</a></li>
+            <li><a class="" href="../admin_guide/manage_authorization_policy.html">Managing Authorization Policies</a></li>
+            <li><a class="" href="../admin_guide/osd_imagestreams_templates.html">Managing the Default Image Streams and Templates</a></li>
+            <li><a class="" href="../admin_guide/manage_scc.html">Managing Security Context Constraints</a></li>
+            <li><a class="" href="../admin_guide/quota.html">Setting Quotas</a></li>
+            <li><a class="" href="../admin_guide/limits.html">Setting Limit Ranges</a></li>
+            <li><a class="" href="../admin_guide/pruning_resources.html">Pruning Objects</a></li>
+            <li><a class="" href="../admin_guide/garbage_collection.html">Garbage Collection</a></li>
+            <li><a class="" href="../admin_guide/scheduler.html">Scheduler</a></li>
+            <li><a class="" href="../admin_guide/osd_build_defaults_overrides.html">Configuring Global Build Defaults and Overrides</a></li>
+            <li><a class="" href="../admin_guide/osd_configuring_pipeline_execution.html">Configuring Build Pipeline Execution</a></li>
+            <li><a class="" href="../admin_guide/pod_network.html">Managing Pod Networks</a></li>
+            <li><a class="" href="../admin_guide/revhistory_admin_guide.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup5">
+        <span id="tgSpan5" class="fa fa-angle-right"></span>CLI Reference
+      </a>
+      <ul id="topicGroup5" class="collapse  list-unstyled">
+            <li><a class="" href="../cli_reference/index.html">Overview</a></li>
+            <li><a class="" href="../cli_reference/get_started_cli.html">Get Started with the CLI</a></li>
+            <li><a class="" href="../cli_reference/manage_cli_profiles.html">Managing CLI Profiles</a></li>
+            <li><a class="" href="../cli_reference/basic_cli_operations.html">Developer CLI Operations</a></li>
+            <li><a class="" href="../cli_reference/admin_cli_operations.html">Administrator CLI Operations</a></li>
+            <li><a class="" href="../cli_reference/revhistory_cli_reference.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup6">
+        <span id="tgSpan6" class="fa fa-angle-right"></span>Developer Guide
+      </a>
+      <ul id="topicGroup6" class="collapse  list-unstyled">
+            <li><a class="" href="../dev_guide/index.html">Overview</a></li>
+            <li><a class="" href="../dev_guide/application_lifecycle.html">Application Life Cycle Examples</a></li>
+            <li><a class="" href="../dev_guide/authentication.html">Authentication</a></li>
+            <li><a class="" href="../dev_guide/projects.html">Projects</a></li>
+            <li><a class="" href="../dev_guide/new_app.html">Creating New Applications</a></li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-6-5">
+                <span id="sgSpan-6-5" class="fa fa-caret-right"></span>&nbsp;Application Tutorials
+              </a>
+              <ul id="topicSubGroup-6-5" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../dev_guide/app_tutorials/index.html">Overview</a></li>
+                  <li><a class="" href="../dev_guide/app_tutorials/quickstarts.html">Quickstart Templates</a></li>
+                  <li><a class="" href="../dev_guide/app_tutorials/ruby_on_rails.html">Ruby on Rails</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../dev_guide/ssh_environment.html">Opening a Remote Shell to Containers</a></li>
+            <li><a class="" href="../dev_guide/templates.html">Templates</a></li>
+            <li><a class="" href="../dev_guide/service_accounts.html">Service Accounts</a></li>
+            <li><a class="" href="../dev_guide/builds.html">Builds</a></li>
+            <li><a class="" href="../dev_guide/managing_images.html">Managing Images</a></li>
+            <li><a class="" href="../dev_guide/compute_resources.html">Quotas and Limit Ranges</a></li>
+            <li><a class="" href="../dev_guide/deployments.html">Deployments</a></li>
+            <li><a class="" href="../dev_guide/routes.html">Routes</a></li>
+            <li><a class="" href="../dev_guide/integrating_external_services.html">Integrating External Services</a></li>
+            <li><a class="" href="../dev_guide/secrets.html">Secrets</a></li>
+            <li><a class="" href="../dev_guide/configmaps.html">ConfigMaps</a></li>
+            <li><a class="" href="../dev_guide/pod_autoscaling.html">Pod Autoscaling</a></li>
+            <li><a class="" href="../dev_guide/volumes.html">Managing Volumes</a></li>
+            <li><a class="" href="../dev_guide/persistent_volumes.html">Using Persistent Volumes</a></li>
+            <li><a class="" href="../dev_guide/executing_remote_commands.html">Executing Remote Commands</a></li>
+            <li><a class="" href="../dev_guide/copy_files_to_container.html">Copying Files</a></li>
+            <li><a class="" href="../dev_guide/port_forwarding.html">Port Forwarding</a></li>
+            <li><a class="" href="../dev_guide/shared_memory.html">Shared Memory</a></li>
+            <li><a class="" href="../dev_guide/application_health.html">Application Health</a></li>
+            <li><a class="" href="../dev_guide/events.html">Events</a></li>
+            <li><a class="" href="../dev_guide/downward_api.html">Downward API</a></li>
+            <li><a class="" href="../dev_guide/environment_variables.html">Managing Environment Variables</a></li>
+            <li><a class="" href="../dev_guide/jobs.html">Jobs</a></li>
+            <li><a class="" href="../dev_guide/revhistory_dev_guide.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup7">
+        <span id="tgSpan7" class="fa fa-angle-right"></span>Creating Images
+      </a>
+      <ul id="topicGroup7" class="collapse  list-unstyled">
+            <li><a class="" href="../creating_images/index.html">Overview</a></li>
+            <li><a class="" href="../creating_images/guidelines.html">Guidelines</a></li>
+            <li><a class="" href="../creating_images/metadata.html">Image Metadata</a></li>
+            <li><a class="" href="../creating_images/s2i.html">S2I Requirements</a></li>
+            <li><a class="" href="../creating_images/s2i_testing.html">Testing S2I Images</a></li>
+            <li><a class="" href="../creating_images/custom.html">Custom Builder</a></li>
+            <li><a class="" href="../creating_images/revhistory_creating_images.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup8">
+        <span id="tgSpan8" class="fa fa-angle-right"></span>Using Images
+      </a>
+      <ul id="topicGroup8" class="collapse  list-unstyled">
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-8-0">
+                <span id="sgSpan-8-0" class="fa fa-caret-right"></span>&nbsp;Source-to-Image (S2I)
+              </a>
+              <ul id="topicSubGroup-8-0" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/s2i_images/index.html">Overview</a></li>
+                  <li><a class="" href="../using_images/s2i_images/nodejs.html">Node.js</a></li>
+                  <li><a class="" href="../using_images/s2i_images/ruby.html">Ruby</a></li>
+                  <li><a class="" href="../using_images/s2i_images/perl.html">Perl</a></li>
+                  <li><a class="" href="../using_images/s2i_images/php.html">PHP</a></li>
+                  <li><a class="" href="../using_images/s2i_images/python.html">Python</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-8-1">
+                <span id="sgSpan-8-1" class="fa fa-caret-right"></span>&nbsp;Database Images
+              </a>
+              <ul id="topicSubGroup-8-1" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/db_images/index.html">Overview</a></li>
+                  <li><a class="" href="../using_images/db_images/mysql.html">MySQL</a></li>
+                  <li><a class="" href="../using_images/db_images/postgresql.html">PostgreSQL</a></li>
+                  <li><a class="" href="../using_images/db_images/mongodb.html">MongoDB</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-8-2">
+                <span id="sgSpan-8-2" class="fa fa-caret-right"></span>&nbsp;Docker Images
+              </a>
+              <ul id="topicSubGroup-8-2" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/docker_images/index.html">Overview</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-8-3">
+                <span id="sgSpan-8-3" class="fa fa-caret-right"></span>&nbsp;Other Images
+              </a>
+              <ul id="topicSubGroup-8-3" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/other_images/index.html">Overview</a></li>
+                  <li><a class="" href="../using_images/other_images/jenkins.html">Jenkins</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-8-4">
+                <span id="sgSpan-8-4" class="fa fa-caret-right"></span>&nbsp;xPaaS Middleware Images
+              </a>
+              <ul id="topicSubGroup-8-4" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/xpaas_images/index.html">Overview</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../using_images/revhistory_using_images.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup9">
+        <span id="tgSpan9" class="fa fa-angle-right"></span>REST API Reference
+      </a>
+      <ul id="topicGroup9" class="collapse  list-unstyled">
+            <li><a class="" href="../rest_api/index.html">Overview</a></li>
+            <li><a class="" href="../rest_api/openshift_v1.html">OpenShift v1</a></li>
+            <li><a class="" href="../rest_api/kubernetes_v1.html">Kubernetes v1</a></li>
+            <li><a class="" href="../rest_api/revhistory_rest_api.html">Revision History</a></li>
+      </ul>
+    </li>
+</ul>
+      </div>
+      <div class="col-xs-12 col-sm-9 col-md-9 main">
+        <div class="page-header">
+          <h2>Developers: Web Console Walkthrough</h2>
+        </div>
+        <div id="preamble">
+<div class="sectionbody">
+<div id="toc" class="toc">
+<div id="toctitle" class="title"></div>
+<ul class="sectlevel1">
+<li><a href="#overview">Overview</a></li>
+<li><a href="#developers-cli-before-you-begin">Before You Begin</a></li>
+<li><a href="#browser-requirements">Browser Requirements</a></li>
+<li><a href="#tutorial-video">Tutorial Video</a></li>
+<li><a href="#developers-cli-forking-the-sample-repository">Forking the Sample Repository</a></li>
+<li><a href="#creating-a-project">Creating a Project</a></li>
+<li><a href="#creating-an-application">Creating an Application</a></li>
+<li><a href="#viewing-the-running-application">Viewing the Running Application</a></li>
+<li><a href="#configuring-automated-builds">Configuring Automated Builds</a></li>
+<li><a href="#writing-a-code-change">Writing a Code Change</a>
+<ul class="sectlevel2">
+<li><a href="#manually-rebuilding-images">Manually Rebuilding Images</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="overview"><a class="anchor" href="#overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This getting started experience walks you through the simplest way to get a
+sample project up and running on OpenShift Dedicated. There are a few different ways
+to launch images within a project, but this topic focuses on the quickest and
+easiest method.</p>
+</div>
+<div class="paragraph">
+<p>If this is the first part of the documentation you have read, and you are
+unfamiliar with the core concepts of OpenShift Dedicated version 3 (v3), you might want to
+start by reading about
+<a href="../release_notes/index.html#release-notes-index">what&#8217;s new</a>.
+This version of OpenShift Dedicated is significantly different from version 2 (v2).</p>
+</div>
+<div class="paragraph">
+<p>OpenShift Dedicated 3 provides out of the box a set of
+<a href="../using_images/s2i_images/index.html#using-images-s2i-images-index">languages</a> and
+<a href="../using_images/db_images/index.html#using-images-db-images-index">databases</a> for developers with
+corresponding implementations and tutorials that allow you to kickstart your
+application development. Language support centers around the
+<a href="../dev_guide/app_tutorials/quickstarts.html#dev-guide-app-tutorials-quickstarts">Quickstart templates</a>, which in
+turn leverage <a href="../using_images/s2i_images/index.html#using-images-s2i-images-index">builder images</a>.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Language</th>
+<th class="tableblock halign-left valign-top">Implementations and Tutorials</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Ruby</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/openshift/rails-ex">Rails</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Python</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/openshift/django-ex">Django</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Node.js</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/openshift/nodejs-ex">Node.js</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">PHP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/openshift/cakephp-ex">CakePHP</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Perl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/openshift/dancer-ex">Dancer</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">Java</p></td>
+<td class="tableblock halign-left valign-top"><div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Other images provided by OpenShift Dedicated include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/openshift/mysql">MySQL</a></p>
+</li>
+<li>
+<p><a href="https://github.com/openshift/mongodb">MongoDB</a></p>
+</li>
+<li>
+<p><a href="https://github.com/openshift/postgresql">PostgreSQL</a></p>
+</li>
+<li>
+<p><a href="https://github.com/openshift/jenkins">Jenkins</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In addition, JBoss Middleware has put together a broad range of
+<a href="https://github.com/jboss-openshift/application-templates">OpenShift Dedicated
+templates</a> as well as <a href="../using_images/xpaas_images/index.html#using-images-xpaas-images-index">images</a> as
+part of their xPaaS services.</p>
+</div>
+<div class="paragraph">
+<p>The technologies available with the xPaaS services in particular include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Java EE 6 Application Server provided by JBoss EAP 6</p>
+</li>
+<li>
+<p>Integration and Messaging Services provided by JBoss Fuse and JBoss A-MQ</p>
+</li>
+<li>
+<p>Data Grid Service provided by JBoss Data Grid</p>
+</li>
+<li>
+<p>Real Time Decision Service provided by JBoss BRMS</p>
+</li>
+<li>
+<p>Java Web Server 3.0 provided by Tomcat 7 and Tomcat 8</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>With each of these offerings, a series of combinations are provided:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>HTTP only vs. HTTP and HTTPS</p>
+</li>
+<li>
+<p>No database required, or the use of either MongoDB, PostgreSQL, or MySQL</p>
+</li>
+<li>
+<p>If desired, integration with A-MQ</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To help illustrate constructing such applications, the following sections guide
+you through creating a project that contains a sample Node.js application that
+will serve a welcome page and the current hit count (stored in a database).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This topic discusses both
+<a href="../dev_guide/app_tutorials/quickstarts.html#dev-guide-app-tutorials-quickstarts">Quickstart</a> and
+<a href="../dev_guide/templates.html#using-the-instantapp-templates">Instant App</a>
+templates and applications. Quickstarts provide a starting point for application
+development, but they rely on your development to create a useful application.
+In contrast, Instant Apps like Jenkins are instantly usable.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="developers-cli-before-you-begin"><a class="anchor" href="#developers-cli-before-you-begin"></a>Before You Begin</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before you can get started:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You must be able to access a running instance of OpenShift Dedicated. If you do
+not have access, contact your cluster administrator.</p>
+</li>
+<li>
+<p>Your instance must be pre-configured by a cluster administrator with the
+<a href="../dev_guide/templates.html#using-the-instantapp-templates">Instant App templates</a>
+and <a href="../using_images/s2i_images/index.html#using-images-s2i-images-index">builder images</a>. If they
+are not available,
+contact your cluster administrator.</p>
+</li>
+<li>
+<p>You must have an account on <a href="http://www.github.com">GitHub</a>, have <a href="https://help.github.com/articles/set-up-git/">Git set up</a>, and
+<a href="https://help.github.com/articles/set-up-git/#next-steps-authenticating-with-github-from-git">set up authentication to GitHub from Git</a>.</p>
+</li>
+<li>
+<p>You must have the OpenShift Dedicated CLI
+<a href="../cli_reference/get_started_cli.html#cli-reference-get-started-cli">downloaded and installed</a>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="browser-requirements"><a class="anchor" href="#browser-requirements"></a>Browser Requirements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Review the
+<a href="../architecture/infrastructure_components/web_console.html#architecture-infrastructure-components-web-console">browser versions
+and operating systems</a> that can be used to access the web console.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="tutorial-video"><a class="anchor" href="#tutorial-video"></a>Tutorial Video</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following video walks you through the rest of this topic:
+<a href="https://access.redhat.com/videos/1606273">Click here to watch</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="developers-cli-forking-the-sample-repository"><a class="anchor" href="#developers-cli-forking-the-sample-repository"></a>Forking the Sample Repository</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Visit the <a href="https://github.com/openshift/nodejs-ex">Node.js example</a> page while you are logged in to GitHub.</p>
+</li>
+<li>
+<p><a href="https://help.github.com/articles/fork-a-repo/">Fork the repository</a>.</p>
+<div class="paragraph">
+<p>You are redirected to your new fork.</p>
+</div>
+</li>
+<li>
+<p>Copy the clone URL for your fork.</p>
+</li>
+<li>
+<p>Clone the repository to your local machine.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-a-project"><a class="anchor" href="#creating-a-project"></a>Creating a Project</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To create an application, you must first create a new project, then select an
+InstantApp template. From there, OpenShift Dedicated begins the build process and
+creates a new deployment.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Visit the OpenShift Dedicated web console in your browser. The web console uses a self-signed certificate, so if prompted, continue past a browser warning.</p>
+</li>
+<li>
+<p>Log in using the username and password recommended to you by your administrator.</p>
+</li>
+<li>
+<p>To create a new project, click <b class="button">New Project</b>.</p>
+</li>
+<li>
+<p>Type a unique name, display name, and description for the new project.</p>
+</li>
+<li>
+<p>Click <b class="button">Create</b>.</p>
+<div class="paragraph">
+<p>The web console&#8217;s welcome screen loads.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-an-application"><a class="anchor" href="#creating-an-application"></a>Creating an Application</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>To create a new application, click <b class="button">Add to Project</b>.</p>
+<div class="paragraph">
+<p>The Add to Project page loads, and gives you the option to create from a publicly accessible git repository, or from a template.</p>
+</div>
+</li>
+<li>
+<p>Click the <b class="button">nodejs-mongodb-example</b> template.</p>
+<div class="paragraph">
+<p>The template configuration page loads, displaying pre-configured parameters.</p>
+</div>
+</li>
+<li>
+<p>Click <b class="button">Edit Parameters</b>, then update the source repository URL to your forked repository: <code><a href="https://github.com/&lt;your_github_username&gt;/nodejs-ex.git" class="bare">https://github.com/&lt;your_github_username&gt;/nodejs-ex.git</a></code></p>
+</li>
+<li>
+<p>Type a secret in the <strong>GITHUB_WEBHOOK_SECRET</strong> field. This webhook secures the trigger that causes your application to automatically rebuild whenever you push a code change to your forked repository.</p>
+</li>
+<li>
+<p>Click <b class="button">Create</b>.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>After creation, these settings can only be modified from the CLI by using the
+<code>oc</code> command.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Your application is then created, which might take some time. In the case of
+this template, MongoDB is created first, then the Node.js application is built
+using the OpenShift Dedicated source-to-image (S2I) builder.</p>
+</div>
+<div class="paragraph">
+<p>You can follow along on the Overview page of the web console to see the new
+resources being created, and watch the progress of the build and deployment. While the MongoDB pod is being created, its status is shown as pending. The MongoDB pod then starts up and displays its newly-assigned IP address.</p>
+</div>
+<div class="paragraph">
+<p>When the Node.js pod is running, the build is complete.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="viewing-the-running-application"><a class="anchor" href="#viewing-the-running-application"></a>Viewing the Running Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If your DNS is correctly configured, then your new application can be accessed using a web browser. If you cannot access your application, then speak with your system administrator.</p>
+</div>
+<div class="paragraph">
+<p>To view your new application:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the web console, view the overview page to determine the web address for the application. For example: <code><a href="http://nodejs-mongodb-example.openshiftapps.com" class="bare">http://nodejs-mongodb-example.openshiftapps.com</a></code></p>
+</li>
+<li>
+<p>Visit the web address for your new application.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuring-automated-builds"><a class="anchor" href="#configuring-automated-builds"></a>Configuring Automated Builds</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You forked the source code for this application from the
+<a href="https://github.com/openshift/nodejs-ex">OpenShift Dedicated GitHub repository</a>. Therefore,
+you can use a webhook to automatically trigger a rebuild of your application
+whenever you push code changes to your forked repository.</p>
+</div>
+<div class="paragraph">
+<p>To set up a webhook for your application:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>From the Web Console, navigate to the project containing your application.</p>
+</li>
+<li>
+<p>Click the <b class="button">Browse</b> tab, then click <b class="button">Builds</b>.</p>
+</li>
+<li>
+<p>Click <span class="image"><img src="data:image/jpg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD//gATQ3JlYXRlZCB3aXRoIEdJTVD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wgARCAAbAB0DAREAAhEBAxEB/8QAGgABAAIDAQAAAAAAAAAAAAAABQYIAAEDBP/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAbBBY2RgkBU8sSaHSIjwSCnMw95//8QAHhAAAQQCAwEAAAAAAAAAAAAABAACAwUGFQERJBT/2gAIAQEAAQUCEHgkF2lEmDiSMvehUE7xYvzPZ2OOkEDD5I5BO8bcTDCIgFJ+7InKSyJgfty1ty0K/myX/8QAFBEBAAAAAAAAAAAAAAAAAAAAQP/aAAgBAwEBPwEH/8QAFBEBAAAAAAAAAAAAAAAAAAAAQP/aAAgBAgEBPwEH/8QALhAAAgEDAgIHCQEAAAAAAAAAAQIDAAQREjEFEyEzUoKiscEUIiMyNEFhcnOT/9oACAEBAAY/AoWaGNmKAklR09FfVcP/ANEpXSGFlYZDBRg1DyByc5zy+jO1QfzXyq34W97dRWcocGOKUgY0k7bVbcPvIGhljh9xjpwwXAOxO2RVv3vSoP0XyqG54ci2lzG2dT6pARgjGNX5pLi4uIpNEbRqsUJTcqe0ezVv3vSmjSTCIdIGBtXW+EV1vhFN7T8TR8v2r//EACAQAQABBAICAwAAAAAAAAAAAAERACExQWHwENFRcZH/2gAIAQEAAT8hUsacpuVpJhN67okHHcHCNYM07FZMfddk0q5iI0iMoLm22hylkIbnZeYmcF/BOnaU/CQmo1McrOqlGc0BCrPj++ISl4lUCxqu/wBNd/pq5mLgnOI+Cv/aAAwDAQACAAMAAAAQAgEAkAEk/8QAFBEBAAAAAAAAAAAAAAAAAAAAQP/aAAgBAwEBPxAH/8QAFBEBAAAAAAAAAAAAAAAAAAAAQP/aAAgBAgEBPxAH/8QAHhABAQADAAIDAQAAAAAAAAAAAREAITFBcRBRYYH/2gAIAQEAAT8QNWtxooFVVVe4mBGI1MCwYEtQCIiImkc9eePUGypeV+8ntwNBUhoFWhMLE8jcjWjWFQjglBDQBTrGezIKf3Ud2OyEET0UY3ZA5ruiIAdVdZbvHo4w5UKpYBtb822/yah3/qvmvM//2Q==" alt="Copy"></span> to copy your GitHub webhook.</p>
+</li>
+<li>
+<p>Navigate to your forked repository on GitHub, then click <strong>Settings</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Webhooks &amp; Services</strong>.</p>
+</li>
+<li>
+<p>Click <b class="button">Add webhook</b>.</p>
+</li>
+<li>
+<p>Paste your webhook URL into the <strong>Payload URL</strong> field.</p>
+</li>
+<li>
+<p>In the <strong>Secret</strong> field, type the secret you chose when creating your application.</p>
+</li>
+<li>
+<p>Click <b class="button">Add webhook</b> to save.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>GitHub now attempts to ping the OpenShift Dedicated server to ensure that communication is successful. If it is correctly configured, you will see a green check mark next to your new webhook URL. Hover your mouse over the check mark to see the status of the last delivery.</p>
+</div>
+<div class="paragraph">
+<p>The next time you push a code change to your forked repository, your application will automatically rebuild.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="writing-a-code-change"><a class="anchor" href="#writing-a-code-change"></a>Writing a Code Change</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To work locally and then push changes to your application:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>On your local machine, use a text editor to change the sample application&#8217;s source for the file <strong><em>nodejs-ex/views/index.html</em></strong></p>
+</li>
+<li>
+<p>Make a code change that will be visible from within your application. For example: on line 219, change the title from <code>Welcome to your Node.js application on OpenShift Dedicated</code> to <code>This is my awesome Node.js application on OpenShift Dedicated</code>, then save your changes.</p>
+</li>
+<li>
+<p>Commit the changes in git, and push the change to your fork.</p>
+<div class="paragraph">
+<p>If your webhook is correctly configured, your application will immediately rebuild itself based on your changes. View your application using a web browser to see your changes.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Now going forward, all you need to do is push code updates and OpenShift Dedicated
+handles the rest.</p>
+</div>
+<div class="sect2">
+<h3 id="manually-rebuilding-images"><a class="anchor" href="#manually-rebuilding-images"></a>Manually Rebuilding Images</h3>
+<div class="paragraph">
+<p>You may find it useful to manually rebuild an image if your webhook is not
+working, or if a build fails and you do not want to change the code before restarting the build. To manually rebuild the image based on
+your latest committed change to your forked repository:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click the <strong>Browse</strong> tab, then click <b class="button">Builds</b>.</p>
+</li>
+<li>
+<p>Find your build, then click <b class="button">Rebuild</b>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+      $("[id^='topicGroup']").on('show.bs.collapse', function (event) {
+        if (!($(event.target).attr('id').match(/^topicSubGroup/))) {
+          $(this).parent().find("[id^='tgSpan']").toggleClass("fa-angle-right fa-angle-down");
+        }
+      });
+      $("[id^='topicGroup']").on('hide.bs.collapse', function (event) {
+        if (!($(event.target).attr('id').match(/^topicSubGroup/))) {
+          $(this).parent().find("[id^='tgSpan']").toggleClass("fa-angle-right fa-angle-down");
+        }
+      });
+      $("[id^='topicSubGroup']").on('show.bs.collapse', function () {
+        $(this).parent().find("[id^='sgSpan']").toggleClass("fa-caret-right fa-caret-down");
+      });
+      $("[id^='topicSubGroup']").on('hide.bs.collapse', function () {
+        $(this).parent().find("[id^='sgSpan']").toggleClass("fa-caret-right fa-caret-down");
+      });
+    });
+    /*]]>*/
+  </script>
+    <footer class="footer-openshift">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-4 col-md-3 logo">
+        <a href="https://www.redhat.com/"></a>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-6 text-center">
+        <div class="row">
+          <div class="col-xs-12 col-md-4">
+            <a href="https://www.openshift.com/legal/privacy.html">
+              Privacy Policy
+            </a>
+          </div>
+          <div class="col-xs-12 col-md-4">
+          <a href="https://www.openshift.com/legal/terms.html">
+            Terms and Conditions
+          </a>
+          </div>
+          <div class="col-xs-12 col-md-4">
+          <a href="http://www.openshift.org/">
+            Open Source
+          </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-3 text-right">
+        <a id="built_with_asciibinder" href="http://asciibinder.org/">
+          <img src="../../scollier-test/_images/asciibinder_web_logo.svg" alt="AsciiBinder" />
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

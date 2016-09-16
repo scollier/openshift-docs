@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html class="ie8"> <![endif]-->
+<!--[if IE 9]> <html class="ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html>
+<!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>OpenShift Dedicated Branch Build | Developer Guide | Deployments</title>
+  <link href="https://assets.openshift.net/content/subdomain.css" rel="stylesheet" type="text/css">
+  <link href="../../scollier-test/_stylesheets/docs.css" rel="stylesheet" />
+  <link href="https://assets.openshift.net/content/subdomain/touch-icon-precomposed.png" rel="apple-touch-icon-precomposed" type="image/png">
+  <link href="https://assets.openshift.net/content/subdomain/favicon32x32.png" rel="shortcut icon" type="text/css">
+  <!--[if IE]><link rel="shortcut icon" href="https://assets.openshift.net/content/subdomain/favicon.ico"><![endif]-->
+  <!-- or, set /favicon.ico for IE10 win -->
+  <meta content="OpenShift" name="application-name">
+  <meta content="#000000" name="msapplication-TileColor">
+  <meta content="https://assets.openshift.net/content/subdomain/touch-icon-precomposed.png" name="msapplication-TileImage">
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://assets.openshift.net/content/html5shiv.js" type="text/javascript"></script>
+    <script src="https://assets.openshift.net/content/respond.js" type="text/javascript"></script>
+    <link href="https://assets.openshift.net/content/vendor/respond-js/respond-proxy.html" id="respond-proxy" rel="respond-proxy">
+    <link href="../../scollier-test/_images/respond.proxy.gif" id="respond-redirect" rel="respond-redirect">
+    <script src="../../scollier-test/_javascripts/respond.proxy.js" type="text/javascript"></script>
+  <![endif]-->
+  <script src="https://assets.openshift.net/content/modernizr.js" type="text/javascript"></script>
+  <script src="https://assets.openshift.net/content/subdomain.js" type="text/javascript"></script>
+  <script src="../../scollier-test/_javascripts/bootstrap-offcanvas.js" type="text/javascript"></script>
+  <script type="text/javascript" src="https://assets.openshift.net/app/assets/site/tracking.js"></script>
+</head>
+<body>
+  <div class="navbar navbar-default navbar-openshift" role="navigation">
+  <div class="navbar-header">
+    <div class="dropdown">
+      <a href="#" class="dropdown-toggle navbar-menu-toggle" data-toggle="dropdown">
+        <span class="navbar-menu-title">MENU</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <ul class="dropdown-menu navbar-menu" role="menu">
+        <li class="submenu">
+          <a href="#">Overview</a>
+          <ul id="submenu-overview" class="dropdown-submenu">
+            <li class="submenu-heading">Introduction to OpenShift</li>
+            <li>
+              <a href="https://www.openshift.com/about/index.html">
+                What is OpenShift?
+                <span class="submenu-item-desc">Learn about Red Hat's next-generation cloud application platform.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/customers">
+                Our Customers
+                <span class="submenu-item-desc">Discover what companies are using OpenShift to deliver a flexible, scalable cloud applicaiton environtment.</span>
+              </a>
+            </li>
+            <li class="submenu-heading">News</li>
+            <li>
+              <a href="https://www.openshift.com/about/awards.html">
+                Awards
+                <span class="submenu-item-desc">Industry recognition and awards.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://blog.openshift.com/">
+                OpenShift Blog
+                <span class="submenu-item-desc">Keep your finger on the pulse of all things OpenShift.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://blog.openshift.com/category/events/">
+                Events
+                <span class="submenu-item-desc">OpenShift sponsors and attends a variety of in-person events around the globe.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/about/press.html">
+                In the Press
+                <span class="submenu-item-desc">The latest OpenShift news and press releases.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="http://jobs.redhat.com/job-search-results/?keywords=openshift">
+                Careers <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/about/logos.html">
+                Logos &amp; Media
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Features</a>
+          <ul id="submenu-features" class="dropdown-submenu">
+            <li class="submenu-heading">OpenShift Online</li>
+            <li>
+              <a href="https://www.openshift.com/features/index.html">
+                Overview
+                <span class="submenu-item-desc">Quickly develop, host, and scale applications in the public cloud with on-demand access.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/pricing/index.html">
+                Plans &amp; Pricing
+                <span class="submenu-item-desc">Host up to 3 apps for free. Upgrade and add production gears, extra storage, and more.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/app/account/new">
+                Sign up for Free
+              </a>
+            </li>
+            <li class="submenu-heading">OpenShift Dedicated</li>
+            <li>
+              <a href="https://www.openshift.com/dedicated/index.html">
+                Overview
+                <span class="submenu-item-desc">Your own private OpenShift cluster, operated by Red Hat.</span>
+              </a>
+            </li>
+            <li class="submenu-heading">OpenShift Enterprise</li>
+            <li>
+              <a href="https://enterprise.openshift.com/">
+                Overview
+                <span class="submenu-item-desc">Accelerate application delivery with the speed and consistency that business demands.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/resources/index.html">
+                Resources
+                <span class="submenu-item-desc">Webinars, datasheets, reference architectures, demo videos and more.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/trial.html">
+                Try it for Free
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="https://www.openshift.com/showcase/index.html">
+                Application Gallery
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Developers</a>
+          <ul id="submenu-developers" class="dropdown-submenu">
+            <li>
+              <a href="https://developers.openshift.com/en/getting-started-overview.html">
+                Getting Started
+                <span class="submenu-item-desc">New to OpenShift? Get your first application up and running and learn the basics.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://hub.openshift.com/">
+                Hub
+                <span class="submenu-item-desc">Find languages, frameworks, databases, and add-on services for OpenShift.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://developers.openshift.com/">
+                Developer Portal
+                <span class="submenu-item-desc">Learn about building, deploying, and managing your applications.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://docs.openshift.com/">
+                Documentation
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="http://stackoverflow.com/questions/tagged/openshift">
+                Stack Overflow
+                <span class="submenu-item-desc">A Q&amp;A site for everything development related. Post a question or browse answers on the 'openshift' tag.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/resources/index.html#training">
+                Training &amp; Certification
+                <span class="submenu-item-desc">Red Hat Training's hands-on, task-focused courses and certifications for IT professionals and developers.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="https://www.openshift.com/showcase/index.html">
+                Application Gallery
+                <span class="submenu-item-desc">Our showcase of applications running on OpenShift Online.</span>
+              </a>
+            </li>
+            <li>
+              <a href="http://www.openshift.org/#contribute">
+                Contribute to OpenShift <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Get in touch with our product team, or become a part of the OpenShift Origin open source project.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://openshift.uservoice.com/">
+                Vote on Features
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Partners</a>
+          <ul id="submenu-partners" class="dropdown-submenu">
+            <li>
+              <a href="https://www.openshift.com/partners/index.html">
+                Become a Partner
+                <span class="submenu-item-desc">Build on the strength of the world's leading open source company.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/partners/index.html">
+                Find OpenShift Partners
+                <span class="submenu-item-desc">Find qualified partners to help you with your OpenShift projects.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="http://commons.openshift.org/">
+                OpenShift Commons <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Where users, partners, customers, and contributors come together to collaborate on OpenShift.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="https://www.openshift.com/grants/index.html">
+                Resource Grants
+                <span class="submenu-item-desc">For non-profits, educational institutions, and open source initiatives.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/startups/index.html">
+                Startup Program
+                <span class="submenu-item-desc">Designed to help startups build and scale.</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Support</a>
+          <ul id="submenu-support" class="dropdown-submenu">
+            <li>
+              <a href="https://access.redhat.com/">
+                Red Hat Customer Portal <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Manage support cases, browse Knowledgebase articles, and more.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://docs.openshift.com/">
+                Documentation
+                <span class="submenu-item-desc">Official product documentation from Red Hat.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://help.openshift.com/">
+                Help Center
+                <span class="submenu-item-desc">The fastest way to find your available support options.</span>
+              </a>
+            </li>
+            <li>
+              <a href="http://stackoverflow.com/questions/tagged/openshift">
+                Stack Overflow <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">A Q&amp;A site for everything development related. Post a question or browse answers on the 'openshift' tag.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://openshift.redhat.com/app/status">
+                System Status <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/about/contact.html">
+                Contact Us
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Connect</a>
+          <ul id="submenu-connect" class="dropdown-submenu">
+            <li>
+              <a href="https://blog.openshift.com/">
+                Blog
+              </a>
+            </li>
+            <li>
+              <a href="https://blog.openshift.com/category/events/">
+                Events &amp; Conferences
+              </a>
+            </li>
+            <li>
+              <a href="http://commons.openshift.org/">
+                OpenShift Commons <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Where users, partners, customers, and contributors come together to collaborate on OpenShift.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://twitter.com/openshift">
+                Twitter <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.facebook.com/openshift">
+                Facebook <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/grp/home?gid=4185734">
+                LinkedIn <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/openshift/">
+                GitHub <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://plus.google.com/+OpenShift">
+                Google+ <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.youtube.com/user/rhopenshift">
+                YouTube <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openshift.com/about/contact.html">
+            Contact Us
+          </a>
+        </li>
+        <li>
+          <form action="https://help.openshift.com/hc/en-us/search" method="get" id="cse-search-form">
+            <input name="query" id="cse-search-input" class="navbar-search-query form-control" type="text" placeholder="Search" tabindex="1" autocomplete="off" autofocus>
+            <button type="submit" class="btn btn-default fa fa-search" value="Search"></button>
+          </form>
+        </li>
+      </ul>
+    </div>
+    <a class="navbar-brand" href="/"></a>
+  </div>
+  <div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="hidden-xs dropdown"> <a href="#" class="dropdown-toggle nav-log-in" data-toggle="dropdown"> My Account<span class="caret"></span> </a>
+        <ul class="dropdown-menu">
+          <li><a href="https://openshift.redhat.com/app/console">OpenShift Web Console</a></li>
+          <li><a href="https://console.preview.openshift.com/">(Next Gen) Web Console</a></li>
+          <li><a href="https://hub.openshift.com/users/auth/github">OpenShift Hub</a></li>
+        </ul>
+      </li>
+      <li class="hidden-xs hidden-sm"><a class="nav-sign-up" href="https://www.openshift.com/app/account/new">Sign up for Free</a></li>
+    </ul>
+  </div>
+</div>
+  <div class="container">
+    <p class="toggle-nav visible-xs pull-left">
+      <button class="btn btn-default btn-sm" type="button" data-toggle="offcanvas">Toggle nav</button>
+    </p>
+    <ol class="breadcrumb">
+      <li class="sitename">
+        <a href="../../index.html">Documentation</a>
+      </li>
+      <li class="hidden-xs active">
+        <a href="../welcome/index.html">OpenShift Dedicated Branch Build</a>
+      </li>
+      <li class="hidden-xs active">
+        <a href="../dev_guide/index.html">Developer Guide</a>
+      </li>
+      
+      <li class="hidden-xs active">
+        Deployments
+      </li>
+    </ol>
+    <div class="row row-offcanvas row-offcanvas-left">
+      <div class="col-xs-8 col-sm-3 col-md-3 sidebar sidebar-offcanvas">
+        <div class="row-fluid">
+          <script>
+  (function() {
+    var cx = '013769182564158614814:ykypjfbua0a';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search defaultToRefinement="Dedicated Branch Build"></gcse:search>
+        </div>
+        <ul class="nav nav-sidebar">
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup0">
+        <span id="tgSpan0" class="fa fa-angle-right"></span>About
+      </a>
+      <ul id="topicGroup0" class="collapse  list-unstyled">
+            <li><a class="" href="../welcome/index.html">Welcome</a></li>
+            <li><a class="" href="../welcome/revhistory_all.html">All Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup1">
+        <span id="tgSpan1" class="fa fa-angle-right"></span>Release Notes
+      </a>
+      <ul id="topicGroup1" class="collapse  list-unstyled">
+            <li><a class="" href="../release_notes/index.html">Overview</a></li>
+            <li><a class="" href="../release_notes/osd_3_2_release_notes.html">OpenShift Dedicated 3.2 Release Notes</a></li>
+            <li><a class="" href="../release_notes/v2_vs_v3.html">Comparing OpenShift Enterprise 2 and OpenShift Enterprise 3</a></li>
+            <li><a class="" href="../release_notes/revhistory_release_notes.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup2">
+        <span id="tgSpan2" class="fa fa-angle-right"></span>Getting Started
+      </a>
+      <ul id="topicGroup2" class="collapse  list-unstyled">
+            <li><a class="" href="../getting_started/index.html">Overview</a></li>
+            <li><a class="" href="../getting_started/developers_console.html">Web Console Walkthrough</a></li>
+            <li><a class="" href="../getting_started/dedicated_administrators.html">Administering a Cluster</a></li>
+            <li><a class="" href="../getting_started/revhistory_getting_started.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup3">
+        <span id="tgSpan3" class="fa fa-angle-right"></span>Architecture
+      </a>
+      <ul id="topicGroup3" class="collapse  list-unstyled">
+            <li><a class="" href="../architecture/index.html">Overview</a></li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-3-1">
+                <span id="sgSpan-3-1" class="fa fa-caret-right"></span>&nbsp;Infrastructure Components
+              </a>
+              <ul id="topicSubGroup-3-1" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../architecture/infrastructure_components/kubernetes_infrastructure.html">Kubernetes Infrastructure</a></li>
+                  <li><a class="" href="../architecture/infrastructure_components/image_registry.html">Image Registry</a></li>
+                  <li><a class="" href="../architecture/infrastructure_components/web_console.html">Web Console</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-3-2">
+                <span id="sgSpan-3-2" class="fa fa-caret-right"></span>&nbsp;Core Concepts
+              </a>
+              <ul id="topicSubGroup-3-2" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../architecture/core_concepts/index.html">Overview</a></li>
+                  <li><a class="" href="../architecture/core_concepts/containers_and_images.html">Containers and Images</a></li>
+                  <li><a class="" href="../architecture/core_concepts/pods_and_services.html">Pods and Services</a></li>
+                  <li><a class="" href="../architecture/core_concepts/projects_and_users.html">Projects and Users</a></li>
+                  <li><a class="" href="../architecture/core_concepts/builds_and_image_streams.html">Builds and Image Streams</a></li>
+                  <li><a class="" href="../architecture/core_concepts/deployments.html">Deployments</a></li>
+                  <li><a class="" href="../architecture/core_concepts/routes.html">Routes</a></li>
+                  <li><a class="" href="../architecture/core_concepts/templates.html">Templates</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-3-3">
+                <span id="sgSpan-3-3" class="fa fa-caret-right"></span>&nbsp;Additional Concepts
+              </a>
+              <ul id="topicSubGroup-3-3" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../architecture/additional_concepts/networking.html">Networking</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/sdn.html">OpenShift SDN</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/authentication.html">Authentication</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/authorization.html">Authorization</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/storage.html">Persistent Storage</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/remote_commands.html">Remote Commands</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/port_forwarding.html">Port Forwarding</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/throttling.html">Throttling</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/scm.html">Source Control Management</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/admission_controllers.html">Admission Controllers</a></li>
+                  <li><a class="" href="../architecture/additional_concepts/other_api_objects.html">Other API Objects</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../architecture/revhistory_architecture.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup4">
+        <span id="tgSpan4" class="fa fa-angle-right"></span>Cluster Administration
+      </a>
+      <ul id="topicGroup4" class="collapse  list-unstyled">
+            <li><a class="" href="../admin_guide/index.html">Overview</a></li>
+            <li><a class="" href="../admin_guide/managing_projects.html">Managing Projects</a></li>
+            <li><a class="" href="../admin_guide/service_accounts.html">Configuring Service Accounts</a></li>
+            <li><a class="" href="../admin_guide/manage_authorization_policy.html">Managing Authorization Policies</a></li>
+            <li><a class="" href="../admin_guide/osd_imagestreams_templates.html">Managing the Default Image Streams and Templates</a></li>
+            <li><a class="" href="../admin_guide/manage_scc.html">Managing Security Context Constraints</a></li>
+            <li><a class="" href="../admin_guide/quota.html">Setting Quotas</a></li>
+            <li><a class="" href="../admin_guide/limits.html">Setting Limit Ranges</a></li>
+            <li><a class="" href="../admin_guide/pruning_resources.html">Pruning Objects</a></li>
+            <li><a class="" href="../admin_guide/garbage_collection.html">Garbage Collection</a></li>
+            <li><a class="" href="../admin_guide/scheduler.html">Scheduler</a></li>
+            <li><a class="" href="../admin_guide/osd_build_defaults_overrides.html">Configuring Global Build Defaults and Overrides</a></li>
+            <li><a class="" href="../admin_guide/osd_configuring_pipeline_execution.html">Configuring Build Pipeline Execution</a></li>
+            <li><a class="" href="../admin_guide/pod_network.html">Managing Pod Networks</a></li>
+            <li><a class="" href="../admin_guide/revhistory_admin_guide.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup5">
+        <span id="tgSpan5" class="fa fa-angle-right"></span>CLI Reference
+      </a>
+      <ul id="topicGroup5" class="collapse  list-unstyled">
+            <li><a class="" href="../cli_reference/index.html">Overview</a></li>
+            <li><a class="" href="../cli_reference/get_started_cli.html">Get Started with the CLI</a></li>
+            <li><a class="" href="../cli_reference/manage_cli_profiles.html">Managing CLI Profiles</a></li>
+            <li><a class="" href="../cli_reference/basic_cli_operations.html">Developer CLI Operations</a></li>
+            <li><a class="" href="../cli_reference/admin_cli_operations.html">Administrator CLI Operations</a></li>
+            <li><a class="" href="../cli_reference/revhistory_cli_reference.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup6">
+        <span id="tgSpan6" class="fa fa-angle-down"></span>Developer Guide
+      </a>
+      <ul id="topicGroup6" class="collapse in list-unstyled">
+            <li><a class="" href="../dev_guide/index.html">Overview</a></li>
+            <li><a class="" href="../dev_guide/application_lifecycle.html">Application Life Cycle Examples</a></li>
+            <li><a class="" href="../dev_guide/authentication.html">Authentication</a></li>
+            <li><a class="" href="../dev_guide/projects.html">Projects</a></li>
+            <li><a class="" href="../dev_guide/new_app.html">Creating New Applications</a></li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-6-5">
+                <span id="sgSpan-6-5" class="fa fa-caret-right"></span>&nbsp;Application Tutorials
+              </a>
+              <ul id="topicSubGroup-6-5" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../dev_guide/app_tutorials/index.html">Overview</a></li>
+                  <li><a class="" href="../dev_guide/app_tutorials/quickstarts.html">Quickstart Templates</a></li>
+                  <li><a class="" href="../dev_guide/app_tutorials/ruby_on_rails.html">Ruby on Rails</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../dev_guide/ssh_environment.html">Opening a Remote Shell to Containers</a></li>
+            <li><a class="" href="../dev_guide/templates.html">Templates</a></li>
+            <li><a class="" href="../dev_guide/service_accounts.html">Service Accounts</a></li>
+            <li><a class="" href="../dev_guide/builds.html">Builds</a></li>
+            <li><a class="" href="../dev_guide/managing_images.html">Managing Images</a></li>
+            <li><a class="" href="../dev_guide/compute_resources.html">Quotas and Limit Ranges</a></li>
+            <li><a class=" active" href="../dev_guide/deployments.html">Deployments</a></li>
+            <li><a class="" href="../dev_guide/routes.html">Routes</a></li>
+            <li><a class="" href="../dev_guide/integrating_external_services.html">Integrating External Services</a></li>
+            <li><a class="" href="../dev_guide/secrets.html">Secrets</a></li>
+            <li><a class="" href="../dev_guide/configmaps.html">ConfigMaps</a></li>
+            <li><a class="" href="../dev_guide/pod_autoscaling.html">Pod Autoscaling</a></li>
+            <li><a class="" href="../dev_guide/volumes.html">Managing Volumes</a></li>
+            <li><a class="" href="../dev_guide/persistent_volumes.html">Using Persistent Volumes</a></li>
+            <li><a class="" href="../dev_guide/executing_remote_commands.html">Executing Remote Commands</a></li>
+            <li><a class="" href="../dev_guide/copy_files_to_container.html">Copying Files</a></li>
+            <li><a class="" href="../dev_guide/port_forwarding.html">Port Forwarding</a></li>
+            <li><a class="" href="../dev_guide/shared_memory.html">Shared Memory</a></li>
+            <li><a class="" href="../dev_guide/application_health.html">Application Health</a></li>
+            <li><a class="" href="../dev_guide/events.html">Events</a></li>
+            <li><a class="" href="../dev_guide/downward_api.html">Downward API</a></li>
+            <li><a class="" href="../dev_guide/environment_variables.html">Managing Environment Variables</a></li>
+            <li><a class="" href="../dev_guide/jobs.html">Jobs</a></li>
+            <li><a class="" href="../dev_guide/revhistory_dev_guide.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup7">
+        <span id="tgSpan7" class="fa fa-angle-right"></span>Creating Images
+      </a>
+      <ul id="topicGroup7" class="collapse  list-unstyled">
+            <li><a class="" href="../creating_images/index.html">Overview</a></li>
+            <li><a class="" href="../creating_images/guidelines.html">Guidelines</a></li>
+            <li><a class="" href="../creating_images/metadata.html">Image Metadata</a></li>
+            <li><a class="" href="../creating_images/s2i.html">S2I Requirements</a></li>
+            <li><a class="" href="../creating_images/s2i_testing.html">Testing S2I Images</a></li>
+            <li><a class="" href="../creating_images/custom.html">Custom Builder</a></li>
+            <li><a class="" href="../creating_images/revhistory_creating_images.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup8">
+        <span id="tgSpan8" class="fa fa-angle-right"></span>Using Images
+      </a>
+      <ul id="topicGroup8" class="collapse  list-unstyled">
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-8-0">
+                <span id="sgSpan-8-0" class="fa fa-caret-right"></span>&nbsp;Source-to-Image (S2I)
+              </a>
+              <ul id="topicSubGroup-8-0" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/s2i_images/index.html">Overview</a></li>
+                  <li><a class="" href="../using_images/s2i_images/nodejs.html">Node.js</a></li>
+                  <li><a class="" href="../using_images/s2i_images/ruby.html">Ruby</a></li>
+                  <li><a class="" href="../using_images/s2i_images/perl.html">Perl</a></li>
+                  <li><a class="" href="../using_images/s2i_images/php.html">PHP</a></li>
+                  <li><a class="" href="../using_images/s2i_images/python.html">Python</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-8-1">
+                <span id="sgSpan-8-1" class="fa fa-caret-right"></span>&nbsp;Database Images
+              </a>
+              <ul id="topicSubGroup-8-1" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/db_images/index.html">Overview</a></li>
+                  <li><a class="" href="../using_images/db_images/mysql.html">MySQL</a></li>
+                  <li><a class="" href="../using_images/db_images/postgresql.html">PostgreSQL</a></li>
+                  <li><a class="" href="../using_images/db_images/mongodb.html">MongoDB</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-8-2">
+                <span id="sgSpan-8-2" class="fa fa-caret-right"></span>&nbsp;Docker Images
+              </a>
+              <ul id="topicSubGroup-8-2" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/docker_images/index.html">Overview</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-8-3">
+                <span id="sgSpan-8-3" class="fa fa-caret-right"></span>&nbsp;Other Images
+              </a>
+              <ul id="topicSubGroup-8-3" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/other_images/index.html">Overview</a></li>
+                  <li><a class="" href="../using_images/other_images/jenkins.html">Jenkins</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-8-4">
+                <span id="sgSpan-8-4" class="fa fa-caret-right"></span>&nbsp;xPaaS Middleware Images
+              </a>
+              <ul id="topicSubGroup-8-4" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../using_images/xpaas_images/index.html">Overview</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../using_images/revhistory_using_images.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup9">
+        <span id="tgSpan9" class="fa fa-angle-right"></span>REST API Reference
+      </a>
+      <ul id="topicGroup9" class="collapse  list-unstyled">
+            <li><a class="" href="../rest_api/index.html">Overview</a></li>
+            <li><a class="" href="../rest_api/openshift_v1.html">OpenShift v1</a></li>
+            <li><a class="" href="../rest_api/kubernetes_v1.html">Kubernetes v1</a></li>
+            <li><a class="" href="../rest_api/revhistory_rest_api.html">Revision History</a></li>
+      </ul>
+    </li>
+</ul>
+      </div>
+      <div class="col-xs-12 col-sm-9 col-md-9 main">
+        <div class="page-header">
+          <h2>Deployments</h2>
+        </div>
+        <div id="preamble">
+<div class="sectionbody">
+<div id="toc" class="toc">
+<div id="toctitle" class="title"></div>
+<ul class="sectlevel1">
+<li><a href="#overview">Overview</a></li>
+<li><a href="#creating-a-deployment-configuration">Creating a Deployment Configuration</a></li>
+<li><a href="#start-deployment">Starting a Deployment</a></li>
+<li><a href="#viewing-a-deployment">Viewing a Deployment</a></li>
+<li><a href="#canceling-a-deployment">Canceling a Deployment</a></li>
+<li><a href="#retrying-a-deployment">Retrying a Deployment</a></li>
+<li><a href="#rolling-back-a-deployment">Rolling Back a Deployment</a></li>
+<li><a href="#executing-commands-inside-a-container-deployments">Executing Commands Inside a Container</a></li>
+<li><a href="#viewing-deployment-logs">Viewing Deployment Logs</a></li>
+<li><a href="#triggers">Triggers</a>
+<ul class="sectlevel2">
+<li><a href="#config-change-trigger">Configuration Change Trigger</a></li>
+<li><a href="#image-change-trigger">Image Change Trigger</a></li>
+</ul>
+</li>
+<li><a href="#strategies">Strategies</a>
+<ul class="sectlevel2">
+<li><a href="#rolling-strategy">Rolling Strategy</a></li>
+<li><a href="#recreate-strategy">Recreate Strategy</a></li>
+<li><a href="#custom-strategy">Custom Strategy</a></li>
+</ul>
+</li>
+<li><a href="#lifecycle-hooks">Lifecycle Hooks</a>
+<ul class="sectlevel2">
+<li><a href="#pod-based-lifecycle-hook">Pod-based Lifecycle Hook</a></li>
+</ul>
+</li>
+<li><a href="#deployment-resources">Deployment Resources</a></li>
+<li><a href="#scaling">Manual Scaling</a></li>
+<li><a href="#assigning-pods-to-specific-nodes">Assigning Pods to Specific Nodes</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="overview"><a class="anchor" href="#overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A deployment in OpenShift Dedicated is a replication controller based on a user defined
+template called a deployment configuration. Deployments are created manually
+or in response to triggered events.</p>
+</div>
+<div class="paragraph">
+<p>The deployment system provides:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A <a href="#creating-a-deployment-configuration">deployment configuration</a>, which is a template for deployments.</p>
+</li>
+<li>
+<p><a href="#triggers">Triggers</a> that drive automated deployments in response to events.</p>
+</li>
+<li>
+<p>User-customizable <a href="#strategies">strategies</a> to transition from the previous deployment to the new deployment.</p>
+</li>
+<li>
+<p><a href="#rolling-back-a-deployment">Rollbacks</a> to a previous deployment.</p>
+</li>
+<li>
+<p>Manual replication <a href="#scaling">scaling</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The deployment configuration contains a version number that is incremented
+each time a new deployment is created from that configuration. In addition,
+the cause of the last deployment is added to the configuration.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-a-deployment-configuration"><a class="anchor" href="#creating-a-deployment-configuration"></a>Creating a Deployment Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A deployment configuration consists of the following key parts:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A replication controller template which describes the application to be deployed.</p>
+</li>
+<li>
+<p>The default replica count for the deployment.</p>
+</li>
+<li>
+<p>A deployment <a href="#strategies">strategy</a> which will be used to execute the deployment.</p>
+</li>
+<li>
+<p>A set of <a href="#triggers">triggers</a> which cause deployments to be created automatically.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Deployment configurations are <code><strong>deploymentConfig</strong></code> OpenShift Dedicated API resources
+which can be managed with the <code>oc</code> command like any other resource. The
+following is an example of a <code><strong>deploymentConfig</strong></code> resource:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">DeploymentConfig</span><span style="color:#710">&quot;</span></span>
+<span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">v1</span><span style="color:#710">&quot;</span></span>
+<span style="color:#606">metadata</span>:
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">frontend</span><span style="color:#710">&quot;</span></span>
+<span style="color:#606">spec</span>:
+  <span style="color:#606">template</span>: <i class="conum" data-value="1"></i><b>(1)</b>
+    <span style="color:#606">metadata</span>:
+      <span style="color:#606">labels</span>:
+        <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">frontend</span><span style="color:#710">&quot;</span></span>
+    <span style="color:#606">spec</span>:
+      <span style="color:#606">containers</span>:
+        - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: &quot;helloworld&quot;</span></span>
+          <span style="color:#606">image</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">openshift/origin-ruby-sample</span><span style="color:#710">&quot;</span></span>
+          <span style="color:#606">ports</span>:
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">containerPort: 8080</span></span>
+              <span style="color:#606">protocol</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">TCP</span><span style="color:#710">&quot;</span></span>
+  <span style="color:#606">replicas</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">5 </span></span><i class="conum" data-value="2"></i><b>(2)</b>
+  <span style="color:#606">selector</span>:
+    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">frontend</span><span style="color:#710">&quot;</span></span>
+  <span style="color:#606">triggers</span>:
+    - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">type: &quot;ConfigChange&quot; </span></span><i class="conum" data-value="3"></i><b>(3)</b>
+    - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">type: &quot;ImageChange&quot; </span></span><i class="conum" data-value="4"></i><b>(4)</b>
+      <span style="color:#606">imageChangeParams</span>:
+        <span style="color:#606">automatic</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">true</span></span>
+        <span style="color:#606">containerNames</span>:
+          - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">helloworld</span><span style="color:#710">&quot;</span></span>
+        <span style="color:#606">from</span>:
+          <span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">ImageStreamTag</span><span style="color:#710">&quot;</span></span>
+          <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">origin-ruby-sample:latest</span><span style="color:#710">&quot;</span></span>
+  <span style="color:#606">strategy</span>: <i class="conum" data-value="5"></i><b>(5)</b>
+    <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Rolling</span><span style="color:#710">&quot;</span></span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The replication controller template named <code>frontend</code> describes a simple Ruby application.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>There will be 5 replicas of <code>frontend</code> by default.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>A <a href="#config-change-trigger">configuration change trigger</a> causes a new deployment to be created any time the replication controller template changes.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>An <a href="#image-change-trigger">image change trigger</a> trigger causes a new deployment to be
+created each time a new version of the <code>origin-ruby-sample:latest</code> image repository is available.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>The <a href="#rolling-strategy">Rolling strategy</a> is the default and may be omitted.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="start-deployment"><a class="anchor" href="#start-deployment"></a>Starting a Deployment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can start a new deployment manually using the web console, or from the CLI:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc deploy &lt;deployment_config&gt; --latest</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If there&#8217;s already a deployment in progress, the command will display a
+message and a new deployment will not be started.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="viewing-a-deployment"><a class="anchor" href="#viewing-a-deployment"></a>Viewing a Deployment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To get basic information about recent deployments:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc deploy &lt;deployment_config&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will show details about the latest and recent deployments, including any
+currently running deployment.</p>
+</div>
+<div class="paragraph">
+<p>For more detailed information about a deployment configuration and the latest deployment:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc describe dc &lt;deployment_config&gt;</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The <a href="../architecture/infrastructure_components/web_console.html#project-overviews">web console</a>
+shows deployments in the <strong>Browse</strong> tab.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="canceling-a-deployment"><a class="anchor" href="#canceling-a-deployment"></a>Canceling a Deployment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To cancel a running or stuck deployment:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc deploy &lt;deployment_config&gt; --cancel</pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+The cancellation is a best-effort operation, and may take some time to
+complete. It&#8217;s possible the deployment will partially or totally complete
+before the cancellation is effective.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="retrying-a-deployment"><a class="anchor" href="#retrying-a-deployment"></a>Retrying a Deployment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To retry the last failed deployment:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc deploy &lt;deployment_config&gt; --retry</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the last deployment didn&#8217;t fail, the command will display a message and the
+deployment will not be retried.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Retrying a deployment restarts the deployment and does not create a new
+deployment version. The restarted deployment will have the same configuration
+it had when it failed.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="rolling-back-a-deployment"><a class="anchor" href="#rolling-back-a-deployment"></a>Rolling Back a Deployment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Rollbacks revert an application back to a previous deployment and can be
+performed using the REST API, the CLI, or the web console.</p>
+</div>
+<div class="paragraph">
+<p>To rollback to the last successful deployment:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc rollback &lt;deployment_config&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The deployment configuration&#8217;s template will be reverted to match the
+deployment specified in the rollback command, and a new deployment will be
+started.</p>
+</div>
+<div class="paragraph">
+<p>Image change triggers on the deployment configuration are disabled as part of
+the rollback to prevent unwanted deployments soon after the rollback is
+complete. To re-enable the image change triggers:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc deploy &lt;deployment_config&gt; --enable-triggers</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To roll back to a specific version:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc rollback &lt;deployment_config&gt; --to-version=1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To see what the rollback would look like without performing the rollback:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc rollback &lt;deployment_config&gt; --dry-run</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="executing-commands-inside-a-container-deployments"><a class="anchor" href="#executing-commands-inside-a-container-deployments"></a>Executing Commands Inside a Container</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can add a command to a container, which modifies the container&#8217;s startup
+behavior by overruling the image&#8217;s <code>ENTRYPOINT</code>. This is different from a
+<a href="../dev_guide/deployments.html#pod-based-lifecycle-hook">lifecycle hook</a>,
+which instead can be run once per deployment at a specified time.</p>
+</div>
+<div class="paragraph">
+<p>Add the <code><strong>command</strong></code> parameters to the <code><strong>spec</strong></code> field of the deployment
+configuration. You can also add an <code><strong>args</strong></code> field, which modifies the
+<code><strong>command</strong></code> (or the <code>ENTRYPOINT</code> if <code><strong>command</strong></code> does not exist).</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>...
+spec:
+  containers:
+    -
+    name: &lt;container_name&gt;
+    image: 'image'
+    command:
+      - '&lt;command&gt;'
+    args:
+      - '&lt;argument_1&gt;'
+      - '&lt;argument_2&gt;'
+      - '&lt;argument_3&gt;'
+...</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, to execute the <code>java</code> command with the '-jar' and '/opt/app-root/springboots2idemo.jar' arguments:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>...
+spec:
+  containers:
+    -
+    name: example-spring-boot
+    image: 'image'
+    command:
+      - java
+    args:
+      - '-jar'
+      - /opt/app-root/springboots2idemo.jar
+...</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="viewing-deployment-logs"><a class="anchor" href="#viewing-deployment-logs"></a>Viewing Deployment Logs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To view the logs of the latest deployment for a given deployment configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc logs dc/&lt;deployment_config&gt; [--follow]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Logs can be retrieved either while the deployment is running or if it has
+failed. If the deployment was successful, there will be no logs to view.</p>
+</div>
+<div class="paragraph">
+<p>You can also view logs from older deployments:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc logs --version=1 dc/&lt;deployment_config&gt;</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command returns the logs from the first deployment of the provided
+deployment configuration, if and only if that deployment exists (i.e., it has
+failed and has not been manually deleted or pruned).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="triggers"><a class="anchor" href="#triggers"></a>Triggers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A deployment configuration can contain triggers, which drive the creation of
+new deployments in response to events, only inside OpenShift Dedicated at the moment.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+If no triggers are defined on a deployment configuration, deployments
+must be <a href="#start-deployment">started manually</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="config-change-trigger"><a class="anchor" href="#config-change-trigger"></a>Configuration Change Trigger</h3>
+<div class="paragraph">
+<p>The <code><strong>ConfigChange</strong></code> trigger results in a new deployment whenever new
+changes are detected in the pod template of the deployment configuration.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If only a <code><strong>ConfigChange</strong></code> trigger is defined on a deployment
+configuration, the first deployment is automatically created
+soon after the deployment configuration itself is created.
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. A <code><strong>ConfigChange</strong></code> Trigger</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">triggers</span>:
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">type: &quot;ConfigChange&quot;</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="image-change-trigger"><a class="anchor" href="#image-change-trigger"></a>Image Change Trigger</h3>
+<div class="paragraph">
+<p>The <code><strong>ImageChange</strong></code> trigger results in a new deployment whenever the value of
+an image stream tag changes, either by a build or because it was imported.</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 2. An <code><strong>ImageChange</strong></code> Trigger</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">triggers</span>:
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">type: &quot;ImageChange&quot;</span></span>
+    <span style="color:#606">imageChangeParams</span>:
+      <span style="color:#606">automatic</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">true </span></span><i class="conum" data-value="1"></i><b>(1)</b>
+      <span style="color:#606">from</span>:
+        <span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">ImageStreamTag</span><span style="color:#710">&quot;</span></span>
+        <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">origin-ruby-sample:latest</span><span style="color:#710">&quot;</span></span>
+      <span style="color:#606">containerNames</span>:
+        - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">helloworld</span><span style="color:#710">&quot;</span></span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>If the <code>imageChangeParams.automatic</code> field is set to <code>false</code>,
+the trigger is disabled.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>With the above example, when the <code>latest</code> tag value of the <code>origin-ruby-sample</code>
+image stream changes and the new image value differs from the current image
+specified in the deployment configuration&#8217;s <code>helloworld</code> container, a new
+deployment is created using the new image for the <code>helloworld</code> container.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If an <code><strong>ImageChange</strong></code> trigger is defined on a deployment configuration
+(with a <code><strong>ConfigChange</strong></code> trigger or with <code>automatic=true</code>)
+and the <code><strong>ImageStreamTag</strong></code> pointed by the <code><strong>ImageChange</strong></code> trigger does not exist yet,
+then the first deployment automatically starts as soon as
+an image is imported or pushed by a build to the <code><strong>ImageStreamTag</strong></code>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="strategies"><a class="anchor" href="#strategies"></a>Strategies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A deployment strategy determines the deployment process, and is defined by the
+deployment configuration. Each application has different requirements for
+availability (and other considerations) during deployments. OpenShift Dedicated
+provides strategies to support a variety of deployment scenarios.</p>
+</div>
+<div class="paragraph">
+<p>A deployment strategy uses <a href="../dev_guide/application_health.html#dev-guide-application-health">readiness
+checks</a> to determine if a new pod is ready for use. If a readiness check
+fails, the deployment is stopped.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="#rolling-strategy">Rolling strategy</a> is the default strategy used if
+no strategy is specified on a deployment configuration.</p>
+</div>
+<div class="sect2">
+<h3 id="rolling-strategy"><a class="anchor" href="#rolling-strategy"></a>Rolling Strategy</h3>
+<div class="paragraph">
+<p>The rolling strategy performs a rolling update and supports
+<a href="#lifecycle-hooks">lifecycle hooks</a> for injecting code into the deployment
+process.</p>
+</div>
+<div class="paragraph">
+<p>The rolling deployment strategy waits for pods to pass their
+<a href="../dev_guide/application_health.html#dev-guide-application-health">readiness check</a> before scaling down
+old components, and does not allow pods that do not pass their readiness check
+within a configurable timeout.</p>
+</div>
+<div class="paragraph">
+<p>The following is an example of the Rolling strategy:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">strategy</span>:
+  <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Rolling</span></span>
+  <span style="color:#606">rollingParams</span>:
+    <span style="color:#606">timeoutSeconds</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">120 </span></span><i class="conum" data-value="1"></i><b>(1)</b>
+    <span style="color:#606">maxSurge</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">20%</span><span style="color:#710">&quot;</span></span> <i class="conum" data-value="2"></i><b>(2)</b>
+    <span style="color:#606">maxUnavailable</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">10%</span><span style="color:#710">&quot;</span></span> <i class="conum" data-value="3"></i><b>(3)</b>
+    <span style="color:#606">pre</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{} </span></span><i class="conum" data-value="4"></i><b>(4)</b>
+    <span style="color:#606">post</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{}</span></span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>How long to wait for a scaling event before giving up. Optional; the default is 120.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code><strong>maxSurge</strong></code> is optional and defaults to <code>25%</code>; see below.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><code><strong>maxUnavailable</strong></code> is optional and defaults to <code>25%</code>; see below.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><code><strong>pre</strong></code> and <code><strong>post</strong></code> are both <a href="#lifecycle-hooks">lifecycle hooks</a>.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The Rolling strategy will:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Execute any <code><strong>pre</strong></code> lifecycle hook.</p>
+</li>
+<li>
+<p>Scale up the new deployment based on the surge configuration.</p>
+</li>
+<li>
+<p>Scale down the old deployment based on the max unavailable configuration.</p>
+</li>
+<li>
+<p>Repeat this scaling until the new deployment has reached the desired replica
+count and the old deployment has been scaled to zero.</p>
+</li>
+<li>
+<p>Execute any <code><strong>post</strong></code> lifecycle hook.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When scaling down, the Rolling strategy waits for pods to become ready so it can
+decide whether further scaling would affect availability. If scaled up pods
+never become ready, the deployment will eventually time out and result in a
+deployment failure.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When executing the <code><strong>post</strong></code> lifecycle hook, all failures will be ignored
+regardless of the failure policy specified on the hook.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code><strong>maxUnavailable</strong></code> parameter is the maximum number of pods that can be
+unavailable during the update. The <code><strong>maxSurge</strong></code> parameter is the maximum number
+of pods that can be scheduled above the original number of pods. Both parameters
+can be set to either a percentage (e.g.,  <strong>10%</strong>) or an absolute value (e.g.,
+<strong>2</strong>). The default value for both is <strong>25%</strong>.</p>
+</div>
+<div class="paragraph">
+<p>These parameters allow the deployment to be tuned for availability and speed. For
+example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code><strong>maxUnavailable</strong>=0</code> and <code><strong>maxSurge</strong>=20%</code> ensures full capacity is maintained
+during the update and rapid scale up.</p>
+</li>
+<li>
+<p><code><strong>maxUnavailable</strong>=10%</code> and <code><strong>maxSurge</strong>=0</code> performs an update using no extra
+capacity (an in-place update).</p>
+</li>
+<li>
+<p><code><strong>maxUnavailable</strong>=10%</code> and <code><strong>maxSurge</strong>=10%</code> scales up and down quickly with
+some potential for capacity loss.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="recreate-strategy"><a class="anchor" href="#recreate-strategy"></a>Recreate Strategy</h3>
+<div class="paragraph">
+<p>The Recreate strategy has basic rollout behavior and supports
+<a href="#lifecycle-hooks">lifecycle hooks</a> for injecting code into the deployment
+process.</p>
+</div>
+<div class="paragraph">
+<p>The following is an example of the Recreate strategy:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">strategy</span>:
+  <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Recreate</span></span>
+  <span style="color:#606">recreateParams</span>: <i class="conum" data-value="1"></i><b>(1)</b>
+    <span style="color:#606">pre</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{} </span></span><i class="conum" data-value="2"></i><b>(2)</b>
+    <span style="color:#606">mid</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{}</span></span>
+    <span style="color:#606">post</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{}</span></span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code><strong>recreateParams</strong></code> are optional.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code><strong>pre</strong></code>, <code><strong>mid</strong></code>, and <code><strong>post</strong></code> are both <a href="#lifecycle-hooks">lifecycle hooks</a>.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The Recreate strategy will:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Execute any "pre" lifecycle hook.</p>
+</li>
+<li>
+<p>Scale down the previous deployment to zero.</p>
+</li>
+<li>
+<p>Execute any "mid" lifecycle hook.</p>
+</li>
+<li>
+<p>Scale up the new deployment.</p>
+</li>
+<li>
+<p>Execute any "post" lifecycle hook.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+During scale up, if the replica count of the deployment is greater
+than one, the  first replica of the deployment will be validated for readiness
+before fully scaling up the deployment. If the validation of the first replica
+fails, the deployment will be considered a failure.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="custom-strategy"><a class="anchor" href="#custom-strategy"></a>Custom Strategy</h3>
+<div class="paragraph">
+<p>The Custom strategy allows you to provide your own deployment behavior.</p>
+</div>
+<div class="paragraph">
+<p>The following is an example of the Custom strategy:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">strategy</span>:
+  <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Custom</span></span>
+  <span style="color:#606">customParams</span>:
+    <span style="color:#606">image</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">organization/strategy</span></span>
+    <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[ &quot;command&quot;, &quot;arg1&quot; ]</span></span>
+    <span style="color:#606">environment</span>:
+      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: ENV_1</span></span>
+        <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">VALUE_1</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>In the above example, the <strong>organization/strategy</strong> Docker image provides the
+deployment behavior. The optional <code><strong>command</strong></code> array overrides any <code>CMD</code>
+directive specified in the image&#8217;s <strong><em>Dockerfile</em></strong>. The optional environment
+variables provided are added to the execution environment of the strategy
+process.</p>
+</div>
+<div class="paragraph">
+<p>Additionally, OpenShift Dedicated provides the following environment variables to the
+strategy process:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Environment Variable</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code><strong>OPENSHIFT_DEPLOYMENT_NAME</strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the new deployment (a replication controller).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code><strong>OPENSHIFT_DEPLOYMENT_NAMESPACE</strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The namespace of the new deployment.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The replica count of the new deployment will initially be zero. The
+responsibility of the strategy is to make the new deployment active using the
+logic that best serves the needs of the user.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="lifecycle-hooks"><a class="anchor" href="#lifecycle-hooks"></a>Lifecycle Hooks</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <a href="#recreate-strategy">Recreate</a> and <a href="#rolling-strategy">Rolling</a>
+strategies support lifecycle hooks, which allow behavior to be injected into
+the deployment process at predefined points within the strategy:</p>
+</div>
+<div class="paragraph">
+<p>The following is an example of a "pre" lifecycle hook:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">pre</span>:
+  <span style="color:#606">failurePolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Abort</span></span>
+  <span style="color:#606">execNewPod</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{} </span></span> <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code><strong>execNewPod</strong></code> is <a href="#pod-based-lifecycle-hook">a pod-based lifecycle hook</a>.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Every hook has a <code><strong>failurePolicy</strong></code>, which defines the action the strategy should
+take when a hook failure is encountered:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code><strong>Abort</strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The deployment should be considered a failure if the hook fails.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code><strong>Retry</strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The hook execution should be retried until it succeeds.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code><strong>Ignore</strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Any hook failure should be ignored and the deployment should proceed.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Some hook points for a strategy might support only a subset of
+failure policy values. For example, the <a href="#recreate-strategy">Recreate</a> and
+<a href="#rolling-strategy">Rolling</a> strategies do not currently support the
+<code><strong>Abort</strong></code> policy for a "post" deployment lifecycle hook. Consult the
+documentation for a given strategy for details on any restrictions regarding
+lifecycle hooks.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Hooks have a type-specific field that describes how to execute the hook.
+Currently <a href="#pod-based-lifecycle-hook">pod-based hooks</a> are the only
+supported hook type, specified by the <code><strong>execNewPod</strong></code> field.</p>
+</div>
+<div class="sect2">
+<h3 id="pod-based-lifecycle-hook"><a class="anchor" href="#pod-based-lifecycle-hook"></a>Pod-based Lifecycle Hook</h3>
+<div class="paragraph">
+<p>Pod-based lifecycle hooks execute hook code in a new pod derived from the
+template in a deployment configuration.</p>
+</div>
+<div class="paragraph">
+<p>The following simplified example deployment configuration uses the
+<a href="#rolling-strategy">Rolling strategy</a>. Triggers and some other minor details
+are omitted for brevity:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">DeploymentConfig</span></span>
+<span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
+<span style="color:#606">metadata</span>:
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">frontend</span></span>
+<span style="color:#606">spec</span>:
+  <span style="color:#606">template</span>:
+    <span style="color:#606">metadata</span>:
+      <span style="color:#606">labels</span>:
+        <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">frontend</span></span>
+    <span style="color:#606">spec</span>:
+      <span style="color:#606">containers</span>:
+        - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: helloworld</span></span>
+          <span style="color:#606">image</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">openshift/origin-ruby-sample</span></span>
+  <span style="color:#606">replicas</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">5</span></span>
+  <span style="color:#606">selector</span>:
+    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">frontend</span></span>
+  <span style="color:#606">strategy</span>:
+    <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Rolling</span></span>
+    <span style="color:#606">rollingParams</span>:
+      <span style="color:#606">pre</span>:
+        <span style="color:#606">failurePolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Abort</span></span>
+        <span style="color:#606">execNewPod</span>:
+          <span style="color:#606">containerName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">helloworld </span></span><i class="conum" data-value="1"></i><b>(1)</b>
+          <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[ &quot;/usr/bin/command&quot;, &quot;arg1&quot;, &quot;arg2&quot; ] </span></span><i class="conum" data-value="2"></i><b>(2)</b>
+          <span style="color:#606">env</span>: <i class="conum" data-value="3"></i><b>(3)</b>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: CUSTOM_VAR1</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">custom_value1</span></span>
+          <span style="color:#606">volumes</span>:
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">data </span></span> <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>helloworld</code> name refers to <code>spec.template.spec.containers[0].name</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>This <code><strong>command</strong></code> overrides any <code>ENTRYPOINT</code> defined by the <code>openshift/origin-ruby-sample</code> image.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><code><strong>env</strong></code> is an optional set of environment variables for the hook container.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td><code><strong>volumes</strong></code> is an optional set of volume references for the hook container.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, the "pre" hook will be executed in a new pod using the
+<strong>openshift/origin-ruby-sample</strong> image from the <strong>helloworld</strong> container. The hook
+pod will have the following properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The hook command will be <code>/usr/bin/command arg1 arg2</code>.</p>
+</li>
+<li>
+<p>The hook container will have the <code>CUSTOM_VAR1=custom_value1</code> environment variable.</p>
+</li>
+<li>
+<p>The hook failure policy is <code>Abort</code>, meaning the deployment will fail if the hook fails.</p>
+</li>
+<li>
+<p>The hook pod will inherit the <code>data</code> volume from the deployment configuration pod.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="deployment-hooks-using-the-command-line"><a class="anchor" href="#deployment-hooks-using-the-command-line"></a>Using the Command Line</h4>
+<div class="paragraph">
+<p>The <code>oc set deployment-hook</code> command can be used to set the deployment hook for a
+deployment configuration. For the example above, you can set the pre-deployment hook with
+the following command:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>$ oc set deployment-hook dc/frontend --pre -c helloworld -e CUSTOM_VAR1=custom_value1 \
+  -v data --failure-policy=abort -- /usr/bin/command arg1 arg2</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="deployment-resources"><a class="anchor" href="#deployment-resources"></a>Deployment Resources</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A deployment is completed by a pod that consumes resources (memory and CPU) on a
+node. By default, pods consume unbounded node resources. However, if a project
+specifies default container limits, then pods consume resources up to those
+limits.</p>
+</div>
+<div class="paragraph">
+<p>You can also limit resource use by specifying resource limits as part of the
+deployment strategy. Deployment resources can be used with the Recreate,
+Rolling, or Custom deployment strategies.</p>
+</div>
+<div class="paragraph">
+<p>In the following example, each of <code><strong>resources</strong></code>, <code><strong>cpu</strong></code>, and <code><strong>memory</strong></code> is
+optional:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Recreate</span><span style="color:#710">&quot;</span></span>
+<span style="color:#606">resources</span>:
+  <span style="color:#606">limits</span>:
+    <span style="color:#606">cpu</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">100m</span><span style="color:#710">&quot;</span></span> <i class="conum" data-value="1"></i><b>(1)</b>
+    <span style="color:#606">memory</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">256Mi</span><span style="color:#710">&quot;</span></span> <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code><strong>cpu</strong></code> is in CPU units: <code>100m</code> represents 0.1 CPU units (100 * 1e-3).</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code><strong>memory</strong></code> is in bytes: <code>256Mi</code> represents 268435456 bytes (256 * 2 ^ 20).</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>However, if a quota has been defined for your project, one of the following two
+items is required:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A <code><strong>resources</strong></code> section set with an explicit <code><strong>requests</strong></code>:</p>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">  <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Recreate</span><span style="color:#710">&quot;</span></span>
+  <span style="color:#606">resources</span>:
+    <span style="color:#606">requests</span>: <i class="conum" data-value="1"></i><b>(1)</b>
+      <span style="color:#606">cpu</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">100m</span><span style="color:#710">&quot;</span></span>
+      <span style="color:#606">memory</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">256Mi</span><span style="color:#710">&quot;</span></span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code><strong>requests</strong></code> object contains the list of resources that correspond to
+the list of resources in the quota.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>A <a href="../admin_guide/limits.html#admin-guide-limits">limit range</a> defined in your project, where the
+defaults from the <code><strong>LimitRange</strong></code> object apply to pods created during the
+deployment process.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Otherwise, deploy pod creation will fail, citing a failure to satisfy quota.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="scaling"><a class="anchor" href="#scaling"></a>Manual Scaling</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In addition to rollbacks, you can exercise fine-grained control over
+the number of replicas from the web console, or by using the <code>oc scale</code> command.
+For example, the following command sets the replicas in the deployment
+configuration <code>frontend</code> to 3.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ oc scale dc frontend --replicas=3</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The number of replicas eventually propagates to the desired and current
+state of the deployment configured by the deployment configuration <code>frontend</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="assigning-pods-to-specific-nodes"><a class="anchor" href="#assigning-pods-to-specific-nodes"></a>Assigning Pods to Specific Nodes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can use node selectors in conjunction with labeled nodes to control pod
+placement.</p>
+</div>
+<div class="paragraph">
+<p>Cluster administrators
+can set the default node selector
+for your project in order to restrict pod placement to
+specific nodes. As an OpenShift developer, you can set a node selector on a pod
+configuration to restrict nodes even further.</p>
+</div>
+<div class="paragraph">
+<p>To add a node selector when creating a pod, edit the pod configuration, and add
+the <code>nodeSelector</code> value. This can be added to a single pod configuration, or in
+a pod template:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>apiVersion: v1
+kind: Pod
+spec:
+  nodeSelector:
+    disktype: ssd
+...</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Pods created when the node selector is in place are assigned to nodes with the
+specified labels.</p>
+</div>
+<div class="paragraph">
+<p>The labels specified here are used in conjunction with the labels
+added by a cluster administrator.
+For example, if a project has the <code>type=user-node</code> and
+<code>region=east</code> labels added to a project by the cluster administrator, and you
+add the above <code>disktype: ssd</code> label to a pod, the pod will only ever be
+scheduled on nodes that have all three labels.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Labels can only be set to one value, so setting a node selector of <code>region=west</code>
+in a pod configuration that has <code>region=east</code> as the administrator-set default,
+results in a pod that will never be scheduled.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+      $("[id^='topicGroup']").on('show.bs.collapse', function (event) {
+        if (!($(event.target).attr('id').match(/^topicSubGroup/))) {
+          $(this).parent().find("[id^='tgSpan']").toggleClass("fa-angle-right fa-angle-down");
+        }
+      });
+      $("[id^='topicGroup']").on('hide.bs.collapse', function (event) {
+        if (!($(event.target).attr('id').match(/^topicSubGroup/))) {
+          $(this).parent().find("[id^='tgSpan']").toggleClass("fa-angle-right fa-angle-down");
+        }
+      });
+      $("[id^='topicSubGroup']").on('show.bs.collapse', function () {
+        $(this).parent().find("[id^='sgSpan']").toggleClass("fa-caret-right fa-caret-down");
+      });
+      $("[id^='topicSubGroup']").on('hide.bs.collapse', function () {
+        $(this).parent().find("[id^='sgSpan']").toggleClass("fa-caret-right fa-caret-down");
+      });
+    });
+    /*]]>*/
+  </script>
+    <footer class="footer-openshift">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-4 col-md-3 logo">
+        <a href="https://www.redhat.com/"></a>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-6 text-center">
+        <div class="row">
+          <div class="col-xs-12 col-md-4">
+            <a href="https://www.openshift.com/legal/privacy.html">
+              Privacy Policy
+            </a>
+          </div>
+          <div class="col-xs-12 col-md-4">
+          <a href="https://www.openshift.com/legal/terms.html">
+            Terms and Conditions
+          </a>
+          </div>
+          <div class="col-xs-12 col-md-4">
+          <a href="http://www.openshift.org/">
+            Open Source
+          </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-3 text-right">
+        <a id="built_with_asciibinder" href="http://asciibinder.org/">
+          <img src="../../scollier-test/_images/asciibinder_web_logo.svg" alt="AsciiBinder" />
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

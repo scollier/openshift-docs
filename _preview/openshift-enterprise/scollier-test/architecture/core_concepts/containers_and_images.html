@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html class="ie8"> <![endif]-->
+<!--[if IE 9]> <html class="ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html>
+<!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>OpenShift Enterprise Branch Build | Architecture | Core Concepts | Containers and Images</title>
+  <link href="https://assets.openshift.net/content/subdomain.css" rel="stylesheet" type="text/css">
+  <link href="../../../scollier-test/_stylesheets/docs.css" rel="stylesheet" />
+  <link href="https://assets.openshift.net/content/subdomain/touch-icon-precomposed.png" rel="apple-touch-icon-precomposed" type="image/png">
+  <link href="https://assets.openshift.net/content/subdomain/favicon32x32.png" rel="shortcut icon" type="text/css">
+  <!--[if IE]><link rel="shortcut icon" href="https://assets.openshift.net/content/subdomain/favicon.ico"><![endif]-->
+  <!-- or, set /favicon.ico for IE10 win -->
+  <meta content="OpenShift" name="application-name">
+  <meta content="#000000" name="msapplication-TileColor">
+  <meta content="https://assets.openshift.net/content/subdomain/touch-icon-precomposed.png" name="msapplication-TileImage">
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://assets.openshift.net/content/html5shiv.js" type="text/javascript"></script>
+    <script src="https://assets.openshift.net/content/respond.js" type="text/javascript"></script>
+    <link href="https://assets.openshift.net/content/vendor/respond-js/respond-proxy.html" id="respond-proxy" rel="respond-proxy">
+    <link href="../../../scollier-test/_images/respond.proxy.gif" id="respond-redirect" rel="respond-redirect">
+    <script src="../../../scollier-test/_javascripts/respond.proxy.js" type="text/javascript"></script>
+  <![endif]-->
+  <script src="https://assets.openshift.net/content/modernizr.js" type="text/javascript"></script>
+  <script src="https://assets.openshift.net/content/subdomain.js" type="text/javascript"></script>
+  <script src="../../../scollier-test/_javascripts/bootstrap-offcanvas.js" type="text/javascript"></script>
+  <script type="text/javascript" src="https://assets.openshift.net/app/assets/site/tracking.js"></script>
+</head>
+<body>
+  <div class="navbar navbar-default navbar-openshift" role="navigation">
+  <div class="navbar-header">
+    <div class="dropdown">
+      <a href="#" class="dropdown-toggle navbar-menu-toggle" data-toggle="dropdown">
+        <span class="navbar-menu-title">MENU</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <ul class="dropdown-menu navbar-menu" role="menu">
+        <li class="submenu">
+          <a href="#">Overview</a>
+          <ul id="submenu-overview" class="dropdown-submenu">
+            <li class="submenu-heading">Introduction to OpenShift</li>
+            <li>
+              <a href="https://www.openshift.com/about/index.html">
+                What is OpenShift?
+                <span class="submenu-item-desc">Learn about Red Hat's next-generation cloud application platform.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/customers">
+                Our Customers
+                <span class="submenu-item-desc">Discover what companies are using OpenShift to deliver a flexible, scalable cloud applicaiton environtment.</span>
+              </a>
+            </li>
+            <li class="submenu-heading">News</li>
+            <li>
+              <a href="https://www.openshift.com/about/awards.html">
+                Awards
+                <span class="submenu-item-desc">Industry recognition and awards.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://blog.openshift.com/">
+                OpenShift Blog
+                <span class="submenu-item-desc">Keep your finger on the pulse of all things OpenShift.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://blog.openshift.com/category/events/">
+                Events
+                <span class="submenu-item-desc">OpenShift sponsors and attends a variety of in-person events around the globe.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/about/press.html">
+                In the Press
+                <span class="submenu-item-desc">The latest OpenShift news and press releases.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="http://jobs.redhat.com/job-search-results/?keywords=openshift">
+                Careers <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/about/logos.html">
+                Logos &amp; Media
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Features</a>
+          <ul id="submenu-features" class="dropdown-submenu">
+            <li class="submenu-heading">OpenShift Online</li>
+            <li>
+              <a href="https://www.openshift.com/features/index.html">
+                Overview
+                <span class="submenu-item-desc">Quickly develop, host, and scale applications in the public cloud with on-demand access.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/pricing/index.html">
+                Plans &amp; Pricing
+                <span class="submenu-item-desc">Host up to 3 apps for free. Upgrade and add production gears, extra storage, and more.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/app/account/new">
+                Sign up for Free
+              </a>
+            </li>
+            <li class="submenu-heading">OpenShift Dedicated</li>
+            <li>
+              <a href="https://www.openshift.com/dedicated/index.html">
+                Overview
+                <span class="submenu-item-desc">Your own private OpenShift cluster, operated by Red Hat.</span>
+              </a>
+            </li>
+            <li class="submenu-heading">OpenShift Enterprise</li>
+            <li>
+              <a href="https://enterprise.openshift.com/">
+                Overview
+                <span class="submenu-item-desc">Accelerate application delivery with the speed and consistency that business demands.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/resources/index.html">
+                Resources
+                <span class="submenu-item-desc">Webinars, datasheets, reference architectures, demo videos and more.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/trial.html">
+                Try it for Free
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="https://www.openshift.com/showcase/index.html">
+                Application Gallery
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Developers</a>
+          <ul id="submenu-developers" class="dropdown-submenu">
+            <li>
+              <a href="https://developers.openshift.com/en/getting-started-overview.html">
+                Getting Started
+                <span class="submenu-item-desc">New to OpenShift? Get your first application up and running and learn the basics.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://hub.openshift.com/">
+                Hub
+                <span class="submenu-item-desc">Find languages, frameworks, databases, and add-on services for OpenShift.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://developers.openshift.com/">
+                Developer Portal
+                <span class="submenu-item-desc">Learn about building, deploying, and managing your applications.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://docs.openshift.com/">
+                Documentation
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="http://stackoverflow.com/questions/tagged/openshift">
+                Stack Overflow
+                <span class="submenu-item-desc">A Q&amp;A site for everything development related. Post a question or browse answers on the 'openshift' tag.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://enterprise.openshift.com/resources/index.html#training">
+                Training &amp; Certification
+                <span class="submenu-item-desc">Red Hat Training's hands-on, task-focused courses and certifications for IT professionals and developers.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="https://www.openshift.com/showcase/index.html">
+                Application Gallery
+                <span class="submenu-item-desc">Our showcase of applications running on OpenShift Online.</span>
+              </a>
+            </li>
+            <li>
+              <a href="http://www.openshift.org/#contribute">
+                Contribute to OpenShift <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Get in touch with our product team, or become a part of the OpenShift Origin open source project.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://openshift.uservoice.com/">
+                Vote on Features
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Partners</a>
+          <ul id="submenu-partners" class="dropdown-submenu">
+            <li>
+              <a href="https://www.openshift.com/partners/index.html">
+                Become a Partner
+                <span class="submenu-item-desc">Build on the strength of the world's leading open source company.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/partners/index.html">
+                Find OpenShift Partners
+                <span class="submenu-item-desc">Find qualified partners to help you with your OpenShift projects.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="http://commons.openshift.org/">
+                OpenShift Commons <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Where users, partners, customers, and contributors come together to collaborate on OpenShift.</span>
+              </a>
+            </li>
+            <li class="submenu-divider"></li>
+            <li>
+              <a href="https://www.openshift.com/grants/index.html">
+                Resource Grants
+                <span class="submenu-item-desc">For non-profits, educational institutions, and open source initiatives.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/startups/index.html">
+                Startup Program
+                <span class="submenu-item-desc">Designed to help startups build and scale.</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Support</a>
+          <ul id="submenu-support" class="dropdown-submenu">
+            <li>
+              <a href="https://access.redhat.com/">
+                Red Hat Customer Portal <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Manage support cases, browse Knowledgebase articles, and more.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://docs.openshift.com/">
+                Documentation
+                <span class="submenu-item-desc">Official product documentation from Red Hat.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://help.openshift.com/">
+                Help Center
+                <span class="submenu-item-desc">The fastest way to find your available support options.</span>
+              </a>
+            </li>
+            <li>
+              <a href="http://stackoverflow.com/questions/tagged/openshift">
+                Stack Overflow <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">A Q&amp;A site for everything development related. Post a question or browse answers on the 'openshift' tag.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://openshift.redhat.com/app/status">
+                System Status <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openshift.com/about/contact.html">
+                Contact Us
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#">Connect</a>
+          <ul id="submenu-connect" class="dropdown-submenu">
+            <li>
+              <a href="https://blog.openshift.com/">
+                Blog
+              </a>
+            </li>
+            <li>
+              <a href="https://blog.openshift.com/category/events/">
+                Events &amp; Conferences
+              </a>
+            </li>
+            <li>
+              <a href="http://commons.openshift.org/">
+                OpenShift Commons <i class="fa fa-external-link pull-right"></i>
+                <span class="submenu-item-desc">Where users, partners, customers, and contributors come together to collaborate on OpenShift.</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://twitter.com/openshift">
+                Twitter <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.facebook.com/openshift">
+                Facebook <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/grp/home?gid=4185734">
+                LinkedIn <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/openshift/">
+                GitHub <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://plus.google.com/+OpenShift">
+                Google+ <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.youtube.com/user/rhopenshift">
+                YouTube <i class="fa fa-external-link pull-right"></i>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://www.openshift.com/about/contact.html">
+            Contact Us
+          </a>
+        </li>
+        <li>
+          <form action="https://help.openshift.com/hc/en-us/search" method="get" id="cse-search-form">
+            <input name="query" id="cse-search-input" class="navbar-search-query form-control" type="text" placeholder="Search" tabindex="1" autocomplete="off" autofocus>
+            <button type="submit" class="btn btn-default fa fa-search" value="Search"></button>
+          </form>
+        </li>
+      </ul>
+    </div>
+    <a class="navbar-brand" href="/"></a>
+  </div>
+  <div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="hidden-xs dropdown"> <a href="#" class="dropdown-toggle nav-log-in" data-toggle="dropdown"> My Account<span class="caret"></span> </a>
+        <ul class="dropdown-menu">
+          <li><a href="https://openshift.redhat.com/app/console">OpenShift Web Console</a></li>
+          <li><a href="https://console.preview.openshift.com/">(Next Gen) Web Console</a></li>
+          <li><a href="https://hub.openshift.com/users/auth/github">OpenShift Hub</a></li>
+        </ul>
+      </li>
+      <li class="hidden-xs hidden-sm"><a class="nav-sign-up" href="https://www.openshift.com/app/account/new">Sign up for Free</a></li>
+    </ul>
+  </div>
+</div>
+  <div class="container">
+    <p class="toggle-nav visible-xs pull-left">
+      <button class="btn btn-default btn-sm" type="button" data-toggle="offcanvas">Toggle nav</button>
+    </p>
+    <ol class="breadcrumb">
+      <li class="sitename">
+        <a href="../../../index.html">Documentation</a>
+      </li>
+      <li class="hidden-xs active">
+        <a href="../../welcome/index.html">OpenShift Enterprise Branch Build</a>
+      </li>
+      <li class="hidden-xs active">
+        <a href="../../architecture/index.html">Architecture</a>
+      </li>
+      <li class="hidden-xs active"><a href="../../architecture/core_concepts/index.html">Core Concepts</a></li>
+      <li class="hidden-xs active">
+        Containers and Images
+      </li>
+    </ol>
+    <div class="row row-offcanvas row-offcanvas-left">
+      <div class="col-xs-8 col-sm-3 col-md-3 sidebar sidebar-offcanvas">
+        <div class="row-fluid">
+          <script>
+  (function() {
+    var cx = '013769182564158614814:e-dp46b51vk';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search defaultToRefinement="Enterprise Branch Build"></gcse:search>
+        </div>
+        <ul class="nav nav-sidebar">
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup0">
+        <span id="tgSpan0" class="fa fa-angle-right"></span>About
+      </a>
+      <ul id="topicGroup0" class="collapse  list-unstyled">
+            <li><a class="" href="../../welcome/index.html">Welcome</a></li>
+            <li><a class="" href="../../welcome/revhistory_all.html">All Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup1">
+        <span id="tgSpan1" class="fa fa-angle-right"></span>Release Notes
+      </a>
+      <ul id="topicGroup1" class="collapse  list-unstyled">
+            <li><a class="" href="../../release_notes/index.html">Overview</a></li>
+            <li><a class="" href="../../release_notes/ose_3_2_release_notes.html">OpenShift Enterprise 3.2 Release Notes</a></li>
+            <li><a class="" href="../../release_notes/xpaas_release_notes.html">xPaaS Release Notes</a></li>
+            <li><a class="" href="../../release_notes/v2_vs_v3.html">Comparing OpenShift Enterprise 2 and OpenShift Enterprise 3</a></li>
+            <li><a class="" href="../../release_notes/revhistory_release_notes.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup2">
+        <span id="tgSpan2" class="fa fa-angle-right"></span>Getting Started
+      </a>
+      <ul id="topicGroup2" class="collapse  list-unstyled">
+            <li><a class="" href="../../getting_started/index.html">Overview</a></li>
+            <li><a class="" href="../../getting_started/developers_console.html">Web Console Walkthrough</a></li>
+            <li><a class="" href="../../getting_started/administrators.html">Setting Up a Cluster</a></li>
+            <li><a class="" href="../../getting_started/revhistory_getting_started.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup3">
+        <span id="tgSpan3" class="fa fa-angle-down"></span>Architecture
+      </a>
+      <ul id="topicGroup3" class="collapse in list-unstyled">
+            <li><a class="" href="../../architecture/index.html">Overview</a></li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-3-1">
+                <span id="sgSpan-3-1" class="fa fa-caret-right"></span>&nbsp;Infrastructure Components
+              </a>
+              <ul id="topicSubGroup-3-1" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../../architecture/infrastructure_components/kubernetes_infrastructure.html">Kubernetes Infrastructure</a></li>
+                  <li><a class="" href="../../architecture/infrastructure_components/image_registry.html">Image Registry</a></li>
+                  <li><a class="" href="../../architecture/infrastructure_components/web_console.html">Web Console</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-3-2">
+                <span id="sgSpan-3-2" class="fa fa-caret-down"></span>&nbsp;Core Concepts
+              </a>
+              <ul id="topicSubGroup-3-2" class="nav-tertiary list-unstyled collapse in">
+                  <li><a class="" href="../../architecture/core_concepts/index.html">Overview</a></li>
+                  <li><a class=" active" href="../../architecture/core_concepts/containers_and_images.html">Containers and Images</a></li>
+                  <li><a class="" href="../../architecture/core_concepts/pods_and_services.html">Pods and Services</a></li>
+                  <li><a class="" href="../../architecture/core_concepts/projects_and_users.html">Projects and Users</a></li>
+                  <li><a class="" href="../../architecture/core_concepts/builds_and_image_streams.html">Builds and Image Streams</a></li>
+                  <li><a class="" href="../../architecture/core_concepts/deployments.html">Deployments</a></li>
+                  <li><a class="" href="../../architecture/core_concepts/routes.html">Routes</a></li>
+                  <li><a class="" href="../../architecture/core_concepts/templates.html">Templates</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-3-3">
+                <span id="sgSpan-3-3" class="fa fa-caret-right"></span>&nbsp;Additional Concepts
+              </a>
+              <ul id="topicSubGroup-3-3" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../../architecture/additional_concepts/networking.html">Networking</a></li>
+                  <li><a class="" href="../../architecture/additional_concepts/sdn.html">OpenShift SDN</a></li>
+                  <li><a class="" href="../../architecture/additional_concepts/authentication.html">Authentication</a></li>
+                  <li><a class="" href="../../architecture/additional_concepts/authorization.html">Authorization</a></li>
+                  <li><a class="" href="../../architecture/additional_concepts/storage.html">Persistent Storage</a></li>
+                  <li><a class="" href="../../architecture/additional_concepts/remote_commands.html">Remote Commands</a></li>
+                  <li><a class="" href="../../architecture/additional_concepts/port_forwarding.html">Port Forwarding</a></li>
+                  <li><a class="" href="../../architecture/additional_concepts/throttling.html">Throttling</a></li>
+                  <li><a class="" href="../../architecture/additional_concepts/scm.html">Source Control Management</a></li>
+                  <li><a class="" href="../../architecture/additional_concepts/admission_controllers.html">Admission Controllers</a></li>
+                  <li><a class="" href="../../architecture/additional_concepts/other_api_objects.html">Other API Objects</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../../architecture/revhistory_architecture.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup4">
+        <span id="tgSpan4" class="fa fa-angle-right"></span>Installation and Configuration
+      </a>
+      <ul id="topicGroup4" class="collapse  list-unstyled">
+            <li><a class="" href="../../install_config/index.html">Overview</a></li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-4-1">
+                <span id="sgSpan-4-1" class="fa fa-caret-right"></span>&nbsp;Installing
+              </a>
+              <ul id="topicSubGroup-4-1" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../../install_config/install/index.html">Overview</a></li>
+                  <li><a class="" href="../../install_config/install/prerequisites.html">Prerequisites</a></li>
+                  <li><a class="" href="../../install_config/install/rpm_vs_containerized.html">RPM vs Containerized</a></li>
+                  <li><a class="" href="../../install_config/install/quick_install.html">Quick Installation</a></li>
+                  <li><a class="" href="../../install_config/install/advanced_install.html">Advanced Installation</a></li>
+                  <li><a class="" href="../../install_config/install/disconnected_install.html">Disconnected Installation</a></li>
+                  <li><a class="" href="../../install_config/install/docker_registry.html">Deploying a Docker Registry</a></li>
+                  <li><a class="" href="../../install_config/install/deploy_router.html">Deploying a Router</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-4-2">
+                <span id="sgSpan-4-2" class="fa fa-caret-right"></span>&nbsp;Upgrading
+              </a>
+              <ul id="topicSubGroup-4-2" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../../install_config/upgrading/index.html">Overview</a></li>
+                  <li><a class="" href="../../install_config/upgrading/automated_upgrades.html">Automated Upgrades</a></li>
+                  <li><a class="" href="../../install_config/upgrading/manual_upgrades.html">Manual Upgrades</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../../install_config/downgrade.html">Downgrading</a></li>
+            <li><a class="" href="../../install_config/master_node_configuration.html">Master and Node Configuration</a></li>
+            <li><a class="" href="../../install_config/imagestreams_templates.html">Loading the Default Image Streams and Templates</a></li>
+            <li><a class="" href="../../install_config/certificate_customization.html">Configuring Custom Certificates</a></li>
+            <li><a class="" href="../../install_config/configuring_authentication.html">Configuring Authentication and User Agent</a></li>
+            <li><a class="" href="../../install_config/syncing_groups_with_ldap.html">Syncing Groups With LDAP</a></li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-4-9">
+                <span id="sgSpan-4-9" class="fa fa-caret-right"></span>&nbsp;Advanced LDAP Configuration
+              </a>
+              <ul id="topicSubGroup-4-9" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../../install_config/advanced_ldap_configuration/index.html">Overview</a></li>
+                  <li><a class="" href="../../install_config/advanced_ldap_configuration/sssd_for_ldap_failover.html">Setting up SSSD for LDAP Failover</a></li>
+                  <li><a class="" href="../../install_config/advanced_ldap_configuration/configuring_form_based_authentication.html">Configuring Form-Based Authentication</a></li>
+                  <li><a class="" href="../../install_config/advanced_ldap_configuration/configuring_extended_ldap_attributes.html">Configuring Extended LDAP Attributes</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../../install_config/configuring_sdn.html">Configuring the SDN</a></li>
+            <li><a class="" href="../../install_config/configuring_aws.html">Configuring for AWS</a></li>
+            <li><a class="" href="../../install_config/configuring_openstack.html">Configuring for OpenStack</a></li>
+            <li><a class="" href="../../install_config/configuring_gce.html">Configuring for GCE</a></li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-4-14">
+                <span id="sgSpan-4-14" class="fa fa-caret-right"></span>&nbsp;Configuring Persistent Storage
+              </a>
+              <ul id="topicSubGroup-4-14" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../../install_config/persistent_storage/index.html">Overview</a></li>
+                  <li><a class="" href="../../install_config/persistent_storage/persistent_storage_nfs.html">Using NFS</a></li>
+                  <li><a class="" href="../../install_config/persistent_storage/persistent_storage_glusterfs.html">Using GlusterFS</a></li>
+                  <li><a class="" href="../../install_config/persistent_storage/persistent_storage_cinder.html">Using OpenStack Cinder</a></li>
+                  <li><a class="" href="../../install_config/persistent_storage/persistent_storage_ceph_rbd.html">Using Ceph RBD</a></li>
+                  <li><a class="" href="../../install_config/persistent_storage/persistent_storage_aws.html">Using AWS Elastic Block Store</a></li>
+                  <li><a class="" href="../../install_config/persistent_storage/persistent_storage_gce.html">Using GCE Persistent Disk</a></li>
+                  <li><a class="" href="../../install_config/persistent_storage/persistent_storage_iscsi.html">Using iSCSI</a></li>
+                  <li><a class="" href="../../install_config/persistent_storage/persistent_storage_fibre_channel.html">Using Fibre Channel</a></li>
+                  <li><a class="" href="../../install_config/persistent_storage/dynamically_provisioning_pvs.html">Dynamic Provisioning</a></li>
+                  <li><a class="" href="../../install_config/persistent_storage/pod_security_context.html">Volume Security</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-4-15">
+                <span id="sgSpan-4-15" class="fa fa-caret-right"></span>&nbsp;Persistent Storage Examples
+              </a>
+              <ul id="topicSubGroup-4-15" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../../install_config/storage_examples/index.html">Overview</a></li>
+                  <li><a class="" href="../../install_config/storage_examples/shared_storage.html">Sharing an NFS PV Across Two Pods</a></li>
+                  <li><a class="" href="../../install_config/storage_examples/ceph_example.html">Complete Example Using Ceph RBD</a></li>
+                  <li><a class="" href="../../install_config/storage_examples/gluster_example.html">Complete Example Using GlusterFS</a></li>
+                  <li><a class="" href="../../install_config/storage_examples/privileged_pod_storage.html">Mounting Volumes To Privileged Pods</a></li>
+                  <li><a class="" href="../../install_config/storage_examples/gluster_backed_registry.html">Backing Docker Registry with GlusterFS Storage</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../../install_config/http_proxies.html">Working with HTTP Proxies</a></li>
+            <li><a class="" href="../../install_config/build_defaults_overrides.html">Configuring Global Build Defaults and Overrides</a></li>
+            <li><a class="" href="../../install_config/configuring_pipeline_execution.html">Configuring Build Pipeline Execution</a></li>
+            <li><a class="" href="../../install_config/native_container_routing.html">Native Container Routing</a></li>
+            <li><a class="" href="../../install_config/routing_from_edge_lb.html">Routing from Edge Load Balancers</a></li>
+            <li><a class="" href="../../install_config/aggregate_logging.html">Aggregating Container Logs</a></li>
+            <li><a class="" href="../../install_config/cluster_metrics.html">Enabling Cluster Metrics</a></li>
+            <li><a class="" href="../../install_config/web_console_customization.html">Customizing the Web Console</a></li>
+            <li><a class="" href="../../install_config/revhistory_install_config.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup5">
+        <span id="tgSpan5" class="fa fa-angle-right"></span>Administrator Solutions
+      </a>
+      <ul id="topicGroup5" class="collapse  list-unstyled">
+            <li><a class="" href="../../admin_solutions/index.html">Overview</a></li>
+            <li><a class="" href="../../admin_solutions/master_node_config.html">Master and Node Configuration</a></li>
+            <li><a class="" href="../../admin_solutions/user_role_mgmt.html">User and Role Management</a></li>
+            <li><a class="" href="../../admin_solutions/authentication.html">Authentication</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup6">
+        <span id="tgSpan6" class="fa fa-angle-right"></span>Cluster Administration
+      </a>
+      <ul id="topicGroup6" class="collapse  list-unstyled">
+            <li><a class="" href="../../admin_guide/index.html">Overview</a></li>
+            <li><a class="" href="../../admin_guide/manage_nodes.html">Managing Nodes</a></li>
+            <li><a class="" href="../../admin_guide/manage_users.html">Managing Users</a></li>
+            <li><a class="" href="../../admin_guide/managing_projects.html">Managing Projects</a></li>
+            <li><a class="" href="../../admin_guide/service_accounts.html">Configuring Service Accounts</a></li>
+            <li><a class="" href="../../admin_guide/manage_authorization_policy.html">Managing Authorization Policies</a></li>
+            <li><a class="" href="../../admin_guide/manage_scc.html">Managing Security Context Constraints</a></li>
+            <li><a class="" href="../../admin_guide/quota.html">Setting Quotas</a></li>
+            <li><a class="" href="../../admin_guide/limits.html">Setting Limit Ranges</a></li>
+            <li><a class="" href="../../admin_guide/pruning_resources.html">Pruning Objects</a></li>
+            <li><a class="" href="../../admin_guide/garbage_collection.html">Garbage Collection</a></li>
+            <li><a class="" href="../../admin_guide/scheduler.html">Scheduler</a></li>
+            <li><a class="" href="../../admin_guide/allocating_node_resources.html">Allocating Node Resources</a></li>
+            <li><a class="" href="../../admin_guide/overcommit.html">Overcommitting</a></li>
+            <li><a class="" href="../../admin_guide/limit_runonce_pod_duration.html">Limit Run-once Pod Duration</a></li>
+            <li><a class="" href="../../admin_guide/router.html">Monitoring Routers</a></li>
+            <li><a class="" href="../../admin_guide/high_availability.html">High Availability</a></li>
+            <li><a class="" href="../../admin_guide/pod_network.html">Managing Pod Networks</a></li>
+            <li><a class="" href="../../admin_guide/iptables.html">IPtables</a></li>
+            <li><a class="" href="../../admin_guide/securing_builds.html">Securing Builds by Strategy</a></li>
+            <li><a class="" href="../../admin_guide/building_dependency_trees.html">Building Dependency Trees</a></li>
+            <li><a class="" href="../../admin_guide/sdn_troubleshooting.html">Troubleshooting Networking</a></li>
+            <li><a class="" href="../../admin_guide/revhistory_admin_guide.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup7">
+        <span id="tgSpan7" class="fa fa-angle-right"></span>CLI Reference
+      </a>
+      <ul id="topicGroup7" class="collapse  list-unstyled">
+            <li><a class="" href="../../cli_reference/index.html">Overview</a></li>
+            <li><a class="" href="../../cli_reference/get_started_cli.html">Get Started with the CLI</a></li>
+            <li><a class="" href="../../cli_reference/manage_cli_profiles.html">Managing CLI Profiles</a></li>
+            <li><a class="" href="../../cli_reference/basic_cli_operations.html">Developer CLI Operations</a></li>
+            <li><a class="" href="../../cli_reference/admin_cli_operations.html">Administrator CLI Operations</a></li>
+            <li><a class="" href="../../cli_reference/revhistory_cli_reference.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup8">
+        <span id="tgSpan8" class="fa fa-angle-right"></span>Developer Guide
+      </a>
+      <ul id="topicGroup8" class="collapse  list-unstyled">
+            <li><a class="" href="../../dev_guide/index.html">Overview</a></li>
+            <li><a class="" href="../../dev_guide/application_lifecycle.html">Application Life Cycle Examples</a></li>
+            <li><a class="" href="../../dev_guide/authentication.html">Authentication</a></li>
+            <li><a class="" href="../../dev_guide/projects.html">Projects</a></li>
+            <li><a class="" href="../../dev_guide/new_app.html">Creating New Applications</a></li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-8-5">
+                <span id="sgSpan-8-5" class="fa fa-caret-right"></span>&nbsp;Application Tutorials
+              </a>
+              <ul id="topicSubGroup-8-5" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../../dev_guide/app_tutorials/index.html">Overview</a></li>
+                  <li><a class="" href="../../dev_guide/app_tutorials/quickstarts.html">Quickstart Templates</a></li>
+                  <li><a class="" href="../../dev_guide/app_tutorials/ruby_on_rails.html">Ruby on Rails</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../../dev_guide/ssh_environment.html">Opening a Remote Shell to Containers</a></li>
+            <li><a class="" href="../../dev_guide/templates.html">Templates</a></li>
+            <li><a class="" href="../../dev_guide/service_accounts.html">Service Accounts</a></li>
+            <li><a class="" href="../../dev_guide/builds.html">Builds</a></li>
+            <li><a class="" href="../../dev_guide/managing_images.html">Managing Images</a></li>
+            <li><a class="" href="../../dev_guide/compute_resources.html">Quotas and Limit Ranges</a></li>
+            <li><a class="" href="../../dev_guide/deployments.html">Deployments</a></li>
+            <li><a class="" href="../../dev_guide/routes.html">Routes</a></li>
+            <li><a class="" href="../../dev_guide/integrating_external_services.html">Integrating External Services</a></li>
+            <li><a class="" href="../../dev_guide/secrets.html">Secrets</a></li>
+            <li><a class="" href="../../dev_guide/configmaps.html">ConfigMaps</a></li>
+            <li><a class="" href="../../dev_guide/pod_autoscaling.html">Pod Autoscaling</a></li>
+            <li><a class="" href="../../dev_guide/volumes.html">Managing Volumes</a></li>
+            <li><a class="" href="../../dev_guide/persistent_volumes.html">Using Persistent Volumes</a></li>
+            <li><a class="" href="../../dev_guide/executing_remote_commands.html">Executing Remote Commands</a></li>
+            <li><a class="" href="../../dev_guide/copy_files_to_container.html">Copying Files</a></li>
+            <li><a class="" href="../../dev_guide/port_forwarding.html">Port Forwarding</a></li>
+            <li><a class="" href="../../dev_guide/shared_memory.html">Shared Memory</a></li>
+            <li><a class="" href="../../dev_guide/application_health.html">Application Health</a></li>
+            <li><a class="" href="../../dev_guide/events.html">Events</a></li>
+            <li><a class="" href="../../dev_guide/downward_api.html">Downward API</a></li>
+            <li><a class="" href="../../dev_guide/environment_variables.html">Managing Environment Variables</a></li>
+            <li><a class="" href="../../dev_guide/jobs.html">Jobs</a></li>
+            <li><a class="" href="../../dev_guide/revhistory_dev_guide.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup9">
+        <span id="tgSpan9" class="fa fa-angle-right"></span>Creating Images
+      </a>
+      <ul id="topicGroup9" class="collapse  list-unstyled">
+            <li><a class="" href="../../creating_images/index.html">Overview</a></li>
+            <li><a class="" href="../../creating_images/guidelines.html">Guidelines</a></li>
+            <li><a class="" href="../../creating_images/metadata.html">Image Metadata</a></li>
+            <li><a class="" href="../../creating_images/s2i.html">S2I Requirements</a></li>
+            <li><a class="" href="../../creating_images/s2i_testing.html">Testing S2I Images</a></li>
+            <li><a class="" href="../../creating_images/custom.html">Custom Builder</a></li>
+            <li><a class="" href="../../creating_images/revhistory_creating_images.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup10">
+        <span id="tgSpan10" class="fa fa-angle-right"></span>Using Images
+      </a>
+      <ul id="topicGroup10" class="collapse  list-unstyled">
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-10-0">
+                <span id="sgSpan-10-0" class="fa fa-caret-right"></span>&nbsp;Source-to-Image (S2I)
+              </a>
+              <ul id="topicSubGroup-10-0" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../../using_images/s2i_images/index.html">Overview</a></li>
+                  <li><a class="" href="../../using_images/s2i_images/nodejs.html">Node.js</a></li>
+                  <li><a class="" href="../../using_images/s2i_images/ruby.html">Ruby</a></li>
+                  <li><a class="" href="../../using_images/s2i_images/perl.html">Perl</a></li>
+                  <li><a class="" href="../../using_images/s2i_images/php.html">PHP</a></li>
+                  <li><a class="" href="../../using_images/s2i_images/python.html">Python</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-10-1">
+                <span id="sgSpan-10-1" class="fa fa-caret-right"></span>&nbsp;Database Images
+              </a>
+              <ul id="topicSubGroup-10-1" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../../using_images/db_images/index.html">Overview</a></li>
+                  <li><a class="" href="../../using_images/db_images/mysql.html">MySQL</a></li>
+                  <li><a class="" href="../../using_images/db_images/postgresql.html">PostgreSQL</a></li>
+                  <li><a class="" href="../../using_images/db_images/mongodb.html">MongoDB</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-10-2">
+                <span id="sgSpan-10-2" class="fa fa-caret-right"></span>&nbsp;Docker Images
+              </a>
+              <ul id="topicSubGroup-10-2" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../../using_images/docker_images/index.html">Overview</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-10-3">
+                <span id="sgSpan-10-3" class="fa fa-caret-right"></span>&nbsp;Other Images
+              </a>
+              <ul id="topicSubGroup-10-3" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../../using_images/other_images/index.html">Overview</a></li>
+                  <li><a class="" href="../../using_images/other_images/jenkins.html">Jenkins</a></li>
+              </ul>
+            </li>
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-10-4">
+                <span id="sgSpan-10-4" class="fa fa-caret-right"></span>&nbsp;xPaaS Middleware Images
+              </a>
+              <ul id="topicSubGroup-10-4" class="nav-tertiary list-unstyled collapse">
+                  <li><a class="" href="../../using_images/xpaas_images/index.html">Overview</a></li>
+              </ul>
+            </li>
+            <li><a class="" href="../../using_images/revhistory_using_images.html">Revision History</a></li>
+      </ul>
+    </li>
+    <li class="nav-header">
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup11">
+        <span id="tgSpan11" class="fa fa-angle-right"></span>REST API Reference
+      </a>
+      <ul id="topicGroup11" class="collapse  list-unstyled">
+            <li><a class="" href="../../rest_api/index.html">Overview</a></li>
+            <li><a class="" href="../../rest_api/openshift_v1.html">OpenShift v1</a></li>
+            <li><a class="" href="../../rest_api/kubernetes_v1.html">Kubernetes v1</a></li>
+            <li><a class="" href="../../rest_api/revhistory_rest_api.html">Revision History</a></li>
+      </ul>
+    </li>
+</ul>
+      </div>
+      <div class="col-xs-12 col-sm-9 col-md-9 main">
+        <div class="page-header">
+          <h2>Containers and Images</h2>
+        </div>
+        <div id="preamble">
+<div class="sectionbody">
+<div id="toc" class="toc">
+<div id="toctitle" class="title"></div>
+<ul class="sectlevel1">
+<li><a href="#containers">Containers</a></li>
+<li><a href="#docker-images">Docker Images</a></li>
+<li><a href="#docker-registries">Docker Registries</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="containers"><a class="anchor" href="#containers"></a>Containers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The basic units of OpenShift Enterprise applications are called containers.
+<a href="https://access.redhat.com/articles/1353593">Linux container technologies</a>
+are lightweight mechanisms for isolating running processes so that they are
+limited to interacting with only their designated resources. Many application
+instances can be running in containers on a single host without visibility into
+each others' processes, files, network, and so on. Typically, each container
+provides a single service (often called a "micro-service"), such as a web server
+or a database, though containers can be used for arbitrary workloads.</p>
+</div>
+<div class="paragraph">
+<p>The Linux kernel has been incorporating capabilities for container technologies
+for years. More recently the
+<a href="https://www.docker.com/whatisdocker/">Docker project</a> has developed a
+convenient management interface for Linux containers on
+a host. OpenShift Enterprise and Kubernetes add the ability to orchestrate Docker
+containers across multi-host installations.</p>
+</div>
+<div class="paragraph">
+<p>Though you do not directly interact with Docker tools when using
+OpenShift Enterprise, understanding Docker&#8217;s capabilities and terminology is
+important for understanding its role in OpenShift Enterprise and how your
+applications function inside of containers. Docker is available
+as part of RHEL 7, as well as CentOS and Fedora, so you can
+experiment with it separately from OpenShift Enterprise. Refer to the article
+<a href="https://access.redhat.com/articles/881893">Get Started with Docker
+Formatted Container Images on Red Hat Systems</a> for a guided introduction.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="docker-images"><a class="anchor" href="#docker-images"></a>Docker Images</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Docker containers are based on Docker images. A Docker image is a
+binary that includes all of the requirements for running a single Docker
+container, as well as metadata describing its needs and capabilities. You
+can think of it as a packaging technology. Docker containers only
+have access to resources defined in the image unless you give the
+container additional access when creating it. By deploying the same
+image in multiple containers across multiple hosts and load balancing
+between them, OpenShift Enterprise can provide redundancy and horizontal scaling
+for a service packaged into an image.</p>
+</div>
+<div class="paragraph">
+<p>You can use Docker directly to build images, but OpenShift Enterprise also supplies
+builders that assist with creating an image by adding your code or
+configuration to existing images.</p>
+</div>
+<div class="paragraph">
+<p>Since applications develop over time, a single image name can actually
+refer to many different versions of the "same" image. Each different
+image is referred to uniquely by its hash (a long hexadecimal number
+e.g. <code>fd44297e2ddb050ec4f&#8230;&#8203;</code>) which is usually shortened to 12
+characters (e.g. <code>fd44297e2ddb</code>). Rather than version numbers, Docker
+allows applying tags (such as <code>v1</code>, <code>v2.1</code>, <code>GA</code>, or the default <code>latest</code>)
+in addition to the image name to further specify the image desired, so
+you may see the same image referred to as <code>centos</code> (implying the <code>latest</code>
+tag), <code>centos:centos7</code>, or <code>fd44297e2ddb</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="docker-registries"><a class="anchor" href="#docker-registries"></a>Docker Registries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A Docker registry is a service for storing and retrieving Docker images. A
+registry contains a collection of one or more Docker image repositories. Each
+image repository contains one or more tagged images. Docker provides its own
+registry, the <a href="https://registry.hub.docker.com/">Docker Hub</a>, but you may
+also use private or third-party registries. Red Hat provides a Docker registry
+at <code>registry.access.redhat.com</code> for subscribers. OpenShift Enterprise can also supply
+its own internal registry for managing custom Docker images.</p>
+</div>
+<div class="paragraph">
+<p>The relationship between Docker containers, images, and registries is
+depicted in the following diagram:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="data:image/png;base64,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rurmEUd1U90EiUuhuiWfKLriiivmzJlz/m/3qG6q20WzbNmy66+/vlWrVnl5ecOGDVu+fLnXID3iqG6qmyDRVN4wBcek6obqhiChuqGs2BsecVDdVDdUN1BW7A2POKqb6iZIqG7gmFTdUN0QJNXNwyTKir3hEQfVTXVDdQNlxd7wiKO6nb+CgoJm1E1eXp4gqW4X+YGhd+/eoveli/+FRvfAb7ani72hunHpVLfw8ccfl5SUbN26df369StXrlxE7WL/xF6KfRV7LPabQ1Z1u9DVzWsnXrPB+zyqm+pWXXl5eVlZ2Y4dO954441169b9ltrF/om9FPsq9ljsN4es6qa6qW6guqluF7u6VVRUHDp06IMPPohG8tZbb22kdrF/Yi/Fvoo9FvvNIau6qW6qG6huqtvFrm6VlZXl5eXRRcrKyvbs2fMetYv9E3sp9lXssdhvDlnVTXVT3UB1U90udnU7ffp0tJCKioqjR48ePnz4ILWL/RN7KfZV7LHYbw5Z1U11U91AdVPdLnZ1S5z5H59Qu9RecrCqbqqb6gaqG19mdQPVTXXD/wKqG6obqG5KQz2IR69bb721/WfixK5duzJsvGXLlnvuuadnz57Z2dmdO3ceMWLEqlWr/C+guqG6geqmul0Mhw4dKiwsHDRo0Iefuf7667t06XL48OHato8t58yZs2PHjqqqqnjYu/nmm2NPzp071/8CqhuqG6huqtsF9+Mf/zh2xW9+85tkcfny5bH4wAMP1PHipaWlsX23bt38L6C6obqB6tYQq1vy93/mzZtXVFSUnZ3dr1+/VatWzZgxo7CwMDc3t7i4ePv27cmWAwcOjC0XL16cuuxzzz0X51x77bWpc5555pnkClu3bt2rV6/p06dXVVWl39DChQv79OkTN9SjR4+nnnqq2t2obW266667LrZctmxZ6pylS5fGOd/4xjfidPwbpz/88MP0Khb3vI5748CBA7F93AHVDdUN1Q1Ut4Zb3caPH3/o0KElS5YkixMmTIgHgHg8iNODBw9Otpw/f34sjhkzJnXZiRMnxjkPP/xw6px777139erVx48fP3r06KxZs2Ltfffdl35DcW179uyJRjV06NBYfOmll+qyNt1jjz0Wq8aOHZs651vf+lac88tf/jJOt2/fPk6n+uLJkyeTPytcx70xbdq02L5v376qG6obqhuobg23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" alt="docker diagram" width="830" height="616">
+</div>
+</div>
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+      $("[id^='topicGroup']").on('show.bs.collapse', function (event) {
+        if (!($(event.target).attr('id').match(/^topicSubGroup/))) {
+          $(this).parent().find("[id^='tgSpan']").toggleClass("fa-angle-right fa-angle-down");
+        }
+      });
+      $("[id^='topicGroup']").on('hide.bs.collapse', function (event) {
+        if (!($(event.target).attr('id').match(/^topicSubGroup/))) {
+          $(this).parent().find("[id^='tgSpan']").toggleClass("fa-angle-right fa-angle-down");
+        }
+      });
+      $("[id^='topicSubGroup']").on('show.bs.collapse', function () {
+        $(this).parent().find("[id^='sgSpan']").toggleClass("fa-caret-right fa-caret-down");
+      });
+      $("[id^='topicSubGroup']").on('hide.bs.collapse', function () {
+        $(this).parent().find("[id^='sgSpan']").toggleClass("fa-caret-right fa-caret-down");
+      });
+    });
+    /*]]>*/
+  </script>
+    <footer class="footer-openshift">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-4 col-md-3 logo">
+        <a href="https://www.redhat.com/"></a>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-6 text-center">
+        <div class="row">
+          <div class="col-xs-12 col-md-4">
+            <a href="https://www.openshift.com/legal/privacy.html">
+              Privacy Policy
+            </a>
+          </div>
+          <div class="col-xs-12 col-md-4">
+          <a href="https://www.openshift.com/legal/terms.html">
+            Terms and Conditions
+          </a>
+          </div>
+          <div class="col-xs-12 col-md-4">
+          <a href="http://www.openshift.org/">
+            Open Source
+          </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-3 text-right">
+        <a id="built_with_asciibinder" href="http://asciibinder.org/">
+          <img src="../../../scollier-test/_images/asciibinder_web_logo.svg" alt="AsciiBinder" />
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
